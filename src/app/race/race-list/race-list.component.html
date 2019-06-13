@@ -1,0 +1,57 @@
+<mat-toolbar>
+  <span>Races</span>
+
+  <div fxLayoutAlign="center center">
+    <mat-form-field fxFlex="50%">
+      <input matInput type="text" (keyup)="doFilter( $event.target.value )" placeholder="Filter">
+    </mat-form-field>
+  </div>
+
+  <div fxFlex fxLayout fxLayoutAlign="flex-end" fxLayoutGap="20px">
+    <button mat-button><mat-icon>how_to_reg</mat-icon> Register to race</button>
+    <button mat-button (click)="newRace()"><mat-icon>add</mat-icon> New race</button>
+  </div>
+</mat-toolbar>
+
+
+<mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="fromDate">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>From</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.fromDate.toDate() | date: 'dd/MM/yyyy' }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="toDate">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>To</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.toDate.toDate() | date: 'dd/MM/yyyy' }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.title }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="country">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Country</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.country }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="place">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Place</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.place }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="organizer">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Organizer</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.organizer }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="state">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>State</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.state }}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

@@ -1,0 +1,35 @@
+<mat-card class="sail-race-details">
+  <mat-card-title>Sail Race</mat-card-title>
+  <mat-card-content>
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px"  novalidate [ngrxFormState]="(formState$ | async)" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <input type="Title" matInput placeholder="Title" [ngrxFormControlState]="(formState$ | async).controls.title">
+      </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="Country" [ngrxFormControlState]="(formState$ | async).controls.country">
+            <mat-option *ngFor="let country of countries" [value]="country">{{country}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input type="Place" matInput placeholder="Place" [ngrxFormControlState]="(formState$ | async).controls.place">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput [matDatepicker]="fromDatePicker" placeholder="Date from" [ngrxFormControlState]="(formState$ | async).controls.fromDate" [ngrxValueConverter]="dateValueConverter">
+          <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #fromDatePicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput [matDatepicker]="toDatePicker" placeholder="Date to" [ngrxFormControlState]="(formState$ | async).controls.toDate" [ngrxValueConverter]="dateValueConverter">
+          <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #toDatePicker></mat-datepicker>
+        </mat-form-field>
+
+      <button *ngIf="!( isLoading | async )" type="submit" mat-raised-button color="primary" [disabled]="!(formState$ | async).isValid">Save</button>
+      <mat-spinner *ngIf="( isLoading | async )"></mat-spinner>
+    </form>
+  </mat-card-content>
+</mat-card>
