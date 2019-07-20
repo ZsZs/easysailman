@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { from, Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { Race } from './race';
@@ -33,7 +33,9 @@ export class RaceService {
           fromDate: action.payload.doc.data().fromDate,
           toDate: action.payload.doc.data().toDate,
           country: action.payload.doc.data().country,
-          organizer: action.payload.doc.data().organizer
+          place: action.payload.doc.data().place,
+          organizer: action.payload.doc.data().organizer,
+          state: action.payload.doc.data().state
         };
       })))
       .subscribe(( races: Race[] ) => {
@@ -46,15 +48,20 @@ export class RaceService {
       }));
   }
 
-  saveOrUpdateRace( race: Race ) {
-    this.store.select( fromRaceReducer.getSelectedRace ).pipe( take( 1 )).subscribe( race => {
-      this.saveRace({ ... race });
-      this.store.dispatch( new RACE.ChangedRaceAction( race ) );
-    });
+  saveOrUpdateRace( race: Race ): Observable<Race> {
+    return from( this.saveRace( race ));
   }
 
   // private helper methods
-  private saveRace( race: Race ) {
-    this.raceCollection.add( race );
+  private saveRace( race: Race ): Promise<Race> {
+    if ( race.id === undefined ) {
+      race = {...race };
+      delete race.id;
+    }
+    return new Promise<Race>(( resolve, reject ) => {
+      this.raceCollection
+        .add( race )
+        .then(res => {}, err => reject( err ));
+    });
   }
 }

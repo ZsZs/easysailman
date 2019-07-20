@@ -17,12 +17,12 @@
 <mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="fromDate">
     <mat-header-cell *matHeaderCellDef mat-sort-header>From</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.fromDate.toDate() | date: 'dd/MM/yyyy' }}</mat-cell>
+    <mat-cell *matCellDef="let element">{{element.fromDate | date: 'dd/MM/yyyy' }}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="toDate">
     <mat-header-cell *matHeaderCellDef mat-sort-header>To</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.toDate.toDate() | date: 'dd/MM/yyyy' }}</mat-cell>
+    <mat-cell *matCellDef="let element">{{element.toDate | date: 'dd/MM/yyyy' }}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="title">

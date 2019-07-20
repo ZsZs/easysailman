@@ -6,6 +6,8 @@
     "start": "ng serve --port=4300",
     "build": "ng build",
     "test": "ng test",
+    "deploy-firebase": "firebase deploy",
+    "deploy-local": "firebase serve --only hosting",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -23,6 +25,8 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
+    "@ngrx/effects": "^8.1.0",
+    "@ngrx/entity": "^8.0.1",
     "@ngrx/router-store": "^8.0.1",
     "@ngrx/store": "^7.4.0",
     "@ngrx/store-devtools": "^7.4.0",

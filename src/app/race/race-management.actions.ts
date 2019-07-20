@@ -2,31 +2,40 @@ import { Action } from '@ngrx/store';
 import { Race } from './race';
 import { SetSubmittedValueAction } from './race-details/race-details.reducer';
 
-export const NEW_RACE = '[RACE] New Race';
-export const CHANGED_RACE = '[RACE] Changed Race';
-export const DELETED_RACE = '[RACE] Deleted Race'
-export const FETCH_RACES = '[RACE] Fetch Available Races';
-
-export class NewRaceAction implements Action {
-   readonly type = NEW_RACE;
+export enum RaceActionTypes {
+   NewRace = '[RACE] New Race',
+   ChangedRace = '[RACE] Changed Race',
+   DeletedRace = '[RACE] Deleted Race',
+   SaveRace = '[RACE] Save Race',
+   FetchRaces = '[RACE] Fetch Available Races'
 }
 
-export class FetchRacesAction implements Action {
-   readonly type = FETCH_RACES;
-
-   constructor( public payload: Race[] ) {}
+export class NewRaceAction implements Action {
+   readonly type = RaceActionTypes.NewRace;
 }
 
 export class ChangedRaceAction implements Action {
-   readonly type = CHANGED_RACE;
+   readonly type = RaceActionTypes.ChangedRace;
 
    constructor( public payload: Race ) {}
 }
 
 export class DeletedRaceAction implements Action {
-   readonly type = DELETED_RACE;
+   readonly type = RaceActionTypes.DeletedRace;
 
    constructor( public payload: string ) {}
 }
 
-export type RaceManagementActions = FetchRacesAction | NewRaceAction | ChangedRaceAction | DeletedRaceAction | SetSubmittedValueAction;
+export class SaveRaceAction implements Action {
+   readonly type = RaceActionTypes.SaveRace;
+
+   constructor( public payload: Race ) {}
+}
+
+export class FetchRacesAction implements Action {
+   readonly type = RaceActionTypes.FetchRaces;
+
+   constructor( public payload: Race[] ) {}
+}
+
+export type RaceManagementActions = FetchRacesAction | NewRaceAction | ChangedRaceAction | DeletedRaceAction | SaveRaceAction | SetSubmittedValueAction;

@@ -1,6 +1,6 @@
 import { Action, createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { FETCH_RACES, CHANGED_RACE, RaceManagementActions, NEW_RACE } from './race-management.actions';
+import { RaceManagementActions, RaceActionTypes } from './race-management.actions';
 import { Race } from './race';
 import * as fromAppReducer from '../app.reducer';
 import { SET_UNAUTHENTICATED } from '../authentication/auth.actions';
@@ -19,8 +19,8 @@ const INITIAL_RACE_MANAGEMENT_STATE: RaceManagementState = {
    selectedRace: {
       id: undefined,
       title: '',
-      fromDate: new Date(),
-      toDate: new Date(),
+      fromDate: undefined,
+      toDate: undefined,
       country: 'Germany',
       place: '',
       organizer: '',
@@ -41,23 +41,23 @@ export function raceManagementReducer( state = INITIAL_RACE_MANAGEMENT_STATE, ac
    }
 
    switch ( action.type ) {
-      case FETCH_RACES:
+      case RaceActionTypes.FetchRaces:
          return { ...state, races: action.payload };
-      case NEW_RACE:
+      case RaceActionTypes.NewRace:
          return {
             ...state,
             selectedRace: {
                id: undefined,
                title: '',
-               fromDate: new Date(),
-               toDate: new Date(),
+               fromDate: null,
+               toDate: null,
                country: 'Germany',
                place: '',
                organizer: '',
                state: 'planned'
             }
          };
-      case CHANGED_RACE:
+      case RaceActionTypes.ChangedRace:
          return { ...state, selectedRace: action.payload };
       case SetSubmittedValueAction.TYPE:
          return { ... state, selectedRace: action.submittedValue };

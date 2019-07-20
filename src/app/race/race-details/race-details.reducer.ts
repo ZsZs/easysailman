@@ -13,8 +13,8 @@ export interface RaceDetailsFormValue {
 export const INITIAL_RACE_DETAILS_FORM_VALUE = createFormGroupState<Race>( RACE_DETAILS_FORM_ID, {
     id: undefined,
     title: '',
-    fromDate: new Date(),
-    toDate: new Date(),
+    fromDate: undefined,
+    toDate: undefined,
     country: 'Germany',
     place: '',
     organizer: '',
@@ -32,5 +32,10 @@ export class SetSubmittedValueAction implements Action {
 }
 
 export const validateUpdateRaceDetailsForm = updateGroup<Race>({
-  title: validate( required )
+  title: validate( required ),
+  fromDate: validate( required ),
+  toDate: validate( required ),
+  country: validate( required ),
+  place: validate( required ),
+  state: validate( required )
 });

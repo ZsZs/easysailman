@@ -12,6 +12,8 @@ import { Race } from '../race';
 import { RaceService } from '../race.service';
 import { SetSubmittedValueAction } from './race-details.reducer';
 import { map, take } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { SaveRaceAction } from '../race-management.actions';
 
 @Component({
   selector: 'app-race-details',
@@ -40,7 +42,8 @@ export class RaceDetailsComponent implements OnInit {
   constructor( private formBuilder: FormBuilder,
                private raceService: RaceService,
                private uiService: UiService,
-               private store: Store<fromRaceReducer.State> ) {
+               private store: Store<fromRaceReducer.State>,
+               private router: Router ) {
     this.formState$ = this.store.pipe( select(state => state.raceManagement.raceDetailsForm ));
     this.submittedValue$ = this.store.pipe( select(state => state.raceManagement.selectedRace ));
   }
@@ -53,8 +56,10 @@ export class RaceDetailsComponent implements OnInit {
   onSubmit( ) {
     this.formState$.pipe(
       take(1),
-      map(formState => new SetSubmittedValueAction( formState.value )),
+      map(formState => new SaveRaceAction( formState.value )),
     ).subscribe( this.store );
+    this.router.navigateByUrl( '/race' );
+
   }
 
   // public accessors and mutators

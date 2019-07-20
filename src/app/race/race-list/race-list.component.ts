@@ -17,7 +17,7 @@ import { RaceManagementState } from '../race-management.reducer';
 export class RaceListComponent implements AfterViewInit, OnInit {
   @ViewChild( MatSort ) sort: MatSort;
   @ViewChild( MatPaginator ) paginator: MatPaginator;
-  displayedColumns = ['fromDate', 'toDate', 'title', 'country', 'place', 'organizer', 'state'];
+  displayedColumns = ['title', 'fromDate', 'toDate', 'country', 'place', 'organizer', 'state'];
   dataSource = new MatTableDataSource<Race>();
 
   constructor( private raceService: RaceService, private store: Store<fromRaceReducer.RaceManagementState>, private router: Router ) {}
