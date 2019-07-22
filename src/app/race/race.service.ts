@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
-import { from, Observable, Subscription } from 'rxjs';
+import { empty, from, Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { Race } from './race';
-import { UiService } from '../shared/ui.service';
-import * as fromRaceReducer from './race-management.reducer';
-import * as RACE from './race-management.actions';
-import * as UI from '../shared/ui.actions';
-import { RaceManagementState } from './race-management.reducer';
+import { snapshotChanges } from '@angular/fire/database';
 
 @Injectable({
   providedIn: 'root'
@@ -18,33 +14,29 @@ export class RaceService {
   private raceCollection: AngularFirestoreCollection<Race>;
   private firebaseSubscriptions: Subscription[] = [];
 
-  constructor( private db: AngularFirestore, private uiService: UiService, private store: Store<fromRaceReducer.RaceManagementState> ) {
+  constructor( private db: AngularFirestore ) {
     this.raceCollection = this.db.collection<Race>( 'races' );
   }
 
   // public accessors and mutators
-  fetchRaces() {
-    this.store.dispatch( new UI.StartLoading() );
-    this.firebaseSubscriptions.push( this.raceCollection.snapshotChanges().pipe(
-      map( actions => actions.map( action => {
-        return {
-          id: action.payload.doc.id,
-          title: action.payload.doc.data().title,
-          fromDate: action.payload.doc.data().fromDate,
-          toDate: action.payload.doc.data().toDate,
-          country: action.payload.doc.data().country,
-          place: action.payload.doc.data().place,
-          organizer: action.payload.doc.data().organizer,
-          state: action.payload.doc.data().state
-        };
-      })))
-      .subscribe(( races: Race[] ) => {
-        this.store.dispatch( new UI.StopLoading() );
-        this.store.dispatch( new RACE.FetchRacesAction( races ));
-      }, error => {
-        this.store.dispatch( new UI.StopLoading() );
-        this.store.dispatch( new RACE.FetchRacesAction( null ));
-        this.uiService.showSnackbar( error.message, null, 5000 );
+  findRaceById( raceId: string ): Observable<Race> {
+    return this.raceCollection.doc( raceId ).get().pipe(
+      map( document => {
+        const data: Race = document.data() as Race;
+        const id = document.id;
+        return { id, ...data };
+      })
+    );
+  }
+
+  fetchRaces(): Observable<Race[]> {
+    return this.raceCollection.snapshotChanges().pipe(
+      map( actions => {
+        return actions.map( action => {
+          const data: Race = action.payload.doc.data() as Race;
+          const id = action.payload.doc.id;
+          return { id, ...data };
+        });
       }));
   }
 

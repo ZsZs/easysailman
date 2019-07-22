@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
@@ -10,10 +10,10 @@ import * as fromRaceReducer from '../race-management.reducer';
 import { UiService } from '../../shared/ui.service';
 import { Race } from '../race';
 import { RaceService } from '../race.service';
-import { SetSubmittedValueAction } from './race-details.reducer';
 import { map, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { SaveRaceAction } from '../race-management.actions';
+import { RaceResolver } from '../race.resolver';
+import { saveRace } from '../race-management.actions';
 
 @Component({
   selector: 'app-race-details',
@@ -43,9 +43,10 @@ export class RaceDetailsComponent implements OnInit {
                private raceService: RaceService,
                private uiService: UiService,
                private store: Store<fromRaceReducer.State>,
-               private router: Router ) {
+               private router: Router,
+               @Inject(RaceResolver) private race: Observable<Race> ) {
     this.formState$ = this.store.pipe( select(state => state.raceManagement.raceDetailsForm ));
-    this.submittedValue$ = this.store.pipe( select(state => state.raceManagement.selectedRace ));
+    this.submittedValue$ = race;
   }
 
   // event handling methods
@@ -53,10 +54,14 @@ export class RaceDetailsComponent implements OnInit {
     this.subscribeToLoading();
   }
 
-  onSubmit( ) {
+  onCancel() {
+    this.router.navigateByUrl( '/race' );
+  }
+
+  onSubmit() {
     this.formState$.pipe(
       take(1),
-      map(formState => new SaveRaceAction( formState.value )),
+      map(formState => saveRace( { race: formState.value })),
     ).subscribe( this.store );
     this.router.navigateByUrl( '/race' );
 

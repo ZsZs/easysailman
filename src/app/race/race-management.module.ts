@@ -13,11 +13,7 @@ import * as fromRaceManagementReducer from './race-management.reducer';
 import * as fromRaceDetailsReducer from './race-details/race-details.reducer';
 import { RaceManagementEffects } from './race-management.effects';
 import { RaceService } from './race.service';
-
-export interface RaceModuleState {
-  raceManagement: fromRaceManagementReducer.RaceManagementState;
-  raceDetails: fromRaceDetailsReducer.RaceDetailsFormState;
-}
+import { RaceResolver } from './race.resolver';
 
 @NgModule({
   declarations: [
@@ -34,7 +30,7 @@ export interface RaceModuleState {
   ],
   exports: [],
   entryComponents: [ RaceListComponent ],
-  providers: [RaceService]
+  providers: [RaceResolver, RaceService]
 })
 
 export class RaceManagementModule {}

@@ -1,41 +1,13 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import { Race } from './race';
-import { SetSubmittedValueAction } from './race-details/race-details.reducer';
 
-export enum RaceActionTypes {
-   NewRace = '[RACE] New Race',
-   ChangedRace = '[RACE] Changed Race',
-   DeletedRace = '[RACE] Deleted Race',
-   SaveRace = '[RACE] Save Race',
-   FetchRaces = '[RACE] Fetch Available Races'
-}
+export const allRacesRequested = createAction('[RACE] All races requested' );
+export const allRacesLoaded = createAction('[RACE] All races loaded', props<{ races: Race[] }>() );
+export const raceRequested = createAction('[RACE] Race requested', props<{ raceId: string }>() );
+export const raceLoaded = createAction('[RACE] Race loaded', props<{ race: Race }>() );
+export const editRace = createAction('[RACE] Edit Race', props<{ race: Race }>() );
+export const newRace = createAction('[RACE] New Race' );
+export const deleteRace = createAction('[RACE] Delete Race', props<{ raceId: string }>() );
+export const saveRace = createAction('[RACE] Save Race', props<{ race: Race }>() );
+export const changedRace = createAction('[RACE] Changed Race', props<{ race: Race }>() );
 
-export class NewRaceAction implements Action {
-   readonly type = RaceActionTypes.NewRace;
-}
-
-export class ChangedRaceAction implements Action {
-   readonly type = RaceActionTypes.ChangedRace;
-
-   constructor( public payload: Race ) {}
-}
-
-export class DeletedRaceAction implements Action {
-   readonly type = RaceActionTypes.DeletedRace;
-
-   constructor( public payload: string ) {}
-}
-
-export class SaveRaceAction implements Action {
-   readonly type = RaceActionTypes.SaveRace;
-
-   constructor( public payload: Race ) {}
-}
-
-export class FetchRacesAction implements Action {
-   readonly type = RaceActionTypes.FetchRaces;
-
-   constructor( public payload: Race[] ) {}
-}
-
-export type RaceManagementActions = FetchRacesAction | NewRaceAction | ChangedRaceAction | DeletedRaceAction | SaveRaceAction | SetSubmittedValueAction;

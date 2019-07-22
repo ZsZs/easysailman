@@ -10,6 +10,7 @@ import { UiService } from '../shared/ui.service';
 import * as fromAppReducer from '../app.reducer';
 import * as UI from '../shared/ui.actions';
 import * as Auth from './auth.actions';
+import { startLoading, stopLoading } from '../shared/ui.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -33,14 +34,14 @@ export class AuthService {
   }
 
   login( authData: AuthData ) {
-    this.store.dispatch( new UI.StartLoading() );
+    this.store.dispatch( startLoading() );
     this.afAuth.auth.signInWithEmailAndPassword( authData.email, authData.password )
        .then( result => {
-         this.store.dispatch( new UI.StopLoading() );
+         this.store.dispatch( stopLoading() );
          this.authSuccess();
        })
        .catch( error => {
-         this.store.dispatch( new UI.StopLoading() );
+         this.store.dispatch( stopLoading() );
          this.uiService.showSnackbar( error.message, null, 5000 );
          this.authFailed();
        });
@@ -54,13 +55,13 @@ export class AuthService {
 
 
   registerUser( authData: AuthData ) {
-    this.store.dispatch( new UI.StartLoading() );
+    this.store.dispatch( startLoading() );
     this.afAuth.auth.createUserWithEmailAndPassword( authData.email, authData.password )
        .then( result => {
-         this.store.dispatch( new UI.StopLoading() );
+         this.store.dispatch( stopLoading() );
        })
        .catch( error => {
-         this.store.dispatch( new UI.StopLoading() );
+         this.store.dispatch( stopLoading() );
          this.uiService.showSnackbar( error.message, null, 5000 );
        });
   }

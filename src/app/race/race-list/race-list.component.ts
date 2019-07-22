@@ -6,8 +6,8 @@ import { Store } from '@ngrx/store';
 import { Race } from '../race';
 import { RaceService } from '../race.service';
 import * as fromRaceReducer from '../race-management.reducer';
-import { DeletedRaceAction, NewRaceAction } from '../race-management.actions';
 import { RaceManagementState } from '../race-management.reducer';
+import { allRacesRequested, newRace } from '../race-management.actions';
 
 @Component({
   selector: 'app-race-list',
@@ -15,8 +15,8 @@ import { RaceManagementState } from '../race-management.reducer';
   styleUrls: ['./race-list.component.css']
 })
 export class RaceListComponent implements AfterViewInit, OnInit {
-  @ViewChild( MatSort ) sort: MatSort;
-  @ViewChild( MatPaginator ) paginator: MatPaginator;
+  @ViewChild( MatSort, {static: false} ) sort: MatSort;
+  @ViewChild( MatPaginator, {static: false} ) paginator: MatPaginator;
   displayedColumns = ['title', 'fromDate', 'toDate', 'country', 'place', 'organizer', 'state'];
   dataSource = new MatTableDataSource<Race>();
 
@@ -24,6 +24,7 @@ export class RaceListComponent implements AfterViewInit, OnInit {
 
   // event handling methods
   ngAfterViewInit(): void {
+    this.store.dispatch( allRacesRequested() );
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
@@ -35,12 +36,16 @@ export class RaceListComponent implements AfterViewInit, OnInit {
     this.raceService.fetchRaces();
   }
 
+  onRowClick( row: Race ) {
+    this.router.navigateByUrl( '/race/' + row.id );
+  }
+
   doFilter( filterValue: string ) {
     this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
   }
 
   newRace() {
-    this.store.dispatch( new NewRaceAction());
+    this.store.dispatch( newRace());
     this.router.navigateByUrl( '/race/new-race' );
   }
 }

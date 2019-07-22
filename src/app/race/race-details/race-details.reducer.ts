@@ -6,10 +6,6 @@ import { AppState } from '../../app.reducer';
 
 const RACE_DETAILS_FORM_ID = 'Race-Details Form';
 
-export interface RaceDetailsFormValue {
-  race: Race;
-}
-
 export const INITIAL_RACE_DETAILS_FORM_VALUE = createFormGroupState<Race>( RACE_DETAILS_FORM_ID, {
     id: undefined,
     title: '',
@@ -25,13 +21,7 @@ export interface RaceDetailsFormState {
   raceDetailsForm: FormGroupState<Race>;
 }
 
-export class SetSubmittedValueAction implements Action {
-  static readonly TYPE = 'raceDetailsForm/SET_SUBMITTED_VALUE';
-  readonly type = SetSubmittedValueAction.TYPE;
-  constructor( public submittedValue: Race ) { }
-}
-
-export const validateUpdateRaceDetailsForm = updateGroup<Race>({
+export const validateRaceDetailsForm = updateGroup<Race>({
   title: validate( required ),
   fromDate: validate( required ),
   toDate: validate( required ),

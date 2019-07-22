@@ -13,45 +13,67 @@
   </div>
 </mat-toolbar>
 
+<div class="race-list-container mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Title</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">Title:</span>
+        {{element.title }}
+      </mat-cell>
+    </ng-container>
 
-<mat-table [dataSource]="dataSource" matSort>
-  <ng-container matColumnDef="fromDate">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>From</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.fromDate | date: 'dd/MM/yyyy' }}</mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="fromDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>From</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">From:</span>
+        {{element.fromDate | date: 'dd/MM/yyyy' }}
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="toDate">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>To</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.toDate | date: 'dd/MM/yyyy' }}</mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="toDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>To</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">To:</span>
+        {{element.toDate | date: 'dd/MM/yyyy' }}
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="title">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.title }}</mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="country">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Country</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">Country:</span>
+        {{element.country }}
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="country">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>Country</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.country }}</mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="place">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Place</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">Place:</span>
+        {{element.place }}
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="place">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>Place</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.place }}</mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="organizer">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Organizer</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">Organizer:</span>
+        {{element.organizer }}
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="organizer">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>Organizer</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.organizer }}</mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="state">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>State</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span class="mobile-label">State:</span>
+        {{element.state }}
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="state">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>State</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element.state }}</mat-cell>
-  </ng-container>
-
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick( row )" class="row-hover"></mat-row>
+  </mat-table>
+</div>
 
 <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
