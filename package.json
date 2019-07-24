@@ -6,6 +6,7 @@
     "start": "ng serve --port=4300",
     "build": "ng build",
     "test": "ng test",
+    "test-headless": "ng test --watch=false --browsers=ChromeHeadless",
     "deploy-firebase": "firebase deploy",
     "deploy-local": "firebase serve --only hosting",
     "lint": "ng lint",
