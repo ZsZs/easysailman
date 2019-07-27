@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
+import { InjectionToken, NgModule } from '@angular/core';
+import { ActionReducerMap, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
@@ -13,7 +13,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { AppMaterialModule } from './app-material.module';
-import { appReducers, metaReducers } from './app.reducer';
+import { appReducers, AppState, metaReducers } from './app.reducer';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './authentication/auth.module';
 import { AuthService } from './authentication/auth.service';
@@ -25,6 +25,8 @@ import { HomeComponent } from './home/home.component';
 import { UiService } from './shared/ui.service';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { EffectsModule } from '@ngrx/effects';
+
+export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('root reducer');
 
 @NgModule({
   declarations: [
@@ -44,12 +46,13 @@ import { EffectsModule } from '@ngrx/effects';
     BrowserAnimationsModule,
     FlexLayoutModule,
     EffectsModule.forRoot([]),
-    StoreModule.forRoot( appReducers, { metaReducers } ),
+    StoreModule.forRoot( APP_REDUCER_TOKEN, { metaReducers } ),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule.forRoot({ stateKey: 'router',  serializer: CustomSerializer })
   ],
   providers: [
     AuthService,
+    { provide: APP_REDUCER_TOKEN, useValue: appReducers },
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false }},
     { provide: FirestoreSettingsToken, useValue: {} },
     UiService
