@@ -7,7 +7,7 @@ import { RaceResolver } from './race.resolver';
 const routes: Routes = [
    { path: '', component: RaceListComponent },
    { path: ':id', component: RaceDetailsComponent, resolve: { race: RaceResolver }}
-]
+];
 
 @NgModule({
   imports: [RouterModule.forChild( routes )],

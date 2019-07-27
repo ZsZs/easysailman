@@ -16,7 +16,7 @@ export const appReducers: ActionReducerMap<AppState> = {
    auth: fromAuthReducer.authReducer,
    ui: fromUiReducer.uiReducer,
    router: routerReducer
-}
+};
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [storeFreeze] : [];
 

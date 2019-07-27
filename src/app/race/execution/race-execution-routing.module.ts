@@ -4,7 +4,7 @@ import { RaceExecutionComponent } from './race-execution.component';
 
 const routes: Routes = [
    { path: '', component: RaceExecutionComponent }
-]
+];
 
 @NgModule({
   imports: [RouterModule.forChild( routes )],

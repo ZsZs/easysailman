@@ -20,6 +20,7 @@ export class RaceManagementEffects {
   @Effect() loadAllRaces = this.actions$.pipe(
     ofType( allRacesRequested ),
     withLatestFrom( this.store.pipe( select( getAllRacesLoaded ))),
+    // tslint:disable-next-line:no-shadowed-variable
     filter(([action, allRacesLoaded]) => !allRacesLoaded ),
     mergeMap( action => this.raceService.fetchRaces() ),
     map( races => allRacesLoaded({ races }))

@@ -16,7 +16,8 @@ export class RaceResolver implements Resolve<Race> {
   constructor( private store: Store<AppState> ) {}
 
   resolve( route: ActivatedRouteSnapshot, state: RouterStateSnapshot ): Observable<Race> {
-    const raceId = route.params['id'];
+    const idParam = 'id';
+    const raceId = route.params[idParam];
     return this.store.pipe(
       select( getRaceById( raceId )),
       tap( race => {
@@ -26,7 +27,7 @@ export class RaceResolver implements Resolve<Race> {
       }),
       filter( race => !!race ),
       first(),
-      tap( race => this.store.dispatch( editRace({ race: race })))
+      tap( race => this.store.dispatch( editRace({ race })))
     );
   }
 }
