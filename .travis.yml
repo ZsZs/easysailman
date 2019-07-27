@@ -11,8 +11,7 @@ before_script:
 script:
 - npm install
 - ng lint
-- npm run test-headless
-- ng build --prod --base-href https://sail-r-man.firebaseapp.com/
+- ng build --prod --base-href https://sailrc.de/
 
 deploy:
   skip_cleanup: true
