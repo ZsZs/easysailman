@@ -8,7 +8,7 @@ import { RaceService } from './race.service';
 import { AppState } from '../app.reducer';
 import { Race } from './race';
 import { getRaceById } from './race-management.reducer';
-import { editRace, raceRequested } from './race-management.actions';
+import { editRace, newRace, raceRequested } from './race-management.actions';
 
 @Injectable()
 export class RaceResolver implements Resolve<Race> {
@@ -17,18 +17,32 @@ export class RaceResolver implements Resolve<Race> {
 
   resolve( route: ActivatedRouteSnapshot, state: RouterStateSnapshot ): Observable<Race> {
     const idParam = 'id';
-    const raceId = route.params[idParam];
-    return this.store.pipe(
-      select( getRaceById( raceId )),
-      tap( race => {
-        if ( !race ) {
-          this.store.dispatch( raceRequested({ raceId }));
-        }
-      }),
-      filter( race => !!race ),
-      first(),
-      tap( race => this.store.dispatch( editRace({ race })))
-    );
+    const raceId = route.params[ idParam ];
+    if ( raceId === 'new-race' ) {
+      const race: Race = {
+        id: undefined,
+        title: '',
+        fromDate: undefined,
+        toDate: undefined,
+        country: 'Germany',
+        place: '',
+        organizer: '',
+        state: 'planned'
+      };
+      this.store.dispatch( newRace( { race } ) );
+      this.store.dispatch( editRace( { race } ) );
+    } else {
+      return this.store.pipe(
+        select( getRaceById( raceId ) ),
+        tap( race => {
+          if ( !race ) {
+            this.store.dispatch( raceRequested( { raceId } ) );
+          }
+        } ),
+        filter( race => !!race ),
+        first(),
+        tap( race => this.store.dispatch( editRace( { race } ) ) )
+      );
+    }
   }
 }
-

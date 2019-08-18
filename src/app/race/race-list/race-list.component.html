@@ -7,9 +7,17 @@
     </mat-form-field>
   </div>
 
-  <div fxFlex fxLayout fxLayoutAlign="flex-end" fxLayoutGap="20px">
+  <div fxShow="true" fxHide.lt-md="true" fxFlex fxLayout fxLayoutAlign="flex-end" fxLayoutGap="20px">
     <button mat-button><mat-icon>how_to_reg</mat-icon> Register to race</button>
     <button mat-button (click)="newRace()"><mat-icon>add</mat-icon> New race</button>
+  </div>
+
+  <div fxShow="true" fxHide.gt-sm="true" fxFlex fxLayout fxLayoutAlign="flex-end">
+    <button mat-button [matMenuTriggerFor]="beforeMenu"><mat-icon>menu</mat-icon> Choose action</button>
+    <mat-menu #beforeMenu="matMenu" xPosition="before">
+      <button mat-menu-item><mat-icon>how_to_reg</mat-icon> Register to race</button>
+      <button mat-menu-item (click)="newRace()"><mat-icon>add</mat-icon> New race</button>
+    </mat-menu>
   </div>
 </mat-toolbar>
 

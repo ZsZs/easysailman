@@ -24,6 +24,7 @@
         width: 80px;
         display: inline-block;
         font-weight: bold;
+        font-style: italic;
     }
 
     .mat-header-row {
@@ -34,5 +35,14 @@
         flex-direction: column;
         align-items: start;
         padding: 8px 24px;
+        min-height: 24px;
+    }
+
+    .mat-cell {
+        min-height: 24px;
+    }
+
+    .mat-cell:first-of-type {
+        padding-left: 0px;
     }
 }

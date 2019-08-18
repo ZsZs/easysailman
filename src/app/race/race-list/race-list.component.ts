@@ -45,7 +45,6 @@ export class RaceListComponent implements AfterViewInit, OnInit {
   }
 
   newRace() {
-    this.store.dispatch( newRace());
     this.router.navigateByUrl( '/race/new-race' );
   }
 }
