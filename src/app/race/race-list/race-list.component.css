@@ -19,6 +19,10 @@
     display: none;
 }
 
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+    border-bottom-style: none;
+}
+
 @media(max-width: 600px) {
     .mobile-label {
         width: 80px;
