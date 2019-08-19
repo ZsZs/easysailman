@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../../authentication/auth.service';
 import * as fromAppReducer from '../../app.reducer';
 import { Store } from '@ngrx/store';
+import { getIsAuthenticated } from '../../authentication/auth.reducer';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class SidenavListComponent implements OnInit {
   constructor( private authService: AuthService, private store: Store<fromAppReducer.AppState> ) { }
 
   ngOnInit() {
-    this.isAuth = this.store.select( fromAppReducer.getIsAuthenticated );
+    this.isAuth = this.store.select( getIsAuthenticated );
   }
 
   onCloseSidenav() {

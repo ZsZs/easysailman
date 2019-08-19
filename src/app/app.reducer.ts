@@ -20,8 +20,5 @@ export const appReducers: ActionReducerMap<AppState> = {
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [storeFreeze] : [];
 
-export const getAuthState = createFeatureSelector<fromAuthReducer.AuthState>( 'auth' );
-export const getIsAuthenticated = createSelector( getAuthState, fromAuthReducer.getIsAuthenticated );
-
 export const getUiState = createFeatureSelector<fromUiReducer.UiState>( 'ui' );
 export const getIsLoading = createSelector( getUiState, fromUiReducer.getIsLoading );

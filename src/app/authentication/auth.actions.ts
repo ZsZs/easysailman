@@ -1,14 +1,7 @@
-import { Action } from '@ngrx/store';
+import { Action, createAction, props } from '@ngrx/store';
+import { Race } from '../race/race';
+import { UrlSegment } from '@angular/router';
 
-export const SET_AUTHENTICATED = '[AUTH] Set Authenticated';
-export const SET_UNAUTHENTICATED = '[AUTH] Set Unauthenticated';
-
-export class SetAuthenticated implements Action {
-   readonly type = SET_AUTHENTICATED;
-}
-
-export class SetUnAuthenticated implements Action {
-   readonly type = SET_UNAUTHENTICATED;
-}
-
-export type AuthActions = SetAuthenticated | SetUnAuthenticated;
+export const authenticateUser = createAction( '[AUTH] Authenticate User', props<{ returnTo: string }>() );
+export const setAuthenticated = createAction( '[AUTH] Set Authenticated' );
+export const setUnauthenticated = createAction( '[AUTH] Set Unauthenticated' );

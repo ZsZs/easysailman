@@ -1,23 +1,31 @@
-import { Action } from '@ngrx/store';
-import { AuthActions, SET_AUTHENTICATED, SET_UNAUTHENTICATED } from './auth.actions';
+import { Action, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
+import { authenticateUser, setAuthenticated, setUnauthenticated } from './auth.actions';
+import { UrlSegment } from '@angular/router';
 
 export interface AuthState {
    isAuthenticated: boolean;
+   returnTo: string;
 }
 
 const initialState: AuthState = {
-   isAuthenticated: false
+   isAuthenticated: false,
+   returnTo: undefined
 };
 
-export function authReducer( state = initialState, action: AuthActions ): AuthState {
-   switch ( action.type ) {
-      case SET_AUTHENTICATED:
-         return { isAuthenticated: true };
-      case SET_UNAUTHENTICATED:
-         return { isAuthenticated: false };
-      default:
-         return state;
-   }
-}
+export const authReducer = createReducer(
+  initialState,
+  on( authenticateUser, ( state, action ) => {
+    return { ...state, isAuthenticated: false, returnTo: action.returnTo };
+  }),
+  on( setAuthenticated, ( state, action ) => {
+     return { ...state, isAuthenticated: true };
+  }),
+  on( setUnauthenticated, ( state, action ) => {
+     return { ...state, isAuthenticated: false };
+  })
+);
 
-export const getIsAuthenticated = ( state: AuthState ) => state.isAuthenticated;
+export const getAuthState = createFeatureSelector<AuthState>( 'auth' );
+export const getIsAuthenticated = createSelector( getAuthState, ( state: AuthState ) => state.isAuthenticated );
+export const getRedirectTo = createSelector( getAuthState, ( state: AuthState ) => state.returnTo );
+

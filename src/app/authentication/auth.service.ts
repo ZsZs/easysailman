@@ -11,6 +11,7 @@ import * as fromAppReducer from '../app.reducer';
 import * as UI from '../shared/ui.actions';
 import * as Auth from './auth.actions';
 import { startLoading, stopLoading } from '../shared/ui.actions';
+import { setAuthenticated, setUnauthenticated } from './auth.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -49,10 +50,9 @@ export class AuthService {
 
   logout() {
     this.afAuth.auth.signOut();
-    this.store.dispatch( new Auth.SetUnAuthenticated() );
+    this.store.dispatch( setUnauthenticated() );
     this.router.navigate(['/']);
   }
-
 
   registerUser( authData: AuthData ) {
     this.store.dispatch( startLoading() );
@@ -68,12 +68,11 @@ export class AuthService {
 
   // protected, private helper methods
   private authFailed() {
-    this.store.dispatch( new Auth.SetUnAuthenticated() );
+    this.store.dispatch( setUnauthenticated() );
     this.router.navigate(['/login']);
   }
 
   private authSuccess() {
-    this.store.dispatch( new Auth.SetAuthenticated() );
-    this.router.navigate(['/']);
+    this.store.dispatch( setAuthenticated() );
   }
 }

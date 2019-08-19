@@ -14,7 +14,6 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 import { AppComponent } from './app.component';
 import { AppMaterialModule } from './app-material.module';
 import { appReducers, AppState, metaReducers } from './app.reducer';
-import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './authentication/auth.module';
 import { AuthService } from './authentication/auth.service';
 import { CustomSerializer } from './shared/custom-route-serializer';
@@ -25,8 +24,16 @@ import { HomeComponent } from './home/home.component';
 import { UiService } from './shared/ui.service';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { EffectsModule } from '@ngrx/effects';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './authentication/auth-guard';
 
 export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('root reducer');
+
+const appRoutes: Routes = [
+  { path: '', component : HomeComponent },
+  { path: 'race', loadChildren: './race/race-management.module#RaceManagementModule'},
+  { path: 'race-execution', loadChildren: './race/execution/race-execution.module#RaceExecutionModule', canLoad: [AuthGuard]}
+];
 
 @NgModule({
   declarations: [
@@ -40,18 +47,17 @@ export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>(
     AngularFireModule.initializeApp( environment.firebaseConfig ),
     AngularFirestoreModule,
     AppMaterialModule,
-    AppRoutingModule,
-    AuthModule,
+    AuthModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
     EffectsModule.forRoot([]),
+    RouterModule.forRoot( appRoutes ),
     StoreModule.forRoot( APP_REDUCER_TOKEN, { metaReducers } ),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule.forRoot({ stateKey: 'router',  serializer: CustomSerializer })
   ],
   providers: [
-    AuthService,
     { provide: APP_REDUCER_TOKEN, useValue: appReducers },
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false }},
     { provide: FirestoreSettingsToken, useValue: {} },

@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { AuthService } from '../../authentication/auth.service';
 import * as fromAppReducer from '../../app.reducer';
+import { getIsAuthenticated } from '../../authentication/auth.reducer';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,7 @@ export class HeaderComponent implements OnInit {
   constructor( private authService: AuthService, private store: Store<fromAppReducer.AppState> ) { }
 
   ngOnInit() {
-    this.isAuth = this.store.select( fromAppReducer.getIsAuthenticated );
+    this.isAuth = this.store.select( getIsAuthenticated );
   }
 
   onLogout() {

@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { AuthService } from '../auth.service';
 import { UiService } from '../../shared/ui.service';
 import * as fromAppReducer from '../../app.reducer';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,12 +17,14 @@ import * as fromAppReducer from '../../app.reducer';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoading: Observable<boolean>;
+  private redirectTo: string;
 
-  constructor( private authService: AuthService, private uiService: UiService, private store: Store<fromAppReducer.AppState> ) {}
+  constructor( private authService: AuthService, private uiService: UiService, private store: Store<fromAppReducer.AppState>, private activatedRoute: ActivatedRoute, private router: Router ) {}
 
   ngOnInit() {
     this.subscribeToLoading();
     this.buildLoginForm();
+    this.determineRedirect();
   }
 
   onSubmit( ) {
@@ -36,6 +39,12 @@ export class LoginComponent implements OnInit {
     this.loginForm = new FormGroup({
       email: new FormControl( '', {validators: [ Validators.required, Validators.email ]}),
       password: new FormControl( '', {validators: [ Validators.required ]})
+    });
+  }
+
+  private determineRedirect() {
+    this.activatedRoute.queryParams.subscribe(( params: { returnTo: string }) => {
+      this.redirectTo = params.returnTo;
     });
   }
 
