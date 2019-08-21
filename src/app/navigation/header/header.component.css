@@ -21,3 +21,7 @@ a:hover, a:active {
 .header-spacer {
     flex: 1 1 auto;
 }
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+    height: 40px;
+}

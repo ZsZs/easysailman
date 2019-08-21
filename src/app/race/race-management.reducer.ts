@@ -5,18 +5,20 @@ import { FormGroupState, SetValueAction, onNgrxForms, wrapReducerWithFormStateUp
 import { Race } from './race';
 import { AppState } from '../app.reducer';
 import { INITIAL_RACE_DETAILS_FORM_VALUE, RaceDetailsFormState, validateRaceDetailsForm } from './race-details/race-details.reducer';
-import { allRacesLoaded, editRace, newRace, raceLoaded } from './race-management.actions';
+import { allRacesLoaded, editRace, newRace, raceLoaded, setSelectedRaces } from './race-management.actions';
 
 export interface RaceManagementState extends EntityState<Race> {
    allRacesLoaded: boolean;
    raceDetailsForm: FormGroupState<Race>;
+   selectedRaces: Race[];
 }
 
 export const raceAdapter: EntityAdapter<Race> = createEntityAdapter();
 export const { selectAll, selectEntities, selectIds, selectTotal } = raceAdapter.getSelectors();
 export const INITIAL_RACE_MANAGEMENT_STATE: RaceManagementState = raceAdapter.getInitialState( {
    allRacesLoaded: false,
-   raceDetailsForm: INITIAL_RACE_DETAILS_FORM_VALUE
+   raceDetailsForm: INITIAL_RACE_DETAILS_FORM_VALUE,
+   selectedRaces: []
 });
 
 export interface State extends AppState {
@@ -47,6 +49,9 @@ const rawReducer = createReducer(
     formState = updateGroup(formState, { id: disable });
     formState = validateRaceDetailsForm( formState );
     return { ...state, raceDetailsForm: formState };
+  }),
+  on( setSelectedRaces, ( state, action ) => {
+    return { ...state, selectedRaces: action.races };
   })
 );
 
@@ -60,6 +65,7 @@ export const getRaceManagementState = createFeatureSelector<RaceManagementState>
 export const getAllRacesLoaded = createSelector( getRaceManagementState, raceManagementState => raceManagementState.allRacesLoaded );
 export const getRaces = createSelector( getRaceManagementState, selectAll );
 export const getRaceById = ( raceId: number ) => createSelector( getRaceManagementState, raceManagementState => raceManagementState.entities[raceId] );
+export const getSelectedRaces = createSelector( getRaceManagementState, raceManagementState => raceManagementState.selectedRaces );
 
 export const getDetailsForm = createSelector( getRaceManagementState, ( state: RaceManagementState ) => {
    console.log( state.raceDetailsForm );

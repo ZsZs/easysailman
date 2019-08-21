@@ -19,6 +19,11 @@
     display: none;
 }
 
+.mat-toolbar-row, .mat-toolbar-single-row {
+    height: 40px;
+    font-size: medium;
+}
+
 td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
     border-bottom-style: none;
 }

@@ -10,4 +10,5 @@ export const newRace = createAction('[RACE] New Race', props<{ race: Race }>() )
 export const deleteRace = createAction('[RACE] Delete Race', props<{ raceId: string }>() );
 export const saveRace = createAction('[RACE] Save Race', props<{ race: Race }>() );
 export const changedRace = createAction('[RACE] Changed Race', props<{ race: Race }>() );
+export const setSelectedRaces = createAction('[RACE] Races selected', props<{ races: Race[] }>() );
 

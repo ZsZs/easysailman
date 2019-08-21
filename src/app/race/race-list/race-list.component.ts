@@ -7,7 +7,7 @@ import { Race } from '../race';
 import { RaceService } from '../race.service';
 import * as fromRaceReducer from '../race-management.reducer';
 import { RaceManagementState } from '../race-management.reducer';
-import { allRacesRequested, newRace } from '../race-management.actions';
+import { allRacesRequested, newRace, setSelectedRaces } from '../race-management.actions';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
@@ -38,16 +38,29 @@ export class RaceListComponent implements AfterViewInit, OnInit {
     this.raceService.fetchRaces();
   }
 
+  onChangeSelection( row?: Race ) {
+    this.store.dispatch( setSelectedRaces( { races: this.selection.selected }));
+  }
+
   onRowClick( row: Race ) {
     this.router.navigateByUrl( '/race/' + row.id );
   }
 
-  doFilter( filterValue: string ) {
-    this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
+  // public accessors and mutators
+  /** The label for the checkbox on the passed row */
+  checkboxLabel( row?: Race ): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${ row.title}`;
   }
 
-  newRace() {
-    this.router.navigateByUrl( '/race/new-race' );
+  deleteRaces() {
+    console.log( 'implement delete races' );
+  }
+
+  doFilter( filterValue: string ) {
+    this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
   }
 
   isAllSelected() {
@@ -63,10 +76,11 @@ export class RaceListComponent implements AfterViewInit, OnInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  /** The label for the checkbox on the passed row */
-  checkboxLabel( row?: Race ): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${ row.title}`;
-  }}
+  newRace() {
+    this.router.navigateByUrl( '/race/new-race/details' );
+  }
+
+  registerToRace() {
+    this.router.navigateByUrl( '/race/' + this.selection.selected[0].id + '/registrations' );
+  }
+}

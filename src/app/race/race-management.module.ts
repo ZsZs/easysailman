@@ -13,6 +13,9 @@ import { RaceManagementEffects } from './race-management.effects';
 import { RaceService } from './race.service';
 import { RaceResolver } from './race.resolver';
 import { AppState } from '../app.reducer';
+import { RaceRegistrationComponent } from './race-registration/race-registration.component';
+import { RaceTabsComponent } from './race-tabs/race-tabs.component';
+import { RaceStatusbarComponent } from './race-statusbar/race-statusbar.component';
 
 export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('race reducer');
 
@@ -20,7 +23,10 @@ export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>
   declarations: [
     RaceDetailsComponent,
     RaceManagementComponent,
-    RaceListComponent
+    RaceListComponent,
+    RaceRegistrationComponent,
+    RaceTabsComponent,
+    RaceStatusbarComponent
   ],
   imports: [
     EffectsModule.forFeature([RaceManagementEffects]),

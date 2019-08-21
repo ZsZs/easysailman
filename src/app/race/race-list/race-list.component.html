@@ -8,15 +8,17 @@
   </div>
 
   <div fxShow="true" fxHide.lt-md="true" fxFlex fxLayout fxLayoutAlign="flex-end" fxLayoutGap="20px">
-    <button mat-button><mat-icon>how_to_reg</mat-icon> Register to race</button>
+    <button mat-button [disabled]="selection.selected.length != 1" (click)="registerToRace()"><mat-icon>how_to_reg</mat-icon> Register to race</button>
     <button mat-button (click)="newRace()"><mat-icon>add</mat-icon> New race</button>
+    <button mat-button [disabled]="selection.selected.length == 0" (click)="deleteRaces()"><mat-icon>delete</mat-icon> Delete race</button>
   </div>
 
   <div fxShow="true" fxHide.gt-sm="true" fxFlex fxLayout fxLayoutAlign="flex-end">
     <button mat-button [matMenuTriggerFor]="beforeMenu"><mat-icon>menu</mat-icon> Choose action</button>
     <mat-menu #beforeMenu="matMenu" xPosition="before">
-      <button mat-menu-item><mat-icon>how_to_reg</mat-icon> Register to race</button>
+      <button mat-menu-item [disabled]="selection.selected.length != 1" (click)="registerToRace()"><mat-icon>how_to_reg</mat-icon> Register to race</button>
       <button mat-menu-item (click)="newRace()"><mat-icon>add</mat-icon> New race</button>
+      <button mat-menu-item [disabled]="selection.selected.length == 0" (click)="deleteRaces()"><mat-icon>delete</mat-icon> Delete race</button>
     </mat-menu>
   </div>
 </mat-toolbar>
@@ -26,10 +28,10 @@
     <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
-        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()"></mat-checkbox>
+        <mat-checkbox (change)="($event ? masterToggle() : null); onChangeSelection()" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()"></mat-checkbox>
       </th>
       <td mat-cell *matCellDef="let row">
-        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)"></mat-checkbox>
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="($event ? selection.toggle(row) : null); onChangeSelection(row)" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)"></mat-checkbox>
       </td>
     </ng-container>
 
