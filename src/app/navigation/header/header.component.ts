@@ -7,7 +7,7 @@ import * as fromAppReducer from '../../app.reducer';
 import { getIsAuthenticated } from '../../authentication/auth.reducer';
 
 @Component({
-  selector: 'app-header',
+  selector: 'srm-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })

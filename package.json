@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve --port=4300",
     "build": "ng build",
+    "build-prod": "ng build --prod --base-href https://sailrc.de/",
     "test": "ng test",
     "test-headless": "ng test --watch=false --browsers=ChromeHeadless",
     "deploy-firebase": "firebase deploy",

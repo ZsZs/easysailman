@@ -7,7 +7,7 @@ import { getIsAuthenticated } from '../../authentication/auth.reducer';
 
 
 @Component({
-  selector: 'app-sidenav-list',
+  selector: 'srm-sidenav-list',
   templateUrl: './sidenav-list.component.html',
   styleUrls: ['./sidenav-list.component.css']
 })

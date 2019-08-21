@@ -11,7 +11,7 @@ import { allRacesRequested, newRace, setSelectedRaces } from '../race-management
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
-  selector: 'app-race-list',
+  selector: 'srm-race-list',
   templateUrl: './race-list.component.html',
   styleUrls: ['./race-list.component.css']
 })

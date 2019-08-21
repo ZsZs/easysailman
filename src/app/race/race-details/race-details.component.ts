@@ -16,7 +16,7 @@ import { RaceResolver } from '../race.resolver';
 import { saveRace } from '../race-management.actions';
 
 @Component({
-  selector: 'app-race-details',
+  selector: 'srm-race-details',
   templateUrl: './race-details.component.html',
   styleUrls: ['./race-details.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush

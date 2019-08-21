@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'rm-race-registration',
+  selector: 'srm-race-registration',
   templateUrl: './race-registration.component.html',
   styleUrls: ['./race-registration.component.css']
 })

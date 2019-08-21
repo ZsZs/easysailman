@@ -8,7 +8,7 @@ import * as fromAppReducer from '../../app.reducer';
 import { Store } from '@ngrx/store';
 
 @Component({
-  selector: 'app-signup',
+  selector: 'srm-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
