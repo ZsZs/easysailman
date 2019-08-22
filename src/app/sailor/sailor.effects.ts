@@ -21,7 +21,7 @@ export class SailorEffects {
     withLatestFrom( this.store.pipe( select( getAllSailorsLoaded ))),
     // tslint:disable-next-line:no-shadowed-variable
     filter(([action, allSailorsLoaded]) => !allSailorsLoaded ),
-    mergeMap( action => this.raceService.fetchRaces() ),
+    mergeMap( action => this.raceService.fetchSailors() ),
     map( sailors => allSailorsLoaded({ sailors }))
   );
 

@@ -26,7 +26,7 @@ export class SailorService {
     );
   }
 
-  fetchRaces(): Observable<Sailor[]> {
+  fetchSailors(): Observable<Sailor[]> {
     return this.sailorCollection.snapshotChanges().pipe(
       map( actions => {
         return actions.map( action => {

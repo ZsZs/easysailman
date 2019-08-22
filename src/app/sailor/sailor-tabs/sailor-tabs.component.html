@@ -1,1 +1,5 @@
-<p>sailor-tabs works!</p>
+<nav mat-tab-nav-bar>
+    <a mat-tab-link [routerLink]="['list']" routerLinkActive #list="routerLinkActive" [active]="list.isActive">Sailor List</a>
+    <a mat-tab-link [disabled]="(selectedSailors | async).length != 1" (click)="showDetails()" routerLinkActive #details="routerLinkActive" [active]="details.isActive">Sailor Details</a>
+    <a mat-tab-link [disabled]="(selectedSailors | async).length != 1" (click)="showRegistrations()" routerLinkActive #reg="routerLinkActive" [active]="reg.isActive">Sailor Boats</a>
+</nav>

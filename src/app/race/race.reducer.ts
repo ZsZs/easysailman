@@ -5,7 +5,7 @@ import { FormGroupState, SetValueAction, onNgrxForms, wrapReducerWithFormStateUp
 import { Race } from './race';
 import { AppState } from '../app.reducer';
 import { INITIAL_RACE_DETAILS_FORM_VALUE, validateRaceDetailsForm } from './race-details/race-details.reducer';
-import { allRacesLoaded, editRace, newRace, raceLoaded, setSelectedRaces } from './race-management.actions';
+import { allRacesLoaded, editRace, newRace, raceLoaded, setSelectedRaces } from './race.actions';
 
 export interface RaceManagementState extends EntityState<Race> {
    allRacesLoaded: boolean;
@@ -55,7 +55,7 @@ const rawReducer = createReducer(
   })
 );
 
-export const raceManagementReducer = wrapReducerWithFormStateUpdate(
+export const raceReducer = wrapReducerWithFormStateUpdate(
   rawReducer,
   state => state.raceDetailsForm,
   validateRaceDetailsForm

@@ -5,9 +5,9 @@ import { Store } from '@ngrx/store';
 
 import { Race } from '../race';
 import { RaceService } from '../race.service';
-import * as fromRaceReducer from '../race-management.reducer';
-import { RaceManagementState } from '../race-management.reducer';
-import { allRacesRequested, newRace, setSelectedRaces } from '../race-management.actions';
+import * as fromRaceReducer from '../race.reducer';
+import { RaceManagementState } from '../race.reducer';
+import { allRacesRequested, newRace, setSelectedRaces } from '../race.actions';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
@@ -43,7 +43,7 @@ export class RaceListComponent implements AfterViewInit, OnInit {
   }
 
   onRowClick( row: Race ) {
-    this.router.navigateByUrl( '/race/' + row.id );
+    this.router.navigateByUrl( '/race/' + row.id + '/details' );
   }
 
   // public accessors and mutators

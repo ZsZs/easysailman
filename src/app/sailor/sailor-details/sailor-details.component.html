@@ -1,1 +1,23 @@
-<p>sailor-details works!</p>
+<div class="basic-container">
+    <mat-card>
+        <form novalidate [ngrxFormState]="(formState$ | async)" (ngSubmit)="onSubmit()">
+            <mat-card-title>Sailor</mat-card-title>
+            <mat-card-content>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3.5%" fxLayoutAlign="left" >
+                    <mat-form-field fxFlex>
+                        <input type="First name" matInput placeholder="First name" [ngrxFormControlState]="(formState$ | async).controls.firstName">
+                    </mat-form-field>
+                    <mat-form-field fxFlex>
+                        <input type="Last name" matInput placeholder="Last name" [ngrxFormControlState]="(formState$ | async).controls.lastName">
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+
+            <mat-card-actions fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px" >
+                <button *ngIf="!( isLoading | async )" mat-raised-button color="secondary" (click)="onCancel()">Cancel</button>
+                <button *ngIf="!( isLoading | async )" type="submit" mat-raised-button color="primary" [disabled]="!(formState$ | async).isValid">Save</button>
+                <mat-spinner *ngIf="( isLoading | async )"></mat-spinner>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+</div>

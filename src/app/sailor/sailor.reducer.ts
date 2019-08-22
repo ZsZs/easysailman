@@ -46,7 +46,7 @@ const rawReducer = createReducer(
     return { ...state, sailorDetailsForm: formState };
   }),
   on( setSelectedSailors, ( state, action ) => {
-    return { ...state, selectedRaces: action.sailors };
+    return { ...state, selectedSailors: action.sailors };
   })
 );
 

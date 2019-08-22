@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SailorSatusbarComponent } from './sailor-satusbar.component';
+import { SailorStatusbarComponent } from './sailor-statusbar.component';
 
 describe('SailorSatusbarComponent', () => {
-  let component: SailorSatusbarComponent;
-  let fixture: ComponentFixture<SailorSatusbarComponent>;
+  let component: SailorStatusbarComponent;
+  let fixture: ComponentFixture<SailorStatusbarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SailorSatusbarComponent ]
+      declarations: [ SailorStatusbarComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SailorSatusbarComponent);
+    fixture = TestBed.createComponent(SailorStatusbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

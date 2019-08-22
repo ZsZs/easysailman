@@ -6,14 +6,14 @@ import { FormGroupState, NgrxValueConverter, NgrxValueConverters } from 'ngrx-fo
 
 import * as fromAppReducer from '../../app.reducer';
 import * as fromRaceDetailsReducer from './race-details.reducer';
-import * as fromRaceReducer from '../race-management.reducer';
+import * as fromRaceReducer from '../race.reducer';
 import { UiService } from '../../shared/ui.service';
 import { Race } from '../race';
 import { RaceService } from '../race.service';
 import { map, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { RaceResolver } from '../race.resolver';
-import { saveRace } from '../race-management.actions';
+import { saveRace } from '../race.actions';
 
 @Component({
   selector: 'srm-race-details',

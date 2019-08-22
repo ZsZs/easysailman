@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../app.reducer';
 import { Observable } from 'rxjs';
-import { getRaceById } from '../race/race-management.reducer';
+import { getRaceById } from '../race/race.reducer';
 import { filter, first, tap } from 'rxjs/operators';
 import { Sailor } from './sailor';
 import { editSailor, newSailor, sailorRequested } from './sailor.actions';

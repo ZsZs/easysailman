@@ -5,11 +5,11 @@ import { select, Store } from '@ngrx/store';
 
 import { AppState } from '../app.reducer';
 import { RaceService } from './race.service';
-import { getAllRacesLoaded } from './race-management.reducer';
-import { allRacesLoaded, allRacesRequested, changedRace, raceLoaded, raceRequested, saveRace } from './race-management.actions';
+import { getAllRacesLoaded } from './race.reducer';
+import { allRacesLoaded, allRacesRequested, changedRace, raceLoaded, raceRequested, saveRace } from './race.actions';
 
 @Injectable()
-export class RaceManagementEffects {
+export class RaceEffects {
 
   @Effect() loadRace = this.actions$.pipe(
     ofType( raceRequested ),

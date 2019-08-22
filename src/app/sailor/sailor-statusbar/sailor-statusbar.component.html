@@ -1,0 +1,6 @@
+<mat-toolbar *ngIf="(selectedSailors | async).length == 1">
+    <div fxShow="true" fxFlex fxLayout fxLayoutAlign="flex-left">
+        <span>{{( selectedSailors | async )[0].lastName }},&nbsp;</span>
+        <span>{{( selectedSailors | async )[0].firstName}}</span>
+    </div>
+</mat-toolbar>

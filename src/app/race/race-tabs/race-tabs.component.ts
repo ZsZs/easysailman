@@ -4,7 +4,7 @@ import { Race } from '../race';
 import { AuthService } from '../../authentication/auth.service';
 import { Store } from '@ngrx/store';
 import * as fromAppReducer from '../../app.reducer';
-import { getSelectedRaces } from '../race-management.reducer';
+import { getSelectedRaces } from '../race.reducer';
 import { Router } from '@angular/router';
 import { map, mergeMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 

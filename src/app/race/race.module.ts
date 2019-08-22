@@ -4,12 +4,12 @@ import { EffectsModule } from '@ngrx/effects';
 import { NgrxFormsModule } from 'ngrx-forms';
 
 import { SharedModule } from '../shared/shared.module';
-import { RaceManagementComponent } from './race-management.component';
-import { RaceManagementRoutingModule } from './race-management-routing.module';
-import { raceManagementReducer } from './race-management.reducer';
+import { RaceComponent } from './race.component';
+import { RaceRoutingModule } from './race-routing.module';
+import { raceReducer } from './race.reducer';
 import { RaceDetailsComponent } from './race-details/race-details.component';
 import { RaceListComponent } from './race-list/race-list.component';
-import { RaceManagementEffects } from './race-management.effects';
+import { RaceEffects } from './race.effects';
 import { RaceService } from './race.service';
 import { RaceResolver } from './race.resolver';
 import { AppState } from '../app.reducer';
@@ -22,23 +22,23 @@ export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>
 @NgModule({
   declarations: [
     RaceDetailsComponent,
-    RaceManagementComponent,
+    RaceComponent,
     RaceListComponent,
     RaceRegistrationComponent,
     RaceTabsComponent,
     RaceStatusbarComponent
   ],
   imports: [
-    EffectsModule.forFeature([RaceManagementEffects]),
+    EffectsModule.forFeature([RaceEffects]),
     NgrxFormsModule,
-    RaceManagementRoutingModule,
+    RaceRoutingModule,
     SharedModule,
     StoreModule.forFeature( 'raceManagement', RACE_REDUCER_TOKEN )
   ],
   exports: [],
   entryComponents: [ RaceListComponent ],
-  providers: [RaceResolver, RaceService, { provide: RACE_REDUCER_TOKEN, useValue: raceManagementReducer },
+  providers: [RaceResolver, RaceService, { provide: RACE_REDUCER_TOKEN, useValue: raceReducer },
   ]
 })
 
-export class RaceManagementModule {}
+export class RaceModule {}

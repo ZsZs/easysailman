@@ -4,14 +4,14 @@ import { SailorDetailsComponent } from './sailor-details/sailor-details.componen
 import { SailorBoatsComponent } from './sailor-boats/sailor-boats.component';
 import { SailorListComponent } from './sailor-list/sailor-list.component';
 import { SailorComponent } from './sailor.component';
-import { RaceResolver } from '../race/race.resolver';
+import { SailorResolver } from './sailor.resolver';
 
 const routes: Routes = [
   { path: '', component: SailorComponent, children: [
       { path: '', redirectTo: 'list', pathMatch: 'full' },
       { path: 'list', component: SailorListComponent },
-      { path: ':id/details', component: SailorDetailsComponent, resolve: { race: RaceResolver } },
-      { path: ':id/boats', component: SailorBoatsComponent, resolve: { race: RaceResolver } },
+      { path: ':id/details', component: SailorDetailsComponent, resolve: { race: SailorResolver } },
+      { path: ':id/addBoat', component: SailorBoatsComponent, resolve: { race: SailorResolver } },
       { path: '**', redirectTo: 'list', pathMatch: 'full' },
     ]}
 ];

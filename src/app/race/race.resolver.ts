@@ -6,8 +6,8 @@ import { filter, first, tap } from 'rxjs/operators';
 
 import { AppState } from '../app.reducer';
 import { Race } from './race';
-import { getRaceById } from './race-management.reducer';
-import { editRace, newRace, raceRequested } from './race-management.actions';
+import { getRaceById } from './race.reducer';
+import { editRace, newRace, raceRequested } from './race.actions';
 
 @Injectable()
 export class RaceResolver implements Resolve<Race> {

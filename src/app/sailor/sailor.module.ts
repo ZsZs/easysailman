@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgrxFormsModule } from 'ngrx-forms';
 import { SharedModule } from '../shared/shared.module';
 import { SailorTabsComponent } from './sailor-tabs/sailor-tabs.component';
-import { SailorSatusbarComponent } from './sailor-satusbar/sailor-satusbar.component';
+import { SailorStatusbarComponent } from './sailor-statusbar/sailor-statusbar.component';
 import { SailorListComponent } from './sailor-list/sailor-list.component';
 import { SailorDetailsComponent } from './sailor-details/sailor-details.component';
 import { SailorBoatsComponent } from './sailor-boats/sailor-boats.component';
@@ -20,7 +20,14 @@ import { SailorRoutingModule } from './sailor-routing.module';
 export const SAILOR_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('sailor reducer');
 
 @NgModule({
-  declarations: [SailorTabsComponent, SailorSatusbarComponent, SailorListComponent, SailorDetailsComponent, SailorBoatsComponent, SailorComponent],
+  declarations: [
+    SailorBoatsComponent,
+    SailorDetailsComponent,
+    SailorComponent,
+    SailorListComponent,
+    SailorStatusbarComponent,
+    SailorTabsComponent
+  ],
   imports: [
     CommonModule,
     EffectsModule.forFeature([SailorEffects]),
@@ -30,7 +37,7 @@ export const SAILOR_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState
     StoreModule.forFeature( 'sailorManagement', SAILOR_REDUCER_TOKEN )
   ],
   exports: [],
-  entryComponents: [ SailorListComponent ],
+  entryComponents: [ SailorComponent ],
   providers: [SailorResolver, SailorService, { provide: SAILOR_REDUCER_TOKEN, useValue: sailorReducer }
   ]
 })
