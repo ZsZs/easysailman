@@ -24,16 +24,10 @@ import { HomeComponent } from './home/home.component';
 import { UiService } from './shared/ui.service';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { EffectsModule } from '@ngrx/effects';
-import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './authentication/auth-guard';
+import { AppRoutingModule } from './app-routing.module';
 
 export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('root reducer');
-
-const appRoutes: Routes = [
-  { path: '', component : HomeComponent },
-  { path: 'race', loadChildren: './race/race-management.module#RaceManagementModule'},
-  { path: 'race-execution', loadChildren: './race/execution/race-execution.module#RaceExecutionModule', canLoad: [AuthGuard]}
-];
 
 @NgModule({
   declarations: [
@@ -47,12 +41,12 @@ const appRoutes: Routes = [
     AngularFireModule.initializeApp( environment.firebaseConfig ),
     AngularFirestoreModule,
     AppMaterialModule,
+    AppRoutingModule,
     AuthModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
     EffectsModule.forRoot([]),
-    RouterModule.forRoot( appRoutes ),
     StoreModule.forRoot( APP_REDUCER_TOKEN, { metaReducers } ),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule.forRoot({ stateKey: 'router',  serializer: CustomSerializer })

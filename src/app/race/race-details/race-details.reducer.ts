@@ -17,10 +17,6 @@ export const INITIAL_RACE_DETAILS_FORM_VALUE = createFormGroupState<Race>( RACE_
     state: 'planned'
 });
 
-export interface RaceDetailsFormState {
-  raceDetailsForm: FormGroupState<Race>;
-}
-
 export const validateRaceDetailsForm = updateGroup<Race>({
   title: validate( required ),
   fromDate: validate( required ),

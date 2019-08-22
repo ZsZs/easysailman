@@ -16,15 +16,27 @@
     </mat-card-actions>
   </mat-card>
   <mat-card fxFlex="0 1 calc(33.3% - 10px)" fxFlex.lt-md="0 1 calc(50% - 10px)" fxFlex.lt-sm="100%">
-    <mat-card-title>Sailors</mat-card-title>
+    <mat-card-title><a routerLink="/sailor">Sailors</a></mat-card-title>
     <mat-card-content>Register yourself and your boat</mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button>Read more...</button>
+      <button color="primary" mat-raised-button routerLink="/sailor">Go...</button>
+    </mat-card-actions>
   </mat-card>
   <mat-card fxFlex="0 1 calc(33.3% - 10px)" fxFlex.lt-md="0 1 calc(50% - 10px)" fxFlex.lt-sm="100%">
-    <mat-card-title>Sailing Organizations</mat-card-title>
+    <mat-card-title><a routerLink="/yacht-club">Sailing Organizations</a></mat-card-title>
     <mat-card-content>Register your sailing organization.</mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button>Read more...</button>
+      <button color="primary" mat-raised-button routerLink="/yacht-club">Go...</button>
+    </mat-card-actions>
   </mat-card>
   <mat-card fxFlex="0 1 calc(33.3% - 10px)" fxFlex.lt-md="0 1 calc(50% - 10px)" fxFlex.lt-sm="100%">
-    <mat-card-title>Boat Types</mat-card-title>
+    <mat-card-title><a routerLink="/boat-class">Boat Class</a></mat-card-title>
     <mat-card-content>Define, search your boat type.</mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button>Read more...</button>
+      <button color="primary" mat-raised-button routerLink="/boat-class">Go...</button>
+    </mat-card-actions>
   </mat-card>
 </div>
