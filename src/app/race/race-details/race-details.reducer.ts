@@ -1,8 +1,6 @@
-import { Action, combineReducers } from '@ngrx/store';
-import { FormGroupState, createFormGroupState, formGroupReducer, validate, updateGroup } from 'ngrx-forms';
+import { createFormGroupState, validate, updateGroup } from 'ngrx-forms';
 import { Race } from '../race';
 import { required } from 'ngrx-forms/validation';
-import { AppState } from '../../app.reducer';
 
 const RACE_DETAILS_FORM_ID = 'Race-Details Form';
 

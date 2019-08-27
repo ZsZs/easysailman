@@ -62,10 +62,10 @@ export const raceReducer = wrapReducerWithFormStateUpdate(
 );
 
 export const getRaceManagementState = createFeatureSelector<RaceManagementState>('raceManagement');
-export const getAllRacesLoaded = createSelector( getRaceManagementState, raceManagementState => raceManagementState.allRacesLoaded );
+export const getAllRacesLoaded = createSelector( getRaceManagementState, state => state.allRacesLoaded );
 export const getRaces = createSelector( getRaceManagementState, selectAll );
-export const getRaceById = ( raceId: number ) => createSelector( getRaceManagementState, raceManagementState => raceManagementState.entities[raceId] );
-export const getSelectedRaces = createSelector( getRaceManagementState, raceManagementState => raceManagementState.selectedRaces );
+export const getRaceById = ( id: number ) => createSelector( getRaceManagementState, state => state.entities[id] );
+export const getSelectedRaces = createSelector( getRaceManagementState, state => state.selectedRaces );
 
 export const getDetailsForm = createSelector( getRaceManagementState, ( state: RaceManagementState ) => {
    console.log( state.raceDetailsForm );

@@ -1,0 +1,4 @@
+<nav mat-tab-nav-bar>
+    <a mat-tab-link [routerLink]="['list']" routerLinkActive #list="routerLinkActive" [active]="list.isActive">Yacht Club List</a>
+    <a mat-tab-link [disabled]="(selectedYachtClubs | async).length != 1" (click)="showDetails()" routerLinkActive #details="routerLinkActive" [active]="details.isActive">Yacht Club Details</a>
+</nav>

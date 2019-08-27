@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
-import { Store } from '@ngrx/store';
-import { empty, from, Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { from, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Race } from './race';
-import { snapshotChanges } from '@angular/fire/database';
 
 @Injectable({
   providedIn: 'root'
