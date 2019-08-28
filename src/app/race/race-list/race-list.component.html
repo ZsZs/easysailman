@@ -94,6 +94,8 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick( row )" class="row-hover"></mat-row>
   </mat-table>
+  <mat-spinner *ngIf="( isLoading | async )" style="margin:0 auto;"></mat-spinner>
 </div>
+
 
 <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

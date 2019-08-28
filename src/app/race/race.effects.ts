@@ -7,6 +7,7 @@ import { AppState } from '../app.reducer';
 import { RaceService } from './race.service';
 import { getAllRacesLoaded } from './race.reducer';
 import { allRacesLoaded, allRacesRequested, changedRace, raceLoaded, raceRequested, saveRace } from './race.actions';
+import { startLoading, stopLoading } from '../shared/ui.actions';
 
 @Injectable()
 export class RaceEffects {
@@ -22,8 +23,14 @@ export class RaceEffects {
     withLatestFrom( this.store.pipe( select( getAllRacesLoaded ))),
     // tslint:disable-next-line:no-shadowed-variable
     filter(([action, allRacesLoaded]) => !allRacesLoaded ),
-    mergeMap( action => this.raceService.fetchRaces() ),
-    map( races => allRacesLoaded({ races }))
+    mergeMap( action => {
+      this.store.dispatch( startLoading() );
+      return this.raceService.fetchRaces();
+    }),
+    map( races => {
+      this.store.dispatch( stopLoading() );
+      return allRacesLoaded({ races });
+    })
   );
 
   @Effect() saveRace = this.actions$.pipe(
