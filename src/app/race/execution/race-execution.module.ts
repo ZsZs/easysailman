@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
 import { SharedModule } from '../../shared/shared.module';
 import { RaceExecutionRoutingModule } from './race-execution-routing.module';
 import { RaceExecutionComponent } from './race-execution.component';
