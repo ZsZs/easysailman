@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Race } from '../race';
+import { Race } from '../common/race';
 import { AuthService } from '../../authentication/auth.service';
 import { Store } from '@ngrx/store';
 import * as fromAppReducer from '../../app.reducer';
-import { getSelectedRaces } from '../race.reducer';
+import { getSelectedRaces } from '../common/race.reducer';
 import { Router } from '@angular/router';
 import { map, mergeMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 
@@ -18,7 +18,7 @@ export class RaceTabsComponent implements OnDestroy, OnInit {
   selectedRaceId: string;
   private readonly onDestroy = new Subject<void>();
 
-  constructor( private authService: AuthService, private store: Store<fromAppReducer.AppState>, private router: Router ) {}
+  constructor( private store: Store<fromAppReducer.AppState>, private router: Router ) {}
 
   ngOnDestroy(): void {
     this.onDestroy.next();

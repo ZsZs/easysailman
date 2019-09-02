@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormGroupState } from 'ngrx-forms';
-import { Race } from '../../race/race';
+import { Race } from '../../race/common/race';
 import { FormBuilder } from '@angular/forms';
 import { UiService } from '../../shared/ui.service';
 import { select, Store } from '@ngrx/store';

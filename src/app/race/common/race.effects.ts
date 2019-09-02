@@ -3,20 +3,20 @@ import { concatMap, filter, map, mapTo, mergeMap, switchMap, take, takeUntil, ta
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 
-import { AppState } from '../app.reducer';
+import { AppState } from '../../app.reducer';
 import { RaceService } from './race.service';
 import { getAllRacesLoaded } from './race.reducer';
 import { allRacesLoaded, allRacesRequested, changedRace, deleteRace, raceDeleted, raceLoaded, raceRequested, raceSaved, saveRace } from './race.actions';
-import { startLoading, stopLoading } from '../shared/ui.actions';
+import { startLoading, stopLoading } from '../../shared/ui.actions';
 import { Router } from '@angular/router';
-import { SubscriptionService } from '../shared/subscription.service';
+import { SubscriptionService } from '../../shared/subscription.service';
 
 @Injectable()
 export class RaceEffects {
 
   @Effect() stopLoading = this.actions$.pipe(
     ofType( allRacesLoaded, raceLoaded, raceDeleted, raceSaved ),
-    tap( () => this.router.navigateByUrl( '/race' )),
+//    tap( () => this.router.navigateByUrl( '/race' )),
     map( () => stopLoading() )
   );
 

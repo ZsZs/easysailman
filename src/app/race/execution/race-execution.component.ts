@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { RaceSelectComponent } from '../common/select/race-select.component';
 
 @Component({
   selector: 'srm-race-execution',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RaceExecutionComponent implements OnInit {
 
-  constructor() { }
+  constructor( public dialog: MatDialog ) {}
 
   ngOnInit() {
+    this.openRaceSelectDialog();
   }
 
+  // protected, private helper methods
+  private openRaceSelectDialog(): void {
+    const dialogRef = this.dialog.open( RaceSelectComponent );
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 }

@@ -3,8 +3,8 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { FormGroupState, SetValueAction, onNgrxForms, wrapReducerWithFormStateUpdate, onNgrxFormsAction, setValue, updateGroup, disable } from 'ngrx-forms';
 
 import { Race } from './race';
-import { AppState } from '../app.reducer';
-import { INITIAL_RACE_DETAILS_FORM_VALUE, validateRaceDetailsForm } from './race-details/race-details.reducer';
+import { AppState } from '../../app.reducer';
+import { INITIAL_RACE_DETAILS_FORM_VALUE, validateRaceDetailsForm } from '../details/race-details.reducer';
 import { allRacesLoaded, editRace, newRace, raceLoaded, setSelectedRaces } from './race.actions';
 
 export interface RaceManagementState extends EntityState<Race> {

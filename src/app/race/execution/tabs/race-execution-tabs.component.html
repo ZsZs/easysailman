@@ -1,0 +1,7 @@
+<nav mat-tab-nav-bar>
+    <a mat-tab-link (click)="showParticipants()" routerLinkActive #participants="routerLinkActive" [active]="participants.isActive">Participants</a>
+    <a mat-tab-link (click)="showField()" routerLinkActive #field="routerLinkActive" [active]="field.isActive">Field</a>
+    <a mat-tab-link (click)="showStart()" routerLinkActive #start="routerLinkActive" [active]="start.isActive">Start</a>
+    <a mat-tab-link (click)="showFinish()" routerLinkActive #finish="routerLinkActive" [active]="finish.isActive">Finish</a>
+    <a mat-tab-link (click)="showResults()" routerLinkActive #results="routerLinkActive" [active]="results.isActive">Results</a>
+</nav>

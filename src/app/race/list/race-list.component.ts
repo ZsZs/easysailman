@@ -3,11 +3,11 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Route, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-import { Race } from '../race';
-import { RaceService } from '../race.service';
-import * as fromRaceReducer from '../race.reducer';
-import { RaceManagementState } from '../race.reducer';
-import { allRacesRequested, deleteRace, newRace, setSelectedRaces } from '../race.actions';
+import { Race } from '../common/race';
+import { RaceService } from '../common/race.service';
+import * as fromRaceReducer from '../common/race.reducer';
+import { RaceManagementState } from '../common/race.reducer';
+import { allRacesRequested, deleteRace, newRace, setSelectedRaces } from '../common/race.actions';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthService } from '../../authentication/auth.service';
 import { UiService } from '../../shared/ui.service';
@@ -29,7 +29,6 @@ export class RaceListComponent implements AfterViewInit, OnDestroy, OnInit {
   isLoading: Observable<boolean>;
 
   constructor(
-    private raceService: RaceService,
     private subscriptionService: SubscriptionService,
     private store: Store<fromRaceReducer.RaceManagementState>,
     private router: Router ) {}

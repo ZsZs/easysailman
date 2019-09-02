@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RaceDetailsComponent } from './race-details/race-details.component';
-import { RaceIdResolver } from './race-id-resolver.service';
-import { AuthGuard } from '../authentication/auth-guard';
-import { RaceRegistrationComponent } from './race-registration/race-registration.component';
+import { RaceDetailsComponent } from './details/race-details.component';
+import { RaceIdResolver } from './common/race-id.resolver';
+import { RaceRegistrationComponent } from './registration/race-registration.component';
 import { RaceComponent } from './race.component';
-import { RaceListComponent } from './race-list/race-list.component';
+import { RaceListComponent } from './list/race-list.component';
 
 const routes: Routes = [
    { path: '', component: RaceComponent, children: [

@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
 
-import { AppState } from '../app.reducer';
+import { AppState } from '../../app.reducer';
 import { Race } from './race';
 import { getRaceById } from './race.reducer';
 import { editRace, newRace, raceRequested } from './race.actions';

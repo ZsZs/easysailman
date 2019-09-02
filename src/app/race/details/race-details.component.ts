@@ -5,14 +5,14 @@ import { Store, select } from '@ngrx/store';
 import { FormGroupState, NgrxValueConverter, NgrxValueConverters } from 'ngrx-forms';
 
 import * as fromAppReducer from '../../app.reducer';
-import * as fromRaceReducer from '../race.reducer';
+import * as fromRaceReducer from '../common/race.reducer';
 import { UiService } from '../../shared/ui.service';
-import { Race } from '../race';
-import { RaceService } from '../race.service';
+import { Race } from '../common/race';
+import { RaceService } from '../common/race.service';
 import { map, take, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { RaceIdResolver } from '../race-id-resolver.service';
-import { saveRace, setSelectedRaces } from '../race.actions';
+import { RaceIdResolver } from '../common/race-id.resolver';
+import { saveRace, setSelectedRaces } from '../common/race.actions';
 
 @Component({
   selector: 'srm-race-details',

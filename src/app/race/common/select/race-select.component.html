@@ -1,0 +1,70 @@
+<div mat-dialog-content>
+    <div fxLayoutAlign="left center">
+        <mat-form-field fxFlex="50%">
+            <input matInput type="text" (keyup)="doFilter( $event.target.value )" placeholder="Filter">
+        </mat-form-field>
+    </div>
+
+    <div class="race-list-container mat-elevation-z8">
+        <mat-table #table [dataSource]="dataSource" matSort>
+
+            <ng-container matColumnDef="title">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Title</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <span class="mobile-label">Title:</span>
+                    {{element.title }}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="fromDate">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>From</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <span class="mobile-label">From:</span>
+                    {{element.fromDate | date: 'dd/MM/yyyy' }}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="toDate">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>To</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <span class="mobile-label">To:</span>
+                    {{element.toDate | date: 'dd/MM/yyyy' }}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="country">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Country</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <span class="mobile-label">Country:</span>
+                    {{element.country }}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="place">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Place</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <span class="mobile-label">Place:</span>
+                    {{element.place }}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="organizer">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Organizer</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <span class="mobile-label">Organizer:</span>
+                    {{element.organizer }}
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick( row )" class="row-hover"></mat-row>
+        </mat-table>
+        <mat-spinner *ngIf="( isLoading | async )" style="margin:0 auto;"></mat-spinner>
+    </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button cdkFocusInitial>Ok</button>
+</div>

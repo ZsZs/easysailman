@@ -1,5 +1,5 @@
 import { createFormGroupState, validate, updateGroup } from 'ngrx-forms';
-import { Race } from '../race';
+import { Race } from '../common/race';
 import { required } from 'ngrx-forms/validation';
 
 const RACE_DETAILS_FORM_ID = 'Race-Details Form';

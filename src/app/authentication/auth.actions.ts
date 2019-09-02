@@ -1,5 +1,5 @@
 import { Action, createAction, props } from '@ngrx/store';
-import { Race } from '../race/race';
+import { Race } from '../race/common/race';
 import { UrlSegment } from '@angular/router';
 
 export const authenticateUser = createAction( '[AUTH] Authenticate User', props<{ returnTo: string }>() );

@@ -6,18 +6,18 @@ import { NgrxFormsModule } from 'ngrx-forms';
 import { SharedModule } from '../shared/shared.module';
 import { RaceComponent } from './race.component';
 import { RaceRoutingModule } from './race-routing.module';
-import { raceReducer } from './race.reducer';
-import { RaceDetailsComponent } from './race-details/race-details.component';
-import { RaceListComponent } from './race-list/race-list.component';
-import { RaceEffects } from './race.effects';
-import { RaceService } from './race.service';
-import { RaceIdResolver } from './race-id-resolver.service';
+import { raceReducer } from './common/race.reducer';
+import { RaceDetailsComponent } from './details/race-details.component';
+import { RaceListComponent } from './list/race-list.component';
+import { RaceEffects } from './common/race.effects';
+import { RaceService } from './common/race.service';
+import { RaceIdResolver } from './common/race-id.resolver';
 import { AppState } from '../app.reducer';
-import { RaceRegistrationComponent } from './race-registration/race-registration.component';
-import { RaceTabsComponent } from './race-tabs/race-tabs.component';
-import { RaceStatusbarComponent } from './race-statusbar/race-statusbar.component';
+import { RaceRegistrationComponent } from './registration/race-registration.component';
+import { RaceTabsComponent } from './tabs/race-tabs.component';
+import { RaceStatusbarComponent } from './statusbar/race-statusbar.component';
+import { RaceCommonModule } from './common/race-common.module';
 
-export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('race reducer');
 
 @NgModule({
   declarations: [
@@ -29,16 +29,13 @@ export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>
     RaceStatusbarComponent
   ],
   imports: [
-    EffectsModule.forFeature([RaceEffects]),
     NgrxFormsModule,
+    RaceCommonModule,
     RaceRoutingModule,
-    SharedModule,
-    StoreModule.forFeature( 'raceManagement', RACE_REDUCER_TOKEN )
+    SharedModule
   ],
   exports: [],
-  entryComponents: [ RaceListComponent ],
-  providers: [RaceIdResolver, RaceService, { provide: RACE_REDUCER_TOKEN, useValue: raceReducer },
-  ]
+  entryComponents: [ RaceListComponent ]
 })
 
 export class RaceModule {}
