@@ -63,6 +63,5 @@ export const getSailorById = ( id: number ) => createSelector( getSailorManageme
 export const getSelectedSailors = createSelector( getSailorManagementState, sailorManagementState => sailorManagementState.selectedSailors );
 
 export const getSailorDetailsForm = createSelector( getSailorManagementState, ( state: SailorManagementState ) => {
-  console.log( state.sailorDetailsForm );
   return state.sailorDetailsForm;
 });

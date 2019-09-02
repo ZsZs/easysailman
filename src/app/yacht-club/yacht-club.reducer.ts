@@ -63,6 +63,5 @@ export const getYachtClubById = ( id: string ) => createSelector( getYachtClubMa
 export const getSelectedYachtClubs = createSelector( getYachtClubManagementState, state => state.selectedYachtClubs );
 
 export const getDetailsForm = createSelector( getYachtClubManagementState, ( state: YachtClubManagementState ) => {
-  console.log( state.yachtClubDetailsForm );
   return state.yachtClubDetailsForm;
 });

@@ -31,6 +31,5 @@ export class AuthEffects {
     private actions$: Actions,
     private authService: AuthService,
     private store: Store<AppState>,
-    private activatedRoute: ActivatedRoute,
     private router: Router) {}
 }

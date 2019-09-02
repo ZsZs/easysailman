@@ -10,7 +10,7 @@ import { getRaceById } from './race.reducer';
 import { editRace, newRace, raceRequested } from './race.actions';
 
 @Injectable()
-export class RaceResolver implements Resolve<Race> {
+export class RaceIdResolver implements Resolve<Race> {
 
   constructor( private store: Store<AppState> ) {}
 

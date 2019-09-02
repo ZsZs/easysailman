@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Route, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -7,19 +7,20 @@ import { Race } from '../race';
 import { RaceService } from '../race.service';
 import * as fromRaceReducer from '../race.reducer';
 import { RaceManagementState } from '../race.reducer';
-import { allRacesRequested, newRace, setSelectedRaces } from '../race.actions';
+import { allRacesRequested, deleteRace, newRace, setSelectedRaces } from '../race.actions';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthService } from '../../authentication/auth.service';
 import { UiService } from '../../shared/ui.service';
 import * as fromAppReducer from '../../app.reducer';
 import { Observable } from 'rxjs';
+import { SubscriptionService } from '../../shared/subscription.service';
 
 @Component({
   selector: 'srm-race-list',
   templateUrl: './race-list.component.html',
   styleUrls: ['./race-list.component.css']
 })
-export class RaceListComponent implements AfterViewInit, OnInit {
+export class RaceListComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild( MatSort, {static: false} ) sort: MatSort;
   @ViewChild( MatPaginator, {static: false} ) paginator: MatPaginator;
   displayedColumns = ['select', 'title', 'fromDate', 'toDate', 'country', 'place', 'organizer', 'state'];
@@ -27,18 +28,26 @@ export class RaceListComponent implements AfterViewInit, OnInit {
   selection = new SelectionModel<Race>(true, []);
   isLoading: Observable<boolean>;
 
-  constructor( private uiService: UiService, private raceService: RaceService, private store: Store<fromRaceReducer.RaceManagementState>, private router: Router ) {}
+  constructor(
+    private raceService: RaceService,
+    private subscriptionService: SubscriptionService,
+    private store: Store<fromRaceReducer.RaceManagementState>,
+    private router: Router ) {}
 
   // event handling methods
   ngAfterViewInit(): void {
-    this.store.dispatch( allRacesRequested() );
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
+  ngOnDestroy(): void {
+    this.subscriptionService.unsubscribeComponent$.next();
+  }
+
   ngOnInit() {
-    this.subscribeToLoading();
+    this.store.dispatch( allRacesRequested() );
     this.subscribeToRaces();
+    this.subscribeToLoading();
   }
 
   onChangeSelection( row?: Race ) {
@@ -46,6 +55,8 @@ export class RaceListComponent implements AfterViewInit, OnInit {
   }
 
   onRowClick( row: Race ) {
+    const races = [row];
+    this.store.dispatch( setSelectedRaces( { races }));
     this.router.navigateByUrl( '/race/' + row.id + '/details' );
   }
 
@@ -59,7 +70,14 @@ export class RaceListComponent implements AfterViewInit, OnInit {
   }
 
   deleteRaces() {
-    console.log( 'implement delete races' );
+    if ( this.selection.selected.length > 0 ) {
+      const raceIds: string[] = [];
+      for ( let i = 0, len = this.selection.selected.length; i < len; i++) {
+        this.store.dispatch( deleteRace({ raceId: this.selection.selected[i].id }));
+      }
+
+      this.selection.clear();
+    }
   }
 
   doFilter( filterValue: string ) {
@@ -75,7 +93,7 @@ export class RaceListComponent implements AfterViewInit, OnInit {
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
-      this.selection.clear() :
+      this.cancelSelections() :
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
@@ -88,6 +106,10 @@ export class RaceListComponent implements AfterViewInit, OnInit {
   }
 
   // protected, private helper methods
+  private cancelSelections() {
+    this.selection.clear();
+  }
+
   private subscribeToLoading() {
     this.isLoading = this.store.select( fromAppReducer.getIsLoading );
   }
@@ -96,6 +118,5 @@ export class RaceListComponent implements AfterViewInit, OnInit {
     this.store.select( fromRaceReducer.getRaces ).subscribe( ( races: Race[]) => {
       this.dataSource.data = races;
     });
-    this.raceService.fetchRaces();
   }
 }

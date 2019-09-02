@@ -26,6 +26,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import { EffectsModule } from '@ngrx/effects';
 import { AuthGuard } from './authentication/auth-guard';
 import { AppRoutingModule } from './app-routing.module';
+import { SubscriptionService } from './shared/subscription.service';
 
 export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('root reducer');
 
@@ -55,6 +56,7 @@ export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>(
     { provide: APP_REDUCER_TOKEN, useValue: appReducers },
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false }},
     { provide: FirestoreSettingsToken, useValue: {} },
+    SubscriptionService,
     UiService
   ],
   bootstrap: [AppComponent]

@@ -5,15 +5,14 @@ import { Store, select } from '@ngrx/store';
 import { FormGroupState, NgrxValueConverter, NgrxValueConverters } from 'ngrx-forms';
 
 import * as fromAppReducer from '../../app.reducer';
-import * as fromRaceDetailsReducer from './race-details.reducer';
 import * as fromRaceReducer from '../race.reducer';
 import { UiService } from '../../shared/ui.service';
 import { Race } from '../race';
 import { RaceService } from '../race.service';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { RaceResolver } from '../race.resolver';
-import { saveRace } from '../race.actions';
+import { RaceIdResolver } from '../race-id-resolver.service';
+import { saveRace, setSelectedRaces } from '../race.actions';
 
 @Component({
   selector: 'srm-race-details',
@@ -44,7 +43,7 @@ export class RaceDetailsComponent implements OnInit {
                private uiService: UiService,
                private store: Store<fromRaceReducer.State>,
                private router: Router,
-               @Inject(RaceResolver) private race: Observable<Race> ) {
+               @Inject(RaceIdResolver) private race: Observable<Race> ) {
     this.formState$ = this.store.pipe( select(state => state.raceManagement.raceDetailsForm ));
     this.submittedValue$ = race;
   }
@@ -55,16 +54,15 @@ export class RaceDetailsComponent implements OnInit {
   }
 
   onCancel() {
+    this.store.dispatch( setSelectedRaces({ races: [] }));
     this.router.navigateByUrl( '/race' );
   }
 
   onSubmit() {
     this.formState$.pipe(
       take(1),
-      map(formState => saveRace( { race: formState.value })),
+      map(formState => saveRace( { race: formState.value }))
     ).subscribe( this.store );
-    this.router.navigateByUrl( '/race' );
-
   }
 
   // public accessors and mutators

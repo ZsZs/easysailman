@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { from, Observable, Subscription } from 'rxjs';
+import { from, Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Race } from './race';
@@ -17,6 +17,13 @@ export class RaceService {
   }
 
   // public accessors and mutators
+  delete( raceId: string ): Observable<void> {
+    return from( this.raceCollection.doc( raceId ).delete() );
+  }
+
+  deleteBatch( raceIds: string[] ) {
+  }
+
   findRaceById( raceId: string ): Observable<Race> {
     return this.raceCollection.doc( raceId ).get().pipe(
       map( document => {
@@ -39,19 +46,25 @@ export class RaceService {
   }
 
   saveOrUpdateRace( race: Race ): Observable<Race> {
-    return from( this.saveRace( race ));
+    const raceId = race.id;
+    race = {...race };
+    delete race.id;
+    if ( raceId ) {
+      return from( this.updateRace( raceId, race ));
+    } else {
+      return from( this.addRace( race ));
+    }
   }
 
   // private helper methods
-  private saveRace( race: Race ): Promise<Race> {
-    if ( race.id === undefined ) {
-      race = {...race };
-      delete race.id;
-    }
-    return new Promise<Race>(( resolve, reject ) => {
-      this.raceCollection
-        .add( race )
-        .then(res => {}, err => reject( err ));
-    });
+  private addRace( race: Race ): Promise<Race> {
+    return this.raceCollection.add( race ).then( () => race );
+  }
+
+  private updateRace( raceId: string, race: Race ): Promise<Race> {
+    return this.raceCollection.doc( raceId ).set( race, { merge: true }).then( res => {
+          console.log( 'Colection SET response: ' + res );
+          return race;
+        });
   }
 }

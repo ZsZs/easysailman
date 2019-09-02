@@ -29,10 +29,6 @@ const rawReducer = createReducer(
   INITIAL_RACE_MANAGEMENT_STATE,
   onNgrxForms(),
   onNgrxFormsAction( SetValueAction, ( state, action ) => {
-     console.log( action.controlId );
-     if ( action.controlId === 'raceDetailsForm.title' ) {
-        console.log( state );
-     }
      return state;
   }),
   on( allRacesLoaded, ( state, action ) => {
@@ -68,6 +64,5 @@ export const getRaceById = ( id: number ) => createSelector( getRaceManagementSt
 export const getSelectedRaces = createSelector( getRaceManagementState, state => state.selectedRaces );
 
 export const getDetailsForm = createSelector( getRaceManagementState, ( state: RaceManagementState ) => {
-   console.log( state.raceDetailsForm );
    return state.raceDetailsForm;
 });
