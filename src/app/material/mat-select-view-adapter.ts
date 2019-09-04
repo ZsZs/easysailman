@@ -36,7 +36,7 @@ export class NgrxMatSelectViewAdapter implements FormViewAdapter, AfterViewInit,
     this.value = value;
 
     // we have to verify that the same value is not set again since that would
-    // cause focus to get lost on the select since it tries to focus the active option
+    // cause focus to findById lost on the select since it tries to focus the active option
     const selectedOption = this.matSelect.selected;
 
     if (selectedOption) {

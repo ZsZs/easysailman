@@ -1,0 +1,4 @@
+<nav mat-tab-nav-bar>
+    <a mat-tab-link [routerLink]="['list']" routerLinkActive #list="routerLinkActive" [active]="list.isActive">Boat Class List</a>
+    <a mat-tab-link [disabled]="(selectedBoatClasses | async).length != 1" (click)="showDetails()" routerLinkActive #details="routerLinkActive" [active]="details.isActive">Boat Class Details</a>
+</nav>

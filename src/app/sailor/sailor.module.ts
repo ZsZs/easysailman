@@ -31,7 +31,6 @@ export const SAILOR_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState
   imports: [
     CommonModule,
     EffectsModule.forFeature([SailorEffects]),
-    NgrxFormsModule,
     SailorRoutingModule,
     SharedModule,
     StoreModule.forFeature( 'sailorManagement', SAILOR_REDUCER_TOKEN )

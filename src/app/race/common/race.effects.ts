@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { concatMap, filter, map, mapTo, mergeMap, switchMap, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 
@@ -7,7 +7,7 @@ import { AppState } from '../../app.reducer';
 import { RaceService } from './race.service';
 import { getAllRacesLoaded } from './race.reducer';
 import { allRacesLoaded, allRacesRequested, changedRace, deleteRace, raceDeleted, raceLoaded, raceRequested, raceSaved, saveRace } from './race.actions';
-import { startLoading, stopLoading } from '../../shared/ui.actions';
+import { startLoading, stopLoading } from '../../shared/ui/ui.actions';
 import { Router } from '@angular/router';
 import { SubscriptionService } from '../../shared/subscription.service';
 

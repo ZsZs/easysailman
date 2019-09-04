@@ -2,7 +2,7 @@ import { ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } 
 import { BaseRouterStoreState, routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { storeFreeze } from 'ngrx-store-freeze';
 
-import * as fromUiReducer from './shared/ui.reducer';
+import * as fromUiReducer from './shared/ui/ui.reducer';
 import * as fromAuthReducer from './authentication/auth.reducer';
 import { environment } from '../environments/environment';
 

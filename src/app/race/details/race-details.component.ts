@@ -6,7 +6,7 @@ import { FormGroupState, NgrxValueConverter, NgrxValueConverters } from 'ngrx-fo
 
 import * as fromAppReducer from '../../app.reducer';
 import * as fromRaceReducer from '../common/race.reducer';
-import { UiService } from '../../shared/ui.service';
+import { UiService } from '../../shared/ui/ui.service';
 import { Race } from '../common/race';
 import { RaceService } from '../common/race.service';
 import { map, take, tap } from 'rxjs/operators';

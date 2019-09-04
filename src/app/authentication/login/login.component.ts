@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { AuthService } from '../auth.service';
-import { UiService } from '../../shared/ui.service';
+import { UiService } from '../../shared/ui/ui.service';
 import * as fromAppReducer from '../../app.reducer';
 import { ActivatedRoute, Router } from '@angular/router';
 

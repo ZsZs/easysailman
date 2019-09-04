@@ -15,18 +15,19 @@ import { AppComponent } from './app.component';
 import { AppMaterialModule } from './app-material.module';
 import { appReducers, AppState, metaReducers } from './app.reducer';
 import { AuthModule } from './authentication/auth.module';
-import { AuthService } from './authentication/auth.service';
 import { CustomSerializer } from './shared/custom-route-serializer';
 import { environment } from '../environments/environment';
 import { FooterComponent } from './navigation/footer/footer.component';
 import { HeaderComponent } from './navigation/header/header.component';
 import { HomeComponent } from './home/home.component';
-import { UiService } from './shared/ui.service';
+import { UiService } from './shared/ui/ui.service';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { EffectsModule } from '@ngrx/effects';
-import { AuthGuard } from './authentication/auth-guard';
 import { AppRoutingModule } from './app-routing.module';
 import { SubscriptionService } from './shared/subscription.service';
+import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'ngx-logger';
+import { SharedModule } from './shared/shared.module';
+import { RouterEffects } from './shared/router/router.effects';
 
 export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('root reducer');
 
@@ -47,7 +48,9 @@ export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>(
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([RouterEffects]),
+    LoggerModule.forRoot({level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR}),
+    SharedModule,
     StoreModule.forRoot( APP_REDUCER_TOKEN, { metaReducers } ),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule.forRoot({ stateKey: 'router',  serializer: CustomSerializer })

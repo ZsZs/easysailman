@@ -1,16 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormGroupState } from 'ngrx-forms';
-import { Race } from '../../race/common/race';
-import { FormBuilder } from '@angular/forms';
-import { UiService } from '../../shared/ui.service';
 import { select, Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { map, take } from 'rxjs/operators';
 import * as fromAppReducer from '../../app.reducer';
 import { YachtClub } from '../yacht-club';
 import { State } from '../yacht-club.reducer';
-import { YachtClubService } from '../yacht-club.service';
 import { YachtClubResolver } from '../yacht-club-resolver';
 import { saveYachtClub } from '../yacht-club.actions';
 
@@ -24,9 +20,7 @@ export class YachtClubDetailsComponent implements OnInit {
   submittedValue$: Observable<YachtClub | undefined>;
   isLoading: Observable<boolean>;
 
-  constructor( private formBuilder: FormBuilder,
-               private raceService: YachtClubService,
-               private uiService: UiService,
+  constructor(
                private store: Store<State>,
                private router: Router,
                @Inject(YachtClubResolver) private yachtClub: Observable<YachtClub> ) {

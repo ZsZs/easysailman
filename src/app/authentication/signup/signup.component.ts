@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 
 import { AuthService } from '../auth.service';
-import { UiService } from '../../shared/ui.service';
+import { UiService } from '../../shared/ui/ui.service';
 import * as fromAppReducer from '../../app.reducer';
 import { Store } from '@ngrx/store';
 

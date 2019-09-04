@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormGroupState } from 'ngrx-forms';
 import { FormBuilder } from '@angular/forms';
-import { UiService } from '../../shared/ui.service';
+import { UiService } from '../../shared/ui/ui.service';
 import { select, Store } from '@ngrx/store';
 import * as fromSailorReducer from '../../sailor/sailor.reducer';
 import { Router } from '@angular/router';

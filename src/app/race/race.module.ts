@@ -29,7 +29,6 @@ import { RaceCommonModule } from './common/race-common.module';
     RaceStatusbarComponent
   ],
   imports: [
-    NgrxFormsModule,
     RaceCommonModule,
     RaceRoutingModule,
     SharedModule

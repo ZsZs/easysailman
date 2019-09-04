@@ -6,11 +6,11 @@ import { Store } from '@ngrx/store';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 import { AuthData } from './auth-data';
-import { UiService } from '../shared/ui.service';
+import { UiService } from '../shared/ui/ui.service';
 import * as fromAppReducer from '../app.reducer';
-import * as UI from '../shared/ui.actions';
+import * as UI from '../shared/ui/ui.actions';
 import * as Auth from './auth.actions';
-import { startLoading, stopLoading } from '../shared/ui.actions';
+import { startLoading, stopLoading } from '../shared/ui/ui.actions';
 import { setAuthenticated, setUnauthenticated } from './auth.actions';
 
 @Injectable({

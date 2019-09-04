@@ -18,7 +18,7 @@ export class YachtClubTabsComponent implements OnDestroy, OnInit {
   selectedYachtClubId: string;
   private readonly onDestroy = new Subject<void>();
 
-  constructor( private authService: AuthService, private store: Store<fromAppReducer.AppState>, private router: Router ) {}
+  constructor( private store: Store<fromAppReducer.AppState>, private router: Router ) {}
 
   ngOnDestroy(): void {
     this.onDestroy.next();

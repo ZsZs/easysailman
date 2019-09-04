@@ -26,7 +26,6 @@ export const YACHT_CLUB_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppS
   ],
   imports: [
     EffectsModule.forFeature([YachtClubEffects]),
-    NgrxFormsModule,
     SharedModule,
     StoreModule.forFeature( 'yachtClubManagement', YACHT_CLUB_REDUCER_TOKEN ),
     YachtClubRoutingModule
