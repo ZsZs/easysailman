@@ -26,10 +26,7 @@ export class BoatClassListComponent implements AfterViewInit, OnDestroy, OnInit 
   selection = new SelectionModel<BoatClass>(true, []);
   isLoading: Observable<boolean>;
 
-  constructor(
-    private subscriptionService: SubscriptionService,
-    private store: Store<fromBoatClassReducer.BoatClassManagementState>,
-    private router: Router ) {}
+  constructor( private subscriptionService: SubscriptionService, private store: Store<fromBoatClassReducer.BoatClassManagementState>, private router: Router ) {}
 
   // event handling methods
   ngAfterViewInit(): void {
@@ -102,13 +99,13 @@ export class BoatClassListComponent implements AfterViewInit, OnDestroy, OnInit 
     this.selection.clear();
   }
 
-  private subscribeToLoading() {
-    this.isLoading = this.store.select( fromAppReducer.getIsLoading );
-  }
-
   private subscribeToBoatClasses() {
     this.store.select( fromBoatClassReducer.getBoatClasses ).subscribe( ( boatClasses: BoatClass[]) => {
       this.dataSource.data = boatClasses;
     });
+  }
+
+  private subscribeToLoading() {
+    this.isLoading = this.store.select( fromAppReducer.getIsLoading );
   }
 }

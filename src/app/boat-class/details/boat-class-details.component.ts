@@ -3,12 +3,12 @@ import { Observable } from 'rxjs';
 import { FormGroupState } from 'ngrx-forms';
 import { select, Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { map, take, tap } from 'rxjs/operators';
+import { map, mergeMap, take, tap } from 'rxjs/operators';
 import * as fromAppReducer from '../../app.reducer';
 import { BoatClassResolver } from '../boat-class.resolver';
 import { BoatClass } from '../boat-class';
 import { State } from '../boat-class.reducer';
-import { addBoatClass, updateBoatClass } from '../boat-class.actions';
+import { addBoatClass, addOrUpdateBoatClass, setSelectedBoatClasses, updateBoatClass } from '../boat-class.actions';
 import { routerGo } from '../../shared/router/router.actions';
 
 @Component({
@@ -21,10 +21,7 @@ export class BoatClassDetailsComponent implements OnInit {
   submittedValue$: Observable<BoatClass | undefined>;
   isLoading: Observable<boolean>;
 
-  constructor(
-    private store: Store<State>,
-    private router: Router,
-    @Inject( BoatClassResolver ) private boatClass$: Observable<BoatClass> ) {
+  constructor( private store: Store<State>, @Inject( BoatClassResolver ) private boatClass$: Observable<BoatClass> ) {
     this.formState$ = this.store.pipe( select(state => state.boatClassManagement.boatClassDetailsForm ));
     this.submittedValue$ = boatClass$;
   }
@@ -35,20 +32,16 @@ export class BoatClassDetailsComponent implements OnInit {
   }
 
   onCancel() {
+    this.store.dispatch( setSelectedBoatClasses({ boatClasses: [] }));
     this.store.dispatch( routerGo({ path: ['/boat-class'] }));
   }
 
   onSubmit() {
     this.formState$.pipe(
       take(1),
-      map(formState => {
-        if ( formState.value.id ) {
-          this.store.dispatch( updateBoatClass( { boatClass: formState.value }));
-        } else {
-          this.store.dispatch( addBoatClass( { boatClass: formState.value }));
-        }
-        return routerGo({ path: ['/boat-class'] });
-      }),
+      tap( () => this.store.dispatch( setSelectedBoatClasses({ boatClasses: [] }))),
+      map( formState => formState.value ),
+      map(boatClass => addOrUpdateBoatClass( { boatClass, redirectTo: { path: ['/boat-class'] } }))
     ).subscribe( this.store );
   }
 

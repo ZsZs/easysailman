@@ -3,7 +3,7 @@ import { disable, FormGroupState, onNgrxForms, onNgrxFormsAction, setValue, SetV
 import { AppState } from '../app.reducer';
 import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import { BoatClass } from './boat-class';
-import { allBoatClassesLoaded, boatClassLoaded, editBoatClass, newBoatClass, setSelectedBoatClasses } from './boat-class.actions';
+import { allBoatClassesLoaded, boatClassLoaded, boatClassSaved, editBoatClass, newBoatClass, setSelectedBoatClasses } from './boat-class.actions';
 import { INITIAL_BOAT_CLASS_DETAILS_FORM_VALUE, validateBoatClassDetailsForm } from './details/boat-class-details.reducer';
 
 export interface BoatClassManagementState extends EntityState<BoatClass> {
@@ -34,6 +34,9 @@ const rawReducer = createReducer(
     return boatClassAdapter.addAll( action.boatClasses, { ...state, allBoatClassesLoaded: true });
   }),
   on( boatClassLoaded, ( state, action ) => {
+    return boatClassAdapter.addOne( action.boatClass, { ...state, allBoatClassesLoaded: false });
+  }),
+  on( boatClassSaved, ( state, action ) => {
     return boatClassAdapter.addOne( action.boatClass, { ...state, allBoatClassesLoaded: false });
   }),
   on( newBoatClass, ( state, action ) => {

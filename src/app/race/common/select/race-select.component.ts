@@ -22,7 +22,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class RaceSelectComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild( MatSort, {static: false} ) sort: MatSort;
   @ViewChild( MatPaginator, {static: false} ) paginator: MatPaginator;
-  displayedColumns = ['title', 'fromDate', 'toDate', 'country', 'place', 'organizer'];
+  displayedColumns = ['title', 'date', 'country', 'place'];
   dataSource = new MatTableDataSource<Race>();
   isLoading: Observable<boolean>;
 

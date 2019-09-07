@@ -17,7 +17,9 @@ export class RaceExecutionComponent implements OnInit {
 
   // protected, private helper methods
   private openRaceSelectDialog(): void {
-    const dialogRef = this.dialog.open( RaceSelectComponent );
+    const dialogRef = this.dialog.open( RaceSelectComponent, {
+      width: '600px',
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

@@ -17,7 +17,7 @@ export class RaceIdResolver implements Resolve<Race> {
   resolve( route: ActivatedRouteSnapshot, state: RouterStateSnapshot ): Observable<Race> {
     const idParam = 'id';
     const raceId = route.params[ idParam ];
-    if ( raceId === 'new-race' ) {
+    if ( raceId === 'new' ) {
       const race: Race = {
         id: undefined,
         title: '',

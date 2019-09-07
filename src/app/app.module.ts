@@ -22,11 +22,11 @@ import { HeaderComponent } from './navigation/header/header.component';
 import { HomeComponent } from './home/home.component';
 import { UiService } from './shared/ui/ui.service';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
-import { EffectsModule } from '@ngrx/effects';
 import { AppRoutingModule } from './app-routing.module';
 import { SubscriptionService } from './shared/subscription.service';
 import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'ngx-logger';
 import { SharedModule } from './shared/shared.module';
+import { EffectsModule } from '@ngrx/effects';
 import { RouterEffects } from './shared/router/router.effects';
 
 export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('root reducer');
@@ -47,8 +47,8 @@ export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>(
     AuthModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
-    FlexLayoutModule,
     EffectsModule.forRoot([RouterEffects]),
+    FlexLayoutModule,
     LoggerModule.forRoot({level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR}),
     SharedModule,
     StoreModule.forRoot( APP_REDUCER_TOKEN, { metaReducers } ),
@@ -59,6 +59,7 @@ export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>(
     { provide: APP_REDUCER_TOKEN, useValue: appReducers },
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false }},
     { provide: FirestoreSettingsToken, useValue: {} },
+    NGXLogger,
     SubscriptionService,
     UiService
   ],

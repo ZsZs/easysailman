@@ -10,6 +10,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import * as fromAppReducer from '../../app.reducer';
 import { Observable } from 'rxjs';
 import { SubscriptionService } from '../../shared/subscription.service';
+import { routerGo } from '../../shared/router/router.actions';
 
 @Component({
   selector: 'srm-race-list',
@@ -52,11 +53,15 @@ export class RaceListComponent implements AfterViewInit, OnDestroy, OnInit {
   onRowClick( row: Race ) {
     const races = [row];
     this.store.dispatch( setSelectedRaces( { races }));
-    this.router.navigateByUrl( '/race/' + row.id + '/details' );
+    this.store.dispatch( routerGo({ path: ['/race/' + row.id + '/details'] }));
   }
 
   // public accessors and mutators
   /** The label for the checkbox on the passed row */
+  addRace() {
+    this.store.dispatch( routerGo({ path: ['/race/new/details'] }));
+  }
+
   checkboxLabel( row?: Race ): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
@@ -89,10 +94,6 @@ export class RaceListComponent implements AfterViewInit, OnDestroy, OnInit {
     this.isAllSelected() ?
       this.cancelSelections() :
       this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
-  newRace() {
-    this.router.navigateByUrl( '/race/new-race/details' );
   }
 
   registerToRace() {

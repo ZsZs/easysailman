@@ -1,5 +1,5 @@
 <mat-toolbar>
-    <span>Yacht Clubs</span>
+    <span>Races</span>
 
     <div fxLayoutAlign="center center">
         <mat-form-field fxFlex="50%">
@@ -8,15 +8,17 @@
     </div>
 
     <div fxShow="true" fxHide.lt-md="true" fxFlex fxLayout fxLayoutAlign="flex-end" fxLayoutGap="20px">
-        <button mat-button (click)="newOrganization()"><mat-icon>add</mat-icon> New</button>
-        <button mat-button [disabled]="selection.selected.length == 0" (click)="deleteOrganizations()"><mat-icon>delete</mat-icon> Delete</button>
+        <button mat-button [disabled]="selection.selected.length != 1" (click)="addBoat()"><mat-icon>how_to_reg</mat-icon> Add boat</button>
+        <button mat-button (click)="addSailor()"><mat-icon>add</mat-icon> Add sailor</button>
+        <button mat-button [disabled]="selection.selected.length == 0" (click)="deactivateSailors()"><mat-icon>delete</mat-icon> Deactivate sailor</button>
     </div>
 
     <div fxShow="true" fxHide.gt-sm="true" fxFlex fxLayout fxLayoutAlign="flex-end">
         <button mat-button [matMenuTriggerFor]="beforeMenu"><mat-icon>menu</mat-icon> Choose action</button>
         <mat-menu #beforeMenu="matMenu" xPosition="before">
-            <button mat-menu-item (click)="newOrganization()"><mat-icon>add</mat-icon> New</button>
-            <button mat-menu-item [disabled]="selection.selected.length == 0" (click)="deleteOrganizations()"><mat-icon>delete</mat-icon> Delete</button>
+            <button mat-menu-item [disabled]="selection.selected.length != 1" (click)="addBoat()"><mat-icon>how_to_reg</mat-icon> Add boat</button>
+            <button mat-menu-item (click)="addSailor()"><mat-icon>add</mat-icon> Add sailor</button>
+            <button mat-menu-item [disabled]="selection.selected.length == 0" (click)="deactivateSailors()"><mat-icon>delete</mat-icon> Deactivate sailor</button>
         </mat-menu>
     </div>
 </mat-toolbar>
@@ -33,17 +35,26 @@
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+        <ng-container matColumnDef="firstName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>First Name</mat-header-cell>
             <mat-cell *matCellDef="let element">
-                <span class="mobile-label">Name:</span>
-                {{element.name }}
+                <span class="mobile-label">First name:</span>
+                {{element.firstName }}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="lastName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Last name:</span>
+                {{element.lastName }}
             </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick( row )" class="row-hover"></mat-row>
     </mat-table>
+    <mat-spinner *ngIf="( isLoading | async )" style="margin:0 auto;"></mat-spinner>
 </div>
 
 <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

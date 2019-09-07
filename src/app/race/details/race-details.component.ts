@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
@@ -6,13 +6,13 @@ import { FormGroupState, NgrxValueConverter, NgrxValueConverters } from 'ngrx-fo
 
 import * as fromAppReducer from '../../app.reducer';
 import * as fromRaceReducer from '../common/race.reducer';
-import { UiService } from '../../shared/ui/ui.service';
 import { Race } from '../common/race';
-import { RaceService } from '../common/race.service';
 import { map, take, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { RaceIdResolver } from '../common/race-id.resolver';
-import { saveRace, setSelectedRaces } from '../common/race.actions';
+import { addRace, setSelectedRaces, updateRace } from '../common/race.actions';
+import { SubscriptionService } from '../../shared/subscription.service';
+import { routerGo } from '../../shared/router/router.actions';
+import { addSailor, setSelectedSailors, updateSailor } from '../../sailor/sailor.actions';
 
 @Component({
   selector: 'srm-race-details',
@@ -20,7 +20,7 @@ import { saveRace, setSelectedRaces } from '../common/race.actions';
   styleUrls: ['./race-details.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RaceDetailsComponent implements OnInit {
+export class RaceDetailsComponent implements OnDestroy, OnInit {
   formState$: Observable<FormGroupState<Race>>;
   submittedValue$: Observable<Race | undefined>;
   isLoading: Observable<boolean>;
@@ -38,30 +38,37 @@ export class RaceDetailsComponent implements OnInit {
     convertStateToViewValue: NgrxValueConverters.dateToISOString.convertStateToViewValue,
   };
 
-  constructor( private formBuilder: FormBuilder,
-               private raceService: RaceService,
-               private uiService: UiService,
-               private store: Store<fromRaceReducer.State>,
-               private router: Router,
-               @Inject(RaceIdResolver) private race: Observable<Race> ) {
+  constructor( private subscriptionService: SubscriptionService, private store: Store<fromRaceReducer.State>, @Inject(RaceIdResolver) private race: Observable<Race> ) {
     this.formState$ = this.store.pipe( select(state => state.raceManagement.raceDetailsForm ));
     this.submittedValue$ = race;
   }
 
   // event handling methods
+  ngOnDestroy(): void {
+    this.subscriptionService.unsubscribeComponent$.next();
+  }
+
   ngOnInit() {
     this.subscribeToLoading();
   }
 
   onCancel() {
     this.store.dispatch( setSelectedRaces({ races: [] }));
-    this.router.navigateByUrl( '/race' );
+    this.store.dispatch( routerGo({ path: ['/race'] }));
   }
 
   onSubmit() {
     this.formState$.pipe(
       take(1),
-      map(formState => saveRace( { race: formState.value }))
+      tap( () => this.store.dispatch( setSelectedSailors({ sailors: [] }))),
+      map( formState => formState.value ),
+      map( race => {
+        if ( race.id === undefined ) {
+          return addRace({ race, redirectTo: { path: ['/race'] }});
+        } else {
+          return updateRace( { race, redirectTo: { path: ['/race'] }});
+        }
+      })
     ).subscribe( this.store );
   }
 

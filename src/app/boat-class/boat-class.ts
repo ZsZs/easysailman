@@ -1,6 +1,6 @@
-import { FirestoreBaseEntityInterface } from '../shared/firestore/firestore-base-entity.interface';
+import { BaseEntityInterface } from '../shared/firestore/base-entity.interface';
 
-export interface BoatClass extends FirestoreBaseEntityInterface {
+export interface BoatClass extends BaseEntityInterface {
   id: string;
   name: string;
   yardstick: number;

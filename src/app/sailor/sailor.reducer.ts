@@ -1,8 +1,8 @@
 import { disable, FormGroupState, onNgrxForms, onNgrxFormsAction, setValue, SetValueAction, updateGroup, wrapReducerWithFormStateUpdate } from 'ngrx-forms';
 import { Sailor } from './sailor';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { allSailorsLoaded, editSailor, newSailor, sailorLoaded, setSelectedSailors } from './sailor.actions';
-import { INITIAL_SAILOR_DETAILS_FORM_VALUE, validateSailorDetailsForm } from './sailor-details/sailor-details.reducer';
+import { allSailorsLoaded, editSailor, newSailor, sailorLoaded, sailorSaved, setSelectedSailors } from './sailor.actions';
+import { INITIAL_SAILOR_DETAILS_FORM_VALUE, validateSailorDetailsForm } from './details/sailor-details.reducer';
 import { AppState } from '../app.reducer';
 import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 
@@ -34,6 +34,9 @@ const rawReducer = createReducer(
     return sailorAdapter.addAll( action.sailors, { ...state, allSailorsLoaded: true });
   }),
   on( sailorLoaded, ( state, action ) => {
+    return sailorAdapter.addOne( action.sailor, { ...state, allSailorsLoaded: false });
+  }),
+  on( sailorSaved, ( state, action ) => {
     return sailorAdapter.addOne( action.sailor, { ...state, allSailorsLoaded: false });
   }),
   on( newSailor, ( state, action ) => {

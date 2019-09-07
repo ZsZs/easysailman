@@ -1,10 +1,14 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { AppMaterialModule } from '../app-material.module';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgrxFormsModule } from 'ngrx-forms';
 import { NGXLogger } from 'ngx-logger';
+import { EffectsModule } from '@ngrx/effects';
+import { RouterEffects } from './router/router.effects';
+import { AuthService } from '../authentication/auth.service';
+import { AuthGuard } from '../authentication/auth-guard';
 
 @NgModule({
    imports: [
@@ -24,7 +28,6 @@ import { NGXLogger } from 'ngx-logger';
       ReactiveFormsModule
    ],
    providers: [
-     NGXLogger
    ]
 })
 export class SharedModule {}

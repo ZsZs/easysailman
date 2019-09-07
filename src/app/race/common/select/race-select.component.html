@@ -16,19 +16,11 @@
                 </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="fromDate">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>From</mat-header-cell>
+            <ng-container matColumnDef="date">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <span class="mobile-label">From:</span>
-                    {{element.fromDate | date: 'dd/MM/yyyy' }}
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="toDate">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>To</mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                    <span class="mobile-label">To:</span>
-                    {{element.toDate | date: 'dd/MM/yyyy' }}
+                    <span class="mobile-label">Date:</span>
+                    {{element.fromDate | date: 'dd/MM' }}--{{element.toDate | date: 'dd/MM' }}
                 </mat-cell>
             </ng-container>
 
@@ -45,14 +37,6 @@
                 <mat-cell *matCellDef="let element">
                     <span class="mobile-label">Place:</span>
                     {{element.place }}
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="organizer">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Organizer</mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                    <span class="mobile-label">Organizer:</span>
-                    {{element.organizer }}
                 </mat-cell>
             </ng-container>
 

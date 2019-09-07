@@ -17,7 +17,7 @@ export class SailorResolver implements Resolve<Sailor> {
   resolve( route: ActivatedRouteSnapshot, state: RouterStateSnapshot ): Observable<Sailor> {
     const idParam = 'id';
     const id = route.params[ idParam ];
-    if ( id === 'new-sailor' ) {
+    if ( id === 'new' ) {
       const sailor: Sailor = {
         id: undefined,
         firstName: '',

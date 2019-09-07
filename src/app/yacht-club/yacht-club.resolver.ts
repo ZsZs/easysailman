@@ -16,7 +16,7 @@ export class YachtClubResolver implements Resolve<YachtClub> {
   resolve( route: ActivatedRouteSnapshot, state: RouterStateSnapshot ): Observable<YachtClub> {
     const idParam = 'id';
     const yachtClubId = route.params[ idParam ];
-    if ( yachtClubId === 'new-yacht-club' ) {
+    if ( yachtClubId === 'new' ) {
       const yachtClub: YachtClub = {
         id: undefined,
         name: ''

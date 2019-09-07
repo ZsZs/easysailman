@@ -1,18 +1,18 @@
 import { FirestoreBaseServiceInterface } from './firestore-base.interface';
 import { NGXLogger } from 'ngx-logger';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { FirestoreBaseEntityInterface } from './firestore-base-entity.interface';
-import { Observable } from 'rxjs';
+import { BaseEntityInterface } from './base-entity.interface';
+import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export abstract class FirestoreBaseService<T extends FirestoreBaseEntityInterface> implements FirestoreBaseServiceInterface<T> {
+export abstract class FirestoreBaseService<T extends BaseEntityInterface> implements FirestoreBaseServiceInterface<T> {
   protected collection: AngularFirestoreCollection<T>;
 
   constructor( path: string, protected firestore: AngularFirestore ) {
     this.collection = this.firestore.collection( path );
   }
 
-  add( item: T): Promise<T> {
+  add( item: T): Observable<T> {
     // this.logger.debug( '[FirestoreService] adding item', item );
 
     item = {...item };
@@ -28,7 +28,7 @@ export abstract class FirestoreBaseService<T extends FirestoreBaseEntityInterfac
         resolve(newItem);
       });
     });
-    return promise;
+    return from( promise );
   }
 
   delete( id: string ): void {
@@ -67,7 +67,7 @@ export abstract class FirestoreBaseService<T extends FirestoreBaseEntityInterfac
       );
   }
 
-  update( item: T ): Promise<T> {
+  update( item: T ): Observable<T> {
     // this.logger.debug(`[FirestoreService] updating item ${item.id}`);
 
     const promise = new Promise<T>((resolve, reject) => {
@@ -80,6 +80,6 @@ export abstract class FirestoreBaseService<T extends FirestoreBaseEntityInterfac
           });
         });
     });
-    return promise;
+    return from( promise );
   }
 }

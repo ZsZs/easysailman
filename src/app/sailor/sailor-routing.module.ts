@@ -1,8 +1,8 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { SailorDetailsComponent } from './sailor-details/sailor-details.component';
-import { SailorBoatsComponent } from './sailor-boats/sailor-boats.component';
-import { SailorListComponent } from './sailor-list/sailor-list.component';
+import { SailorDetailsComponent } from './details/sailor-details.component';
+import { SailorBoatsComponent } from './boats/sailor-boats.component';
+import { SailorListComponent } from './list/sailor-list.component';
 import { SailorComponent } from './sailor.component';
 import { SailorResolver } from './sailor.resolver';
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,36 +6,44 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { YachtClub } from '../yacht-club';
-import { YachtClubService } from '../yacht-club.service';
 import { getYachtClubs, YachtClubManagementState } from '../yacht-club.reducer';
-import { allYachtClubsRequested, setSelectedYachtClubs } from '../yacht-club.actions';
+import { allYachtClubsRequested, deleteYachtClub, setSelectedYachtClubs } from '../yacht-club.actions';
+import { SubscriptionService } from '../../shared/subscription.service';
+import * as fromAppReducer from '../../app.reducer';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'srm-yacht-club-list',
   templateUrl: './yacht-club-list.component.html',
   styleUrls: ['./yacht-club-list.component.css']
 })
-export class YachtClubListComponent implements AfterViewInit, OnInit {
+export class YachtClubListComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild( MatSort, {static: false} ) sort: MatSort;
   @ViewChild( MatPaginator, {static: false} ) paginator: MatPaginator;
   displayedColumns = ['select', 'name'];
   dataSource = new MatTableDataSource<YachtClub>();
   selection = new SelectionModel<YachtClub>(true, []);
+  isLoading: Observable<boolean>;
 
-  constructor( private yachtClubService: YachtClubService, private store: Store<YachtClubManagementState>, private router: Router ) {}
+  constructor(
+    private subscriptionService: SubscriptionService,
+    private store: Store<YachtClubManagementState>,
+    private router: Router ) {}
 
   // event handling methods
   ngAfterViewInit(): void {
-    this.store.dispatch( allYachtClubsRequested() );
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
+  ngOnDestroy(): void {
+    this.subscriptionService.unsubscribeComponent$.next();
+  }
+
   ngOnInit() {
-    this.store.select( getYachtClubs ).subscribe( ( yachtClubs: YachtClub[]) => {
-      this.dataSource.data = yachtClubs;
-    });
-    this.yachtClubService.fetchAll();
+    this.store.dispatch( allYachtClubsRequested({}) );
+    this.subscribeToYachtClubs();
+    this.subscribeToLoading();
   }
 
   onChangeSelection( row?: YachtClub ) {
@@ -43,6 +51,8 @@ export class YachtClubListComponent implements AfterViewInit, OnInit {
   }
 
   onRowClick( row: YachtClub ) {
+    const yachtClubs = [row];
+    this.store.dispatch( setSelectedYachtClubs({ yachtClubs }));
     this.router.navigateByUrl( '/yacht-club/' + row.id + '/details' );
   }
 
@@ -56,7 +66,13 @@ export class YachtClubListComponent implements AfterViewInit, OnInit {
   }
 
   deleteOrganizations() {
-    console.log( 'implement delete yacht-club' );
+    if ( this.selection.selected.length > 0 ) {
+      for ( let i = 0, len = this.selection.selected.length; i < len; i++) {
+        this.store.dispatch( deleteYachtClub({ yachtClubId: this.selection.selected[i].id }));
+      }
+
+      this.selection.clear();
+    }
   }
 
   doFilter( filterValue: string ) {
@@ -77,6 +93,21 @@ export class YachtClubListComponent implements AfterViewInit, OnInit {
   }
 
   newOrganization() {
-    this.router.navigateByUrl( '/yacht-club/new-race/details' );
+    this.router.navigateByUrl( '/yacht-club/new/details' );
+  }
+
+  // protected, private helper methods
+  private cancelSelections() {
+    this.selection.clear();
+  }
+
+  private subscribeToLoading() {
+    this.isLoading = this.store.select( fromAppReducer.getIsLoading );
+  }
+
+  private subscribeToYachtClubs() {
+    this.store.select( getYachtClubs ).subscribe( ( yachtClubs: YachtClub[]) => {
+      this.dataSource.data = yachtClubs;
+    });
   }
 }

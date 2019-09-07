@@ -3,8 +3,8 @@ import { disable, FormGroupState, onNgrxForms, onNgrxFormsAction, setValue, SetV
 import { AppState } from '../app.reducer';
 import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import { YachtClub } from './yacht-club';
-import { INITIAL_YACHT_CLUB_DETAILS_FORM_VALUE, validateYachtClubDetailsForm } from './yacht-club-details/yacht-club-details.reducer';
-import { allYachtClubsLoaded, editYachtClub, newYachtClub, setSelectedYachtClubs, yachtClubLoaded } from './yacht-club.actions';
+import { INITIAL_YACHT_CLUB_DETAILS_FORM_VALUE, validateYachtClubDetailsForm } from './details/yacht-club-details.reducer';
+import { allYachtClubsLoaded, editYachtClub, newYachtClub, setSelectedYachtClubs, yachtClubLoaded, yachtClubSaved } from './yacht-club.actions';
 
 export interface YachtClubManagementState extends EntityState<YachtClub> {
   allYachtClubsLoaded: boolean;
@@ -34,6 +34,9 @@ const rawReducer = createReducer(
     return yachtClubAdapter.addAll( action.yachtClubs, { ...state, allYachtClubsLoaded: true });
   }),
   on( yachtClubLoaded, ( state, action ) => {
+    return yachtClubAdapter.addOne( action.yachtClub, { ...state, allYachtClubsLoaded: false });
+  }),
+  on( yachtClubSaved, ( state, action ) => {
     return yachtClubAdapter.addOne( action.yachtClub, { ...state, allYachtClubsLoaded: false });
   }),
   on( newYachtClub, ( state, action ) => {
