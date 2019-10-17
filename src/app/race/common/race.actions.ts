@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Race } from './race';
+import { Race } from '../domain/race';
 import { RouterUri } from '../../shared/router/router-uri';
 
 export const allRacesRequested = createAction('[RACE] All races requested' );

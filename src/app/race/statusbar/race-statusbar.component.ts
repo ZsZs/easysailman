@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Race } from '../common/race';
+import { Race } from '../domain/race';
 import { AuthService } from '../../authentication/auth.service';
 import { Store } from '@ngrx/store';
 import * as fromAppReducer from '../../app.reducer';

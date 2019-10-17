@@ -7,17 +7,17 @@ import { ActionReducerMap, StoreModule } from '@ngrx/store';
 import { AppState } from '../../app.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { RaceEffects } from '../common/race.effects';
-import { RaceIdResolver } from '../common/race-id.resolver';
+import { RaceResolver } from '../common/race.resolver';
 import { RaceService } from '../common/race.service';
-import { raceReducer } from '../common/race.reducer';
 import { RaceExecutionToolbarComponent } from './toolbar/race-execution-toolbar.component';
 import { RaceSelectComponent } from '../common/select/race-select.component';
 import { RaceCommonModule } from '../common/race-common.module';
 import { RaceFieldComponent } from './field/race-field.component';
 import { RaceFinishComponent } from './finish/race-finish.component';
-import { RaceParticipantsComponent } from './participants/race-participants.component';
+import { RaceParticipantListComponent } from './participant-list/race-participant-list.component';
 import { RaceResultsComponent } from './results/race-results.component';
 import { RaceStartComponent } from './race-start/race-start.component';
+import { raceManagementReducer } from '../common/race.reducer';
 
 export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('race reducer');
 
@@ -28,7 +28,7 @@ export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>
       RaceExecutionToolbarComponent,
       RaceFieldComponent,
       RaceFinishComponent,
-      RaceParticipantsComponent,
+      RaceParticipantListComponent,
       RaceResultsComponent,
       RaceStartComponent
    ],
@@ -41,7 +41,7 @@ export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>
    ],
    exports: [],
    entryComponents: [ RaceSelectComponent ],
-   providers: [RaceIdResolver, RaceService, { provide: RACE_REDUCER_TOKEN, useValue: raceReducer }]
+   providers: [RaceResolver, RaceService, { provide: RACE_REDUCER_TOKEN, useValue: raceManagementReducer }]
 })
 
 export class RaceExecutionModule {}

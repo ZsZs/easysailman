@@ -22,7 +22,7 @@ export class BoatClassDetailsComponent implements OnInit {
   isLoading: Observable<boolean>;
 
   constructor( private store: Store<State>, @Inject( BoatClassResolver ) private boatClass$: Observable<BoatClass> ) {
-    this.formState$ = this.store.pipe( select(state => state.boatClassManagement.boatClassDetailsForm ));
+    this.selectFormState();
     this.submittedValue$ = boatClass$;
   }
 
@@ -48,6 +48,10 @@ export class BoatClassDetailsComponent implements OnInit {
   // public accessors and mutators
 
   // protected, private helper methods
+  private selectFormState() {
+    this.formState$ = this.store.pipe( select(state => state.boatClassManagement.boatClassDetailsForm ));
+  }
+
   private subscribeToLoading() {
     this.isLoading = this.store.select( fromAppReducer.getIsLoading );
   }

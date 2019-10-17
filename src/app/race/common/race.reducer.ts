@@ -1,36 +1,38 @@
-import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
+import { combineReducers, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { FormGroupState, SetValueAction, onNgrxForms, wrapReducerWithFormStateUpdate, onNgrxFormsAction, setValue, updateGroup, disable } from 'ngrx-forms';
 
-import { Race } from './race';
 import { AppState } from '../../app.reducer';
-import { INITIAL_RACE_DETAILS_FORM_VALUE, validateRaceDetailsForm } from '../details/race-details.reducer';
-import { allRacesLoaded, editRace, newRace, raceLoaded, raceSaved, setSelectedRaces } from './race.actions';
+import { allRacesLoaded, newRace, raceLoaded, raceSaved, setSelectedRaces } from './race.actions';
+import { Race } from '../domain/race';
+import { INITIAL_REGISTRATION_DETAILS_FORM_VALUE, registrationDetailsReducer, validateRegistraionDetailsForm } from '../registration/details/registration-details.reducer';
+import { registrationReducer, RegistrationState } from './registration.reducer';
+import { raceDetailsReducer } from '../details/race-details.reducer';
 
-export interface RaceManagementState extends EntityState<Race> {
+export interface RaceState extends EntityState<Race> {
    allRacesLoaded: boolean;
-   raceDetailsForm: FormGroupState<Race>;
    selectedRaces: Race[];
 }
 
 export const raceAdapter: EntityAdapter<Race> = createEntityAdapter();
 export const { selectAll, selectEntities, selectIds, selectTotal } = raceAdapter.getSelectors();
-export const INITIAL_RACE_MANAGEMENT_STATE: RaceManagementState = raceAdapter.getInitialState( {
+export const INITIAL_RACE_MANAGEMENT_STATE: RaceState = raceAdapter.getInitialState( {
    allRacesLoaded: false,
-   raceDetailsForm: INITIAL_RACE_DETAILS_FORM_VALUE,
    selectedRaces: []
 });
+
+export interface RaceManagementState {
+  race: RaceState;
+  raceDetails: any;
+  registration: RegistrationState;
+  registrationDetails: any;
+}
 
 export interface State extends AppState {
    raceManagement: RaceManagementState;
 }
 
-const rawReducer = createReducer(
+const raceReducer = createReducer(
   INITIAL_RACE_MANAGEMENT_STATE,
-  onNgrxForms(),
-  onNgrxFormsAction( SetValueAction, ( state, action ) => {
-     return state;
-  }),
   on( allRacesLoaded, ( state, action ) => {
      return raceAdapter.addAll( action.races, { ...state, allRacesLoaded: true });
   }),
@@ -43,29 +45,20 @@ const rawReducer = createReducer(
   on( newRace, ( state, action ) => {
     return raceAdapter.addOne( action.race, { ...state, allRacesLoaded: false });
   }),
-  on( editRace, ( state, action ) => {
-    let formState = setValue<Race>( INITIAL_RACE_DETAILS_FORM_VALUE, { ...action.race });
-    formState = updateGroup(formState, { id: disable });
-    formState = validateRaceDetailsForm( formState );
-    return { ...state, raceDetailsForm: formState };
-  }),
   on( setSelectedRaces, ( state, action ) => {
     return { ...state, selectedRaces: action.races };
   })
 );
 
-export const raceReducer = wrapReducerWithFormStateUpdate(
-  rawReducer,
-  state => state.raceDetailsForm,
-  validateRaceDetailsForm
-);
-
-export const getRaceManagementState = createFeatureSelector<RaceManagementState>('raceManagement');
-export const getAllRacesLoaded = createSelector( getRaceManagementState, state => state.allRacesLoaded );
-export const getRaces = createSelector( getRaceManagementState, selectAll );
-export const getRaceById = ( id: number ) => createSelector( getRaceManagementState, state => state.entities[id] );
-export const getSelectedRaces = createSelector( getRaceManagementState, state => state.selectedRaces );
-
-export const getDetailsForm = createSelector( getRaceManagementState, ( state: RaceManagementState ) => {
-   return state.raceDetailsForm;
+export const raceManagementReducer = combineReducers({
+  raceDetails: raceDetailsReducer, registrationDetails: registrationDetailsReducer, race: raceReducer, registration: registrationReducer
 });
+
+const getRaceManagementState = createFeatureSelector<RaceManagementState>(`raceManagement`);
+export const getAllRacesLoaded = createSelector( getRaceManagementState, state => state.race.allRacesLoaded );
+export const getRaceState = createSelector( getRaceManagementState, state => state.race );
+export const getRaces = createSelector( getRaceState, selectAll );
+export const getRaceById = ( id: string ) => createSelector( getRaceState, state => state.entities[id]);
+export const getSelectedRaces = createSelector( getRaceState, state => state.selectedRaces );
+export const getFirstSelectedRace = createSelector( getRaceState, (state: RaceState) => state.selectedRaces ? state.selectedRaces[0] : undefined );
+

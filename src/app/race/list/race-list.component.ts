@@ -3,7 +3,7 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-import { Race } from '../common/race';
+import { Race } from '../domain/race';
 import * as fromRaceReducer from '../common/race.reducer';
 import { allRacesRequested, deleteRace, setSelectedRaces } from '../common/race.actions';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -41,13 +41,13 @@ export class RaceListComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch( allRacesRequested() );
+    this.dispatchAllEntitiesRequested();
     this.subscribeToRaces();
     this.subscribeToLoading();
   }
 
   onChangeSelection( row?: Race ) {
-    this.store.dispatch( setSelectedRaces( { races: this.selection.selected }));
+    this.dispatchSelectedEntities();
   }
 
   onRowClick( row: Race ) {
@@ -103,6 +103,14 @@ export class RaceListComponent implements AfterViewInit, OnDestroy, OnInit {
   // protected, private helper methods
   private cancelSelections() {
     this.selection.clear();
+  }
+
+  protected dispatchAllEntitiesRequested() {
+    this.store.dispatch( allRacesRequested() );
+  }
+
+  protected dispatchSelectedEntities() {
+    this.store.dispatch( setSelectedRaces( { races: this.selection.selected }));
   }
 
   private subscribeToLoading() {

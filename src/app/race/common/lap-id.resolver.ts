@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { Race } from './race';
+import { Race } from '../domain/race';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../../app.reducer';
 import { Observable } from 'rxjs';

@@ -1,6 +1,6 @@
 <nav mat-tab-nav-bar>
     <a mat-tab-link [routerLink]="['list']" routerLinkActive #list="routerLinkActive" [active]="list.isActive">Race List</a>
-    <a mat-tab-link [disabled]="(selectedRaces | async).length != 1" (click)="showDetails()" routerLinkActive #details="routerLinkActive" [active]="details.isActive">Race Details</a>
-    <a mat-tab-link [disabled]="(selectedRaces | async).length != 1" (click)="showRegistrations()" routerLinkActive #reg="routerLinkActive" [active]="reg.isActive">Race Registrations</a>
+    <a mat-tab-link [disabled]="(selectedRaces | async).length != 1" (click)="showDetails()" routerLinkActive [active]="(activeTabs | async).includes('race-details')">Race Details</a>
+    <a mat-tab-link [disabled]="(selectedRaces | async).length != 1" (click)="showRegistrations()" routerLinkActive [active]="(activeTabs | async).includes('registration-list')">Registrations</a>
+    <a mat-tab-link [disabled]="(selectedRegistrations | async).length != 1" (click)="showRegistrationDetails()" routerLinkActive [active]="(activeTabs | async).includes('registration-details')">Registration Details</a>
 </nav>
-

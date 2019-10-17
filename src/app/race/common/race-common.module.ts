@@ -4,14 +4,17 @@ import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RaceSelectComponent } from './select/race-select.component';
-import { RaceIdResolver } from './race-id.resolver';
+import { RaceResolver } from './race.resolver';
 import { RaceService } from './race.service';
-import { raceReducer } from './race.reducer';
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
 import { AppState } from '../../app.reducer';
 import { LapIdResolver } from './lap-id.resolver';
 import { EffectsModule } from '@ngrx/effects';
 import { RaceEffects } from './race.effects';
+import { RegistrationDetailsResolver } from './registration-details.resolver';
+import { raceManagementReducer } from './race.reducer';
+import { RegistrationEffects } from './registration.effects';
+import { RegistrationService } from './registration.service';
 
 export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('race reducer');
 
@@ -22,7 +25,7 @@ export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>
   imports: [
     AppMaterialModule,
     CommonModule,
-    EffectsModule.forFeature([RaceEffects]),
+    EffectsModule.forFeature([RaceEffects, RegistrationEffects]),
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
@@ -35,7 +38,13 @@ export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [LapIdResolver, RaceIdResolver, RaceService, { provide: RACE_REDUCER_TOKEN, useValue: raceReducer }]
+  providers: [
+    LapIdResolver,
+    RaceResolver,
+    RaceService,
+    RegistrationDetailsResolver,
+    RegistrationService,
+    { provide: RACE_REDUCER_TOKEN, useValue: raceManagementReducer }]
 })
 
 export class RaceCommonModule {}

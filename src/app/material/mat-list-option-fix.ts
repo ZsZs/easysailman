@@ -6,7 +6,7 @@ import { MatListOption } from '@angular/material/list';
  * This directive fixes an issue with the selection findAll component
  * which causes the form state to lose all values when the selection
  * findAll component leaves the DOM. The reason for that is that the
- * findAll options de-register themselves when being destroyed which
+ * findAll options de-addRegistration themselves when being destroyed which
  * forces the findAll to update its value (which then does not contain
  * the removed option anymore). This behaviour usually makes sense
  * but as a side-effect it also resets the value of the findAll when the

@@ -6,7 +6,7 @@ import * as fromRaceReducer from '../race.reducer';
 import { Router } from '@angular/router';
 import { allRacesRequested, setSelectedRaces } from '../race.actions';
 import * as fromAppReducer from '../../../app.reducer';
-import { Race } from '../race';
+import { Race } from '../../domain/race';
 import { Observable } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';

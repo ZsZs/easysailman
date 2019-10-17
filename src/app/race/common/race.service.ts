@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { from, Observable, of, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { AngularFirestore } from '@angular/fire/firestore';
 
-import { Race } from './race';
+import { Race } from '../domain/race';
 import { FirestoreBaseService } from '../../shared/firestore/firestore-base.service';
 
 @Injectable()

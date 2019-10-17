@@ -1,7 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { RouterUri } from '../router/router-uri';
 
-/*
 export let allEntitiesRequested;
 export let allEntitiesLoaded;
 export let entityRequested;
@@ -17,22 +16,25 @@ export let entitySaved;
 export let setSelectedEntities;
 export let entityAPIError;
 
-function createRaceBaseActions<T>( featureName: string ) {
 const featureName = 'BASE_ENTITY';
 
-export const allEntitiesRequested = createAction(`[${featureName}] All entities requested` );
-export const allEntitiesLoaded = createAction(`[${featureName}] All entities loaded`, props<{ entities: T[], redirectTo?: RouterUri}>() );
-export const entityRequested = createAction(`[${featureName}] Entity requested`, props<{ entityId: string }>() );
-export const entityLoaded = createAction(`[${featureName}] Entity loaded`, props<{ entity: T, redirectTo?: RouterUri }>() );
-export const editEntity = createAction(`[${featureName}] Edit entity`, props<{ entity: T }>() );
-export const newEntity = createAction(`[${featureName}] New entity`, props<{ entity: T }>() );
-export const deleteEntity = createAction(`[${featureName}] Delete entity`, props<{ entityId: string, redirectTo?: RouterUri }>() );
-export const entityDeleted = createAction(`[${featureName}] Entity deleted`, props<{ redirectTo?: RouterUri }>());
-export const addEntity = createAction(`[${featureName}] Add entity`, props<{ entity: T, redirectTo?: RouterUri }>() );
-export const addOrUpdateEntity = createAction(`[${featureName}] Add or update entity`, props<{ entity: T, redirectTo?: RouterUri }>() );
-export const updateEntity = createAction(`[${featureName}] Update entity`, props<{ entity: T, redirectTo?: RouterUri }>() );
-export const entitySaved = createAction(`[${featureName}] Entity saved`, props<{ entity: T, redirectTo?: RouterUri }>() );
-export const setSelectedEntities = createAction(`[${featureName}] Entities selected`, props<{ entities: T[] }>() );
-export const entityAPIError = createAction(`[${featureName}] Entity API error`, props<{ error: string, redirectTo?: RouterUri }>() );
-*/
+// tslint:disable-next-line:no-shadowed-variable
+function createRaceBaseActions<T>( featureName: string ) {
+  allEntitiesRequested = createAction(`[${featureName}] All entities requested` );
+  allEntitiesLoaded = createAction(`[${featureName}] All entities loaded`, props<{ entities: T[], redirectTo?: RouterUri}>() );
+  entityRequested = createAction(`[${featureName}] Entity requested`, props<{ entityId: string }>() );
+  entityLoaded = createAction(`[${featureName}] Entity loaded`, props<{ entity: T, redirectTo?: RouterUri }>() );
+  editEntity = createAction(`[${featureName}] Edit entity`, props<{ entity: T }>() );
+  newEntity = createAction(`[${featureName}] New entity`, props<{ entity: T }>() );
+  deleteEntity = createAction(`[${featureName}] Delete entity`, props<{ entityId: string, redirectTo?: RouterUri }>() );
+  entityDeleted = createAction(`[${featureName}] Entity deleted`, props<{ redirectTo?: RouterUri }>());
+  addEntity = createAction(`[${featureName}] Add entity`, props<{ entity: T, redirectTo?: RouterUri }>() );
+  addOrUpdateEntity = createAction(`[${featureName}] Add or update entity`, props<{ entity: T, redirectTo?: RouterUri }>() );
+  updateEntity = createAction(`[${featureName}] Update entity`, props<{ entity: T, redirectTo?: RouterUri }>() );
+  entitySaved = createAction(`[${featureName}] Entity saved`, props<{ entity: T, redirectTo?: RouterUri }>() );
+  setSelectedEntities = createAction(`[${featureName}] Entities selected`, props<{ entities: T[] }>() );
+  entityAPIError = createAction(`[${featureName}] Entity API error`, props<{ error: string, redirectTo?: RouterUri }>() );
+}
+
+
 

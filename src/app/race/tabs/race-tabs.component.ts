@@ -1,12 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Race } from '../common/race';
+import { Race } from '../domain/race';
 import { AuthService } from '../../authentication/auth.service';
 import { Store } from '@ngrx/store';
 import * as fromAppReducer from '../../app.reducer';
 import { getSelectedRaces } from '../common/race.reducer';
 import { Router } from '@angular/router';
 import { map, mergeMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { getActiveTabs } from '../../shared/ui/ui.reducer';
+import { tabIsActive } from '../../shared/ui/ui.actions';
+import { Registration } from '../domain/registration';
+import { getSelectedRegistrations } from '../common/registration.reducer';
 
 @Component({
   selector: 'srm-race-tabs',
@@ -14,7 +18,9 @@ import { map, mergeMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
   styleUrls: ['./race-tabs.component.css']
 })
 export class RaceTabsComponent implements OnDestroy, OnInit {
+  activeTabs: Observable<string[]>;
   selectedRaces: Observable<Race[]>;
+  selectedRegistrations: Observable<Registration[]>;
   selectedRaceId: string;
   private readonly onDestroy = new Subject<void>();
 
@@ -25,6 +31,7 @@ export class RaceTabsComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
+    this.retrieveActiveTabsFromStore();
     this.retrieveSelectedRacesFromStore();
     this.determineSelectedRaceId();
   }
@@ -33,8 +40,12 @@ export class RaceTabsComponent implements OnDestroy, OnInit {
     this.router.navigateByUrl( '/race/' + this.selectedRaceId + '/details' );
   }
 
+  showRegistrationDetails() {
+    this.router.navigateByUrl( '/race/' + this.selectedRaceId + '/registration/1/details' );
+  }
+
   showRegistrations() {
-    this.router.navigateByUrl( '/race/' + this.selectedRaceId + '/registrations' );
+    this.router.navigateByUrl( '/race/' + this.selectedRaceId + '/registration/list' );
   }
 
   // protected, private helper methods
@@ -48,7 +59,12 @@ export class RaceTabsComponent implements OnDestroy, OnInit {
     });
   }
 
+  retrieveActiveTabsFromStore() {
+    this.activeTabs = this.store.select( getActiveTabs );
+  }
+
   retrieveSelectedRacesFromStore() {
     this.selectedRaces = this.store.select( getSelectedRaces );
+    this.selectedRegistrations = this.store.select( getSelectedRegistrations );
   }
 }

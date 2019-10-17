@@ -1,0 +1,79 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import * as fromRaceReducer from '../../common/race.reducer';
+import { BaseFormComponent } from '../../../shared/generic-components/base-form.component';
+import { Registration } from '../../domain/registration';
+import { Router } from '@angular/router';
+import { SubscriptionService } from '../../../shared/subscription.service';
+import { getFirstSelectedRace } from '../../common/race.reducer';
+import { routerGo } from '../../../shared/router/router.actions';
+import { map, mergeMap, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { getRegistrationDetailsForm } from './registration-details.reducer';
+import { Observable } from 'rxjs';
+import { INITIAL_RACE_VALUE, Race } from '../../domain/race';
+import { addRegistration, setSelectedRegistrations, updateRegistration } from '../../common/registration.actions';
+
+@Component({
+  selector: 'srm-registration-details',
+  templateUrl: './registration-details.component.html',
+  styleUrls: ['./registration-details.component.css']
+})
+
+export class RegistrationDetailsComponent extends BaseFormComponent<Registration> implements OnInit {
+  private race$: Observable<Race>;
+
+  constructor( protected router: Router, protected subscriptionService: SubscriptionService, protected store: Store<fromRaceReducer.State> ) {
+    super( router, subscriptionService, store, 'registration-details', getRegistrationDetailsForm );
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+    this.race$ = this.store.select( getFirstSelectedRace );
+  }
+
+  onCancel() {
+    this.store.dispatch( setSelectedRegistrations({ registrations: [] }));
+    this.store.dispatch( routerGo({ path: ['/race'] }));
+  }
+
+  onSubmit() {
+    this.formState$.pipe(
+      take(1),
+      tap( () => this.store.dispatch( setSelectedRegistrations({ registrations: [] }))),
+      map( formState => formState.value ),
+      map( registration => {
+        if ( registration.id === undefined ) {
+          return addRegistration({ registration, redirectTo: { path: ['/race/' + registration.raceId + '/registration'] }});
+        } else {
+          return updateRegistration( { registration, redirectTo: { path: ['/race/' + registration.raceId + '/registration'] }} );
+        }
+      })
+    ).subscribe( this.store );
+  }
+
+  /*
+    onSubmit() {
+      this.formState$.pipe(
+        take(1),
+        tap( () => this.store.dispatch( setSelectedRegistrations({ registrations: [] }))),
+        map( formState => formState.value ),
+        mergeMap( registration => combineLatest([
+          of( registration ),
+          this.store.select( getRaceById( registration.raceId ))
+        ])),
+        mergeMap( ([registration, race ]) => {
+          if ( race.registrations === undefined ) {
+            race = {...race, registrations: [] };
+          }
+          if ( registration.id === undefined ) {
+            race.registrations.push( registration );
+          } else {
+            race.registrations[registration.id] = registration;
+          }
+          return of( race );
+        }),
+        map( race => updateRace( { race, redirectTo: { racesPath: ['/race/' + race.id + '/registration'] }}))
+      ).subscribe( this.store );
+    }
+  */
+}

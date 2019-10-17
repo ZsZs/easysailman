@@ -9,6 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { RouterEffects } from './router/router.effects';
 import { AuthService } from '../authentication/auth.service';
 import { AuthGuard } from '../authentication/auth-guard';
+import { BaseFormComponent } from './generic-components/base-form.component';
 
 @NgModule({
    imports: [

@@ -1,0 +1,65 @@
+<mat-toolbar>
+    <span>Registrations</span>
+
+    <div fxLayoutAlign="center center">
+        <mat-form-field fxFlex="50%">
+            <input matInput type="text" (keyup)="doFilter( $event.target.value )" placeholder="Filter">
+        </mat-form-field>
+    </div>
+
+    <div fxShow="true" fxHide.lt-md="true" fxFlex fxLayout fxLayoutAlign="flex-end" fxLayoutGap="20px">
+        <button mat-button (click)="addEntity()"><mat-icon>add</mat-icon> Register</button>
+        <button mat-button [disabled]="selection.selected.length == 0" (click)="deleteEntities()"><mat-icon>delete</mat-icon> Cancel registration</button>
+    </div>
+
+    <div fxShow="true" fxHide.gt-sm="true" fxFlex fxLayout fxLayoutAlign="flex-end">
+        <button mat-button [matMenuTriggerFor]="beforeMenu"><mat-icon>menu</mat-icon> Choose action</button>
+        <mat-menu #beforeMenu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="addEntity()"><mat-icon>add</mat-icon> Register</button>
+            <button mat-menu-item [disabled]="selection.selected.length == 0" (click)="deleteEntities()"><mat-icon>delete</mat-icon> Cancel registration</button>
+        </mat-menu>
+    </div>
+</mat-toolbar>
+
+<div class="registration-list-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="sailNumber">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Sail number</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Sail number:</span>
+                {{element.sailNumber }}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="boatName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Boat name</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Boat name:</span>
+                {{element.boatName }}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="boatType">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Boat type</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Boat type:</span>
+                {{element.boatType }}
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="skipper">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Skipper</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="mobile-label">Skipper:</span>
+                {{element.skipper }}
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick( row )" class="row-hover"></mat-row>
+    </mat-table>
+    <mat-spinner *ngIf="( isLoading | async )" style="margin:0 auto;"></mat-spinner>
+</div>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

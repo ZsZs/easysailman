@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { catchError, filter, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
-import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 
 import { AppState } from '../../app.reducer';
 import { RaceService } from './race.service';
 import { getAllRacesLoaded } from './race.reducer';
-import { allRacesLoaded, allRacesRequested, deleteRace, raceDeleted, raceLoaded, raceRequested, raceSaved, addRace, updateRace, raceAPIError } from './race.actions';
+import { allRacesLoaded, allRacesRequested, deleteRace, raceDeleted, raceLoaded, raceRequested, raceSaved, addRace, updateRace, raceAPIError, editRace, setSelectedRaces } from './race.actions';
 import { startLoading, stopLoading } from '../../shared/ui/ui.actions';
 import { SubscriptionService } from '../../shared/subscription.service';
 import { of } from 'rxjs';
 import { routerGo } from '../../shared/router/router.actions';
-import { getAllSailorsLoaded } from '../../sailor/sailor.reducer';
+import { allRegistrationsUnLoaded } from './registration.actions';
 
 @Injectable()
 export class RaceEffects {
@@ -35,6 +35,14 @@ export class RaceEffects {
     map( action => raceDeleted({ redirectTo: action.redirectTo }))
   ));
 
+  editrace$ = createEffect(() => this.actions$.pipe(
+    ofType( editRace ),
+    map( action => action.race ),
+    tap( race => this.store.dispatch( setSelectedRaces({ races:  [race] })))
+    ),
+    {dispatch: false}
+  );
+
   loadRace$ = createEffect( () => this.actions$.pipe(
     ofType( raceRequested ),
     tap( () => this.store.dispatch( startLoading() )),
@@ -55,8 +63,23 @@ export class RaceEffects {
       takeUntil( this.subscriptionService.unsubscribe$ ),
       map( races => allRacesLoaded({ races })),
       catchError( error => of( raceAPIError({ error })))
-    )),
+    ))
   ));
+
+  raceAPIError$ = createEffect( () => this.actions$.pipe(
+    ofType( raceAPIError ),
+    tap( action => console.log( action.error) ),
+    map( action => action.redirectTo ),
+    filter( redirectTo => redirectTo !== undefined ),
+    map( redirectTo => routerGo( redirectTo ))
+  ));
+
+  setSelectedRaces$ = createEffect( () => this.actions$.pipe(
+    ofType( setSelectedRaces ),
+    tap( () => this.store.dispatch( allRegistrationsUnLoaded() ))
+  ),
+    {dispatch: false}
+  );
 
   stopLoading$ = createEffect( () => this.actions$.pipe(
     ofType( allRacesLoaded, raceLoaded, raceDeleted, raceSaved ),
