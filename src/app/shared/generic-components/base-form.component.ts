@@ -10,13 +10,6 @@ import { FormGroupState, NgrxValueConverter, NgrxValueConverters } from 'ngrx-fo
 import { Race } from '../../race/domain/race';
 import { AppState } from '../../app.reducer';
 
-@Component({
-  selector: 'srm-base-form',
-  template: `
-    <p>This is an abstract form, you should implement your customized version.</p>
-  `,
-  styles: []
-})
 export abstract class BaseFormComponent<T> implements AfterViewInit, OnDestroy, OnInit {
   isLoading: Observable<boolean>;
   formState$: Observable<FormGroupState<T>>;

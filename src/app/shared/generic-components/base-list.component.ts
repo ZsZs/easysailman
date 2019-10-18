@@ -14,14 +14,6 @@ import { FeatureDescriptor } from '../feature-descriptor';
 import { BaseEntityInterface } from '../firestore/base-entity.interface';
 import { tabIsActive, tabIsInActive } from '../ui/ui.actions';
 
-@Component({
-  selector: 'srm-base-form',
-  template: `
-    <p>This is an abstract form, you should implement your customized version.</p>
-  `,
-  styles: []
-})
-
 export abstract class BaseListComponent<T extends BaseEntityInterface> implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild( MatSort, {static: false} ) sort: MatSort;
   @ViewChild( MatPaginator, {static: false} ) paginator: MatPaginator;

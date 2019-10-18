@@ -1,10 +1,10 @@
 <mat-selection-list #participants>
-    <mat-list-option *ngFor="let registration of (sourceData | async)">
+    <mat-list-option *ngFor="let registration of (registrations | async)">
         {{registration.sailNumber}}
     </mat-list-option>
 </mat-selection-list>
 
 <p>
-    Participants: {{participants.selectedOptions.selected.length}} from {{ (sourceData | async ).length }}
+    Participants: {{participants.selectedOptions.selected.length}} from {{ (registrations | async ).length }}
 </p>
 
