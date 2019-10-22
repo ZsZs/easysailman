@@ -10,7 +10,7 @@ import { INITIAL_REGISTRATION_VALUE, Registration } from '../domain/registration
 import { getRaceById } from './race.reducer';
 import { filter, first, map, switchMap, tap } from 'rxjs/operators';
 import { Race } from '../domain/race';
-import { editRegistration, newRegistration } from './registration.actions';
+import { allRegistrationsRequested, editRegistration, newRegistration } from './registration.actions';
 import { getRegistrationById } from './registration.reducer';
 
 @Injectable()
@@ -38,7 +38,8 @@ export class RegistrationDetailsResolver implements Resolve<Registration> {
       }),
       filter( race => !!race ),
       first(),
-      tap( race => this.store.dispatch( setSelectedRaces({ races: [race]} )))
+      tap( race => this.store.dispatch( setSelectedRaces({ races: [race]} ))),
+      tap( race => this.store.dispatch( allRegistrationsRequested({ raceId: race.id })))
     );
   }
 
@@ -48,8 +49,12 @@ export class RegistrationDetailsResolver implements Resolve<Registration> {
       select( getRegistrationById( registrationId ) ),
       filter( registration => !!registration ),
       first(),
-      tap( registration => this.store.dispatch( editRegistration({ registration } ))),
-      map( registration => registration )
+      tap( registration => {
+        return this.store.dispatch( editRegistration({ registration } ));
+      }),
+      map( registration => {
+        return registration;
+      })
     );
   }
 

@@ -28,6 +28,7 @@ import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'ngx-logger';
 import { SharedModule } from './shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterEffects } from './shared/router/router.effects';
+import { NgrxAutoEntityModule } from '@briebug/ngrx-auto-entity';
 
 export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('root reducer');
 
@@ -50,6 +51,7 @@ export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>(
     EffectsModule.forRoot([RouterEffects]),
     FlexLayoutModule,
     LoggerModule.forRoot({level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR}),
+    NgrxAutoEntityModule.forRoot(),
     SharedModule,
     StoreModule.forRoot( APP_REDUCER_TOKEN, { metaReducers } ),
     !environment.production ? StoreDevtoolsModule.instrument() : [],

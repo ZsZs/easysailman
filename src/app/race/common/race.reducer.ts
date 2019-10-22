@@ -7,6 +7,9 @@ import { Race } from '../domain/race';
 import { INITIAL_REGISTRATION_DETAILS_FORM_VALUE, registrationDetailsReducer, validateRegistraionDetailsForm } from '../registration/details/registration-details.reducer';
 import { registrationReducer, RegistrationState } from './registration.reducer';
 import { raceDetailsReducer } from '../details/race-details.reducer';
+import { lapReducer } from '../domain/lap.state';
+import { IEntityState } from '@briebug/ngrx-auto-entity';
+import { Lap } from '../domain/lap';
 
 export interface RaceState extends EntityState<Race> {
    allRacesLoaded: boolean;
@@ -21,6 +24,7 @@ export const INITIAL_RACE_MANAGEMENT_STATE: RaceState = raceAdapter.getInitialSt
 });
 
 export interface RaceManagementState {
+  lap: IEntityState<Lap>;
   race: RaceState;
   raceDetails: any;
   registration: RegistrationState;
@@ -51,7 +55,11 @@ const raceReducer = createReducer(
 );
 
 export const raceManagementReducer = combineReducers({
-  raceDetails: raceDetailsReducer, registrationDetails: registrationDetailsReducer, race: raceReducer, registration: registrationReducer
+  lap: lapReducer,
+  race: raceReducer,
+  raceDetails: raceDetailsReducer,
+  registration: registrationReducer,
+  registrationDetails: registrationDetailsReducer
 });
 
 const getRaceManagementState = createFeatureSelector<RaceManagementState>(`raceManagement`);

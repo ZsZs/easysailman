@@ -5,13 +5,13 @@ import { select, Store } from '@ngrx/store';
 
 import { AppState } from '../../app.reducer';
 import { RaceService } from './race.service';
-import { getAllRacesLoaded } from './race.reducer';
+import { getAllRacesLoaded, getFirstSelectedRace } from './race.reducer';
 import { allRacesLoaded, allRacesRequested, deleteRace, raceDeleted, raceLoaded, raceRequested, raceSaved, addRace, updateRace, raceAPIError, editRace, setSelectedRaces } from './race.actions';
 import { startLoading, stopLoading } from '../../shared/ui/ui.actions';
 import { SubscriptionService } from '../../shared/subscription.service';
 import { of } from 'rxjs';
 import { routerGo } from '../../shared/router/router.actions';
-import { allRegistrationsUnLoaded } from './registration.actions';
+import { allRegistrationsRequested, allRegistrationsUnLoaded } from './registration.actions';
 
 @Injectable()
 export class RaceEffects {

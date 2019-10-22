@@ -1,5 +1,5 @@
 <mat-selection-list #participants>
-    <mat-list-option *ngFor="let registration of (registrations | async)">
+    <mat-list-option *ngFor="let registration of ( registrations | async )">
         {{registration.sailNumber}}
     </mat-list-option>
 </mat-selection-list>

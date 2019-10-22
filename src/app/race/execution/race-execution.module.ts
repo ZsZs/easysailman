@@ -18,6 +18,7 @@ import { RaceParticipantListComponent } from './participant-list/race-participan
 import { RaceResultsComponent } from './results/race-results.component';
 import { RaceStartComponent } from './race-start/race-start.component';
 import { raceManagementReducer } from '../common/race.reducer';
+import { RaceModule } from '../race.module';
 
 export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('race reducer');
 
@@ -32,13 +33,14 @@ export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>
       RaceResultsComponent,
       RaceStartComponent
    ],
-   imports: [
-      EffectsModule.forFeature([RaceEffects]),
-      RaceCommonModule,
-      RaceExecutionRoutingModule,
-      SharedModule,
-      StoreModule.forFeature( 'raceManagement', RACE_REDUCER_TOKEN )
-   ],
+  imports: [
+    EffectsModule.forFeature( [ RaceEffects ] ),
+    RaceCommonModule,
+    RaceExecutionRoutingModule,
+    SharedModule,
+    StoreModule.forFeature( 'raceManagement', RACE_REDUCER_TOKEN ),
+    RaceModule
+  ],
    exports: [],
    entryComponents: [ RaceSelectComponent ],
    providers: [RaceResolver, RaceService, { provide: RACE_REDUCER_TOKEN, useValue: raceManagementReducer }]

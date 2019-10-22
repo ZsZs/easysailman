@@ -43,37 +43,11 @@ export class RegistrationDetailsComponent extends BaseFormComponent<Registration
       map( formState => formState.value ),
       map( registration => {
         if ( registration.id === undefined ) {
-          return addRegistration({ registration, redirectTo: { path: ['/race/' + registration.raceId + '/registration'] }});
+          return addRegistration({ registration, redirectTo: { path: ['/race/' + registration.raceId + '/registration/list'] }});
         } else {
-          return updateRegistration( { registration, redirectTo: { path: ['/race/' + registration.raceId + '/registration'] }} );
+          return updateRegistration( { registration, redirectTo: { path: ['/race/' + registration.raceId + '/registration/list'] }} );
         }
       })
     ).subscribe( this.store );
   }
-
-  /*
-    onSubmit() {
-      this.formState$.pipe(
-        take(1),
-        tap( () => this.store.dispatch( setSelectedRegistrations({ registrations: [] }))),
-        map( formState => formState.value ),
-        mergeMap( registration => combineLatest([
-          of( registration ),
-          this.store.select( getRaceById( registration.raceId ))
-        ])),
-        mergeMap( ([registration, race ]) => {
-          if ( race.registrations === undefined ) {
-            race = {...race, registrations: [] };
-          }
-          if ( registration.id === undefined ) {
-            race.registrations.push( registration );
-          } else {
-            race.registrations[registration.id] = registration;
-          }
-          return of( race );
-        }),
-        map( race => updateRace( { race, redirectTo: { racesPath: ['/race/' + race.id + '/registration'] }}))
-      ).subscribe( this.store );
-    }
-  */
 }

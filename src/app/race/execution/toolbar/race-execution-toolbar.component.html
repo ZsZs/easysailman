@@ -3,5 +3,6 @@
         <span>{{( selectedRaces | async )[0].title}}: &nbsp;</span>
         <span>{{( selectedRaces | async )[0].fromDate | date: 'dd/MM/yyyy' }} &nbsp;- &nbsp;</span>
         <span>{{( selectedRaces | async )[0].toDate | date: 'dd/MM/yyyy' }}</span>
+        <srm-lap-selector></srm-lap-selector>
     </div>
 </mat-toolbar>

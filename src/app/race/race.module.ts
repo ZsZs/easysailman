@@ -10,7 +10,10 @@ import { RaceTabsComponent } from './tabs/race-tabs.component';
 import { RaceStatusbarComponent } from './statusbar/race-statusbar.component';
 import { RaceCommonModule } from './common/race-common.module';
 import { RegistrationDetailsComponent } from './registration/details/registration-details.component';
-
+import { LapSelectorComponent } from './lap/lap-selector/lap-selector.component';
+import { Lap } from './domain/lap';
+import { EntityService } from '../shared/firestore/entity.service';
+import { LapFacade } from './lap/lap.facade';
 
 @NgModule({
   declarations: [
@@ -20,15 +23,22 @@ import { RegistrationDetailsComponent } from './registration/details/registratio
     RegistrationListComponent,
     RaceTabsComponent,
     RaceStatusbarComponent,
-    RegistrationDetailsComponent
+    RegistrationDetailsComponent,
+    LapSelectorComponent
   ],
   imports: [
     RaceCommonModule,
     RaceRoutingModule,
     SharedModule
   ],
-  exports: [],
-  entryComponents: [ RaceListComponent ]
+  exports: [
+    LapSelectorComponent
+  ],
+  entryComponents: [ RaceListComponent ],
+  providers: [
+    LapFacade,
+    { provide: Lap, useClass: EntityService }
+  ]
 })
 
 export class RaceModule {}

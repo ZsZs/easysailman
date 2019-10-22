@@ -27,11 +27,9 @@ export class RegistrationListComponent extends BaseListComponent<Registration> i
   };
   displayedColumns = ['sailNumber', 'boatName', 'boatType', 'skipper'];
   private race: Race;
-  private raceSubscription: Subscription;
   private dispatchSubscription: Subscription;
 
-  constructor(
-    protected router: Router, protected subscriptionService: SubscriptionService, protected store: Store<fromRaceReducer.RaceManagementState> ) {
+  constructor( protected router: Router, protected subscriptionService: SubscriptionService, protected store: Store<fromRaceReducer.RaceManagementState> ) {
     super( router, subscriptionService, store, RegistrationListComponent.featureDescriptor  );
   }
 

@@ -86,7 +86,8 @@ export abstract class BaseListComponent<T extends BaseEntityInterface> implement
   }
 
   onChangeSelection( row?: T ) {
-    this.dispatchSelectedEntitiesAction([]);
+    const entities = [row];
+    this.dispatchSelectedEntitiesAction( entities );
   }
 
   onRowClick( row: T ) {
