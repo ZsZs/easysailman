@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { SubscriptionService } from '../../../shared/subscription.service';
+import { SubscriptionService } from '../../shared/subscription.service';
 import { Store } from '@ngrx/store';
 import * as fromRaceReducer from '../race.reducer';
 import { Router } from '@angular/router';
 import { allRacesRequested, setSelectedRaces } from '../race.actions';
-import { Race } from '../../domain/race';
-import { BaseListComponent } from '../../../shared/generic-components/base-list.component';
+import { Race } from '../domain/race';
+import { BaseListComponent } from '../../shared/generic-components/base-list.component';
 import { getRaces } from '../race.reducer';
 import { SelectionModel } from '@angular/cdk/collections';
 

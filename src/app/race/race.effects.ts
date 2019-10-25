@@ -3,15 +3,15 @@ import { catchError, filter, map, switchMap, takeUntil, tap, withLatestFrom } fr
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 
-import { AppState } from '../../app.reducer';
+import { AppState } from '../app.reducer';
 import { RaceService } from './race.service';
 import { getAllRacesLoaded, getFirstSelectedRace } from './race.reducer';
 import { allRacesLoaded, allRacesRequested, deleteRace, raceDeleted, raceLoaded, raceRequested, raceSaved, addRace, updateRace, raceAPIError, editRace, setSelectedRaces } from './race.actions';
-import { startLoading, stopLoading } from '../../shared/ui/ui.actions';
-import { SubscriptionService } from '../../shared/subscription.service';
+import { startLoading, stopLoading } from '../shared/ui/ui.actions';
+import { SubscriptionService } from '../shared/subscription.service';
 import { of } from 'rxjs';
-import { routerGo } from '../../shared/router/router.actions';
-import { allRegistrationsRequested, allRegistrationsUnLoaded } from './registration.actions';
+import { routerGo } from '../shared/router/router.actions';
+import { allRegistrationsRequested, allRegistrationsUnLoaded } from './registration/registration.actions';
 
 @Injectable()
 export class RaceEffects {

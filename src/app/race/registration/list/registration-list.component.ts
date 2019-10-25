@@ -2,15 +2,14 @@ import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SubscriptionService } from '../../../shared/subscription.service';
 import { select, Store } from '@ngrx/store';
-import * as fromRaceReducer from '../../common/race.reducer';
-import { getFirstSelectedRace } from '../../common/race.reducer';
+import * as fromRaceReducer from '../../race.reducer';
+import { getFirstSelectedRace } from '../../race.reducer';
 import { BaseListComponent } from '../../../shared/generic-components/base-list.component';
 import { Registration } from '../../domain/registration';
 import { Subscription } from 'rxjs';
-import { filter, first, map, switchMap, tap } from 'rxjs/operators';
 import { Race } from '../../domain/race';
-import { allRegistrationsRequested, deleteRegistration, setSelectedRegistrations } from '../../common/registration.actions';
-import { getRegistrations } from '../../common/registration.reducer';
+import { allRegistrationsRequested, deleteRegistration, setSelectedRegistrations } from '../registration.actions';
+import { getRegistrations } from '../registration.reducer';
 
 @Component({
   selector: 'srm-race-registration',

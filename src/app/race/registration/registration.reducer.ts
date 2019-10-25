@@ -2,7 +2,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 
 import { allRegistrationsLoaded, allRegistrationsUnLoaded, newRegistration, registrationLoaded, registrationSaved, setSelectedRegistrations } from './registration.actions';
-import { RaceManagementState } from './race.reducer';
+import { RaceManagementState } from '../race.reducer';
 import { Registration } from '../domain/registration';
 
 export interface RegistrationState extends EntityState<Registration> {

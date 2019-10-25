@@ -4,13 +4,13 @@ import { Race } from '../domain/race';
 import { AuthService } from '../../authentication/auth.service';
 import { Store } from '@ngrx/store';
 import * as fromAppReducer from '../../app.reducer';
-import { getSelectedRaces } from '../common/race.reducer';
+import { getSelectedRaces } from '../race.reducer';
 import { Router } from '@angular/router';
 import { map, mergeMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { getActiveTabs } from '../../shared/ui/ui.reducer';
 import { tabIsActive } from '../../shared/ui/ui.actions';
 import { Registration } from '../domain/registration';
-import { getSelectedRegistrations } from '../common/registration.reducer';
+import { getSelectedRegistrations } from '../registration/registration.reducer';
 
 @Component({
   selector: 'srm-race-tabs',

@@ -1,5 +1,5 @@
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { RaceService } from '../race/common/race.service';
+import { RaceService } from '../race/race.service';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../app.reducer';
 import { AuthService } from './auth.service';

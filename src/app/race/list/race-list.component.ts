@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { Race } from '../domain/race';
-import * as fromRaceReducer from '../common/race.reducer';
-import { allRacesRequested, deleteRace, setSelectedRaces } from '../common/race.actions';
+import * as fromRaceReducer from '../race.reducer';
+import { allRacesRequested, deleteRace, setSelectedRaces } from '../race.actions';
 import { SelectionModel } from '@angular/cdk/collections';
 import * as fromAppReducer from '../../app.reducer';
 import { Observable } from 'rxjs';

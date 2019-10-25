@@ -4,11 +4,11 @@ import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { combineLatest, filter, first, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 
-import { AppState } from '../../app.reducer';
-import { INITIAL_RACE_VALUE, Race } from '../domain/race';
+import { AppState } from '../app.reducer';
+import { INITIAL_RACE_VALUE, Race } from './domain/race';
 import { getRaceById } from './race.reducer';
 import { editRace, newRace, raceRequested } from './race.actions';
-import { PathVariables } from '../path-variables';
+import { PathVariables } from './path-variables';
 
 @Injectable()
 export class RaceResolver implements Resolve<Race> {

@@ -18,7 +18,7 @@ import {
 import { catchError, filter, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { startLoading, stopLoading } from '../../shared/ui/ui.actions';
 import { routerGo } from '../../shared/router/router.actions';
-import { raceAPIError } from './race.actions';
+import { raceAPIError } from '../race.actions';
 import { of } from 'rxjs';
 import { RegistrationService } from './registration.service';
 import { getAllRegistrationsLoaded } from './registration.reducer';

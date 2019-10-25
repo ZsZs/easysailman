@@ -5,7 +5,8 @@ import { Store } from '@ngrx/store';
 import * as fromAppReducer from '../../../app.reducer';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { getSelectedRaces } from '../../common/race.reducer';
+import { getSelectedRaces } from '../../race.reducer';
+import { Lap } from '../../domain/lap';
 
 @Component({
   selector: 'srm-race-execution-tabs',
@@ -14,6 +15,7 @@ import { getSelectedRaces } from '../../common/race.reducer';
 })
 export class RaceExecutionTabsComponent implements OnDestroy, OnInit {
   selectedRaces: Observable<Race[]>;
+  selectedLap: Observable<Lap>;
   selectedLapId = 1;
   selectedRaceId: string;
   private readonly onDestroy = new Subject<void>();

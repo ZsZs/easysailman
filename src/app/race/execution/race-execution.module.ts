@@ -6,19 +6,19 @@ import { RaceExecutionTabsComponent } from './tabs/race-execution-tabs.component
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
 import { AppState } from '../../app.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { RaceEffects } from '../common/race.effects';
-import { RaceResolver } from '../common/race.resolver';
-import { RaceService } from '../common/race.service';
+import { RaceEffects } from '../race.effects';
+import { RaceResolver } from '../race.resolver';
+import { RaceService } from '../race.service';
 import { RaceExecutionToolbarComponent } from './toolbar/race-execution-toolbar.component';
-import { RaceSelectComponent } from '../common/select/race-select.component';
-import { RaceCommonModule } from '../common/race-common.module';
+import { RaceSelectComponent } from '../race-select/race-select.component';
 import { RaceFieldComponent } from './field/race-field.component';
 import { RaceFinishComponent } from './finish/race-finish.component';
 import { RaceParticipantListComponent } from './participant-list/race-participant-list.component';
 import { RaceResultsComponent } from './results/race-results.component';
 import { RaceStartComponent } from './race-start/race-start.component';
-import { raceManagementReducer } from '../common/race.reducer';
+import { raceManagementReducer } from '../race.reducer';
 import { RaceModule } from '../race.module';
+import { LapEffects } from '../lap/lap.effects';
 
 export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('race reducer');
 
@@ -34,8 +34,7 @@ export const RACE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>
       RaceStartComponent
    ],
   imports: [
-    EffectsModule.forFeature( [ RaceEffects ] ),
-    RaceCommonModule,
+    EffectsModule.forFeature( [ LapEffects, RaceEffects ] ),
     RaceExecutionRoutingModule,
     SharedModule,
     StoreModule.forFeature( 'raceManagement', RACE_REDUCER_TOKEN ),

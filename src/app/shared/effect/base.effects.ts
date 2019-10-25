@@ -11,7 +11,7 @@ import { RouterUri } from '../router/router-uri';
 import { of } from 'rxjs';
 import { startLoading, stopLoading } from '../ui/ui.actions';
 import { routerGo } from '../router/router.actions';
-import { RaceManagementState } from '../../race/common/race.reducer';
+import { RaceManagementState } from '../../race/race.reducer';
 import { addEntity, allEntitiesLoaded, allEntitiesRequested, deleteEntity, entityAPIError, entityDeleted, entityLoaded, entityRequested, entitySaved, updateEntity } from './base.actions';
 
 @Injectable()

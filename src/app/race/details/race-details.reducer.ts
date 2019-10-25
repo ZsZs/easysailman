@@ -2,8 +2,8 @@ import { createFormGroupState, validate, updateGroup, onNgrxForms, onNgrxFormsAc
 import { INITIAL_RACE_VALUE, Race } from '../domain/race';
 import { required } from 'ngrx-forms/validation';
 import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
-import { editRace } from '../common/race.actions';
-import { RaceManagementState } from '../common/race.reducer';
+import { editRace } from '../race.actions';
+import { RaceManagementState } from '../race.reducer';
 
 const RACE_DETAILS_FORM_ID = 'Race-Details Form';
 

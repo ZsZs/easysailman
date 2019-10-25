@@ -1,6 +1,20 @@
-    <div fxLayout="row" fxLayoutAlign="left">
-        <button mat-button><mat-icon>arrow_back_ios</mat-icon></button>
-<!--        <span *ngIf="( selectedRound | async ) !== undefined">&nbsp{{( selectedRound | async ).index}}&nbsp;</span> -->
-        <span *ngIf="( selectedRound | async ) == undefined">Please add a lap</span>
-        <button mat-button><mat-icon>arrow_forward_ios</mat-icon></button>
+<mat-toolbar *ngIf="(selectedRace | async) !== undefined">
+    <div fxShow="true" fxFlex fxLayout="row" fxLayoutAlign="start center">
+        <button mat-button (click)="previousLap()"><mat-icon>arrow_back_ios</mat-icon></button>
+        <span *ngIf="(numberOfLaps > 0)">{{selectedLapKey}}</span>
+        <span *ngIf="numberOfLaps === 0">Please add a lap</span>
+        <button mat-button (click)="nextLap()"><mat-icon>arrow_forward_ios</mat-icon></button>
     </div>
+    <span class="toolbar-spacer"></span>
+    <div fxShow="true" fxHide.lt-md="true" fxLayout="row" fxFlex fxLayoutAlign="flex-end" fxLayoutGap="10px">
+        <button mat-button (click)="addLap()"><mat-icon>add</mat-icon>Add lap</button>
+        <button mat-button [disabled]="numberOfLaps === 0" (click)="deleteLap()"><mat-icon>delete</mat-icon>Delete lap</button>
+    </div>
+    <div fxShow="true" fxHide.gt-sm="true" fxFlex fxLayout fxLayoutAlign="flex-end">
+        <button mat-button [matMenuTriggerFor]="beforeMenu"><mat-icon>menu</mat-icon> Choose action</button>
+        <mat-menu #beforeMenu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="addLap()"><mat-icon>add</mat-icon>Add lap</button>
+            <button mat-menu-item [disabled]="numberOfLaps === 0" (click)="deleteLap()"><mat-icon>delete</mat-icon>Delete lap</button>
+        </mat-menu>
+    </div>
+</mat-toolbar>

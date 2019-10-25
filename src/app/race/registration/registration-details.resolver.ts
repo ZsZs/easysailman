@@ -5,9 +5,9 @@ import { PathVariables } from '../path-variables';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { empty, Observable, of } from 'rxjs';
 
-import { raceRequested, setSelectedRaces } from './race.actions';
+import { raceRequested, setSelectedRaces } from '../race.actions';
 import { INITIAL_REGISTRATION_VALUE, Registration } from '../domain/registration';
-import { getRaceById } from './race.reducer';
+import { getRaceById } from '../race.reducer';
 import { filter, first, map, switchMap, tap } from 'rxjs/operators';
 import { Race } from '../domain/race';
 import { allRegistrationsRequested, editRegistration, newRegistration } from './registration.actions';

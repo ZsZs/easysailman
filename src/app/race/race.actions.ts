@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { Race } from '../domain/race';
-import { RouterUri } from '../../shared/router/router-uri';
+import { Race } from './domain/race';
+import { RouterUri } from '../shared/router/router-uri';
 
 export const allRacesRequested = createAction('[RACE] All races requested' );
 export const allRacesLoaded = createAction('[RACE] All races loaded', props<{ races: Race[], redirectTo?: RouterUri }>() );

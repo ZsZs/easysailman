@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BaseFormComponent } from '../../../shared/generic-components/base-form.component';
-import { Participant } from '../../domain/participant';
 import { Router } from '@angular/router';
 import { SubscriptionService } from '../../../shared/subscription.service';
-import { Store } from '@ngrx/store';
-import * as fromRaceReducer from '../../common/race.reducer';
-import { Observable, of, Subscription } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import * as fromRaceReducer from '../../race.reducer';
 import { Registration } from '../../domain/registration';
-import { tabIsActive, tabIsInActive } from '../../../shared/ui/ui.actions';
 import { BaseEntityCollectionComponent } from '../../../shared/generic-components/base-entity-collection.component';
+import { getFirstSelectedRace } from '../../race.reducer';
+import { allRegistrationsRequested } from '../../registration/registration.actions';
+import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Race } from '../../domain/race';
 
 @Component({
   selector: 'srm-race-participants',
@@ -16,8 +17,9 @@ import { BaseEntityCollectionComponent } from '../../../shared/generic-component
   styleUrls: ['./race-participant-list.component.css']
 })
 
-export class RaceParticipantListComponent extends BaseEntityCollectionComponent<Participant> implements OnDestroy, OnInit {
+export class RaceParticipantListComponent extends BaseEntityCollectionComponent<Registration> implements OnDestroy, OnInit {
   private static readonly featureDescriptor = { name: 'participants', baseRoute: 'race-execution/participants' };
+  private race: Race;
 
   constructor( protected router: Router, protected subscriptionService: SubscriptionService, protected store: Store<fromRaceReducer.RaceManagementState> ) {
     super( router, subscriptionService, store, RaceParticipantListComponent.featureDescriptor );
@@ -37,11 +39,14 @@ export class RaceParticipantListComponent extends BaseEntityCollectionComponent<
   }
 
   protected dispatchAllEntitiesRequestedAction() {
+    this.store.select( getFirstSelectedRace ).pipe(
+      take( 1)
+    ).subscribe( race => {
+      this.store.dispatch( allRegistrationsRequested({ raceId: race.id }) );
+      this.race = race;
+    });
   }
 
-  protected dispatchDeleteEntityAction( entity: Participant ) {
-  }
-
-  protected dispatchSelectedEntitiesAction( entities: Participant[] ) {
+  protected dispatchSelectedEntitiesAction( entities: Registration[] ) {
   }
 }

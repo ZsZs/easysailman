@@ -1,17 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import * as fromRaceReducer from '../../common/race.reducer';
+import * as fromRaceReducer from '../../race.reducer';
 import { BaseFormComponent } from '../../../shared/generic-components/base-form.component';
 import { Registration } from '../../domain/registration';
 import { Router } from '@angular/router';
 import { SubscriptionService } from '../../../shared/subscription.service';
-import { getFirstSelectedRace } from '../../common/race.reducer';
+import { getFirstSelectedRace } from '../../race.reducer';
 import { routerGo } from '../../../shared/router/router.actions';
 import { map, mergeMap, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { getRegistrationDetailsForm } from './registration-details.reducer';
 import { Observable } from 'rxjs';
 import { INITIAL_RACE_VALUE, Race } from '../../domain/race';
-import { addRegistration, setSelectedRegistrations, updateRegistration } from '../../common/registration.actions';
+import { addRegistration, setSelectedRegistrations, updateRegistration } from '../registration.actions';
 
 @Component({
   selector: 'srm-registration-details',

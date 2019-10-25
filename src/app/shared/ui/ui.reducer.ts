@@ -1,6 +1,6 @@
 import { Action, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import { startLoading, stopLoading, tabIsActive, tabIsInActive } from './ui.actions';
-import { RaceManagementState } from '../../race/common/race.reducer';
+import { RaceManagementState } from '../../race/race.reducer';
 
 export interface UiState {
    isLoading: boolean;

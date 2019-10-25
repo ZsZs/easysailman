@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RaceDetailsComponent } from './details/race-details.component';
-import { RaceResolver } from './common/race.resolver';
+import { RaceResolver } from './race.resolver';
 import { RegistrationListComponent } from './registration/list/registration-list.component';
 import { RaceComponent } from './race.component';
 import { RaceListComponent } from './list/race-list.component';
 import { PathVariables } from './path-variables';
-import { RegistrationDetailsResolver } from './common/registration-details.resolver';
+import { RegistrationDetailsResolver } from './registration/registration-details.resolver';
 import { RegistrationDetailsComponent } from './registration/details/registration-details.component';
 
 const routes: Routes = [

@@ -1,8 +1,10 @@
-<mat-toolbar *ngIf="(selectedRaces | async).length == 1">
-    <div fxShow="true" fxFlex fxLayout fxLayoutAlign="flex-left">
-        <span>{{( selectedRaces | async )[0].title}}: &nbsp;</span>
-        <span>{{( selectedRaces | async )[0].fromDate | date: 'dd/MM/yyyy' }} &nbsp;- &nbsp;</span>
-        <span>{{( selectedRaces | async )[0].toDate | date: 'dd/MM/yyyy' }}</span>
-        <srm-lap-selector></srm-lap-selector>
-    </div>
-</mat-toolbar>
+<div *ngIf="mediaObserver.isActive( 'gt-sm' )" fxShow="true" fxHide.lt-md="true" fxFlex fxLayout fxLayoutAlign="flex-left" fxLayoutGap="20px">
+    <srm-race-statusbar></srm-race-statusbar>
+    <srm-lap-selector></srm-lap-selector>
+</div>
+<div *ngIf="mediaObserver.isActive( 'lt-md' )" fxShow="true" fxHide.gt-sm="true" fxLayout="column" fxLayoutAlign="end start">
+    <srm-race-statusbar></srm-race-statusbar>
+    <srm-lap-selector></srm-lap-selector>
+</div>
+<!--
+-->

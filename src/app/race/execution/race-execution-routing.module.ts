@@ -6,8 +6,8 @@ import { RaceFinishComponent } from './finish/race-finish.component';
 import { RaceParticipantListComponent } from './participant-list/race-participant-list.component';
 import { RaceResultsComponent } from './results/race-results.component';
 import { RaceStartComponent } from './race-start/race-start.component';
-import { LapIdResolver } from '../common/lap-id.resolver';
-import { RaceResolver } from '../common/race.resolver';
+import { LapIdResolver } from '../lap/lap-id.resolver';
+import { RaceResolver } from '../race.resolver';
 
 const routes: Routes = [
    { path: '', component: RaceExecutionComponent, children: [

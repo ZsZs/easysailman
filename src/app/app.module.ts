@@ -29,6 +29,8 @@ import { SharedModule } from './shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterEffects } from './shared/router/router.effects';
 import { NgrxAutoEntityModule } from '@briebug/ngrx-auto-entity';
+import { Lap } from './race/domain/lap';
+import { LapService } from './race/lap/lap.service';
 
 export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('root reducer');
 
@@ -61,6 +63,7 @@ export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>(
     { provide: APP_REDUCER_TOKEN, useValue: appReducers },
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false }},
     { provide: FirestoreSettingsToken, useValue: {} },
+    { provide: Lap, useClass: LapService },
     NGXLogger,
     SubscriptionService,
     UiService

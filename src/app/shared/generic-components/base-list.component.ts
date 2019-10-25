@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { SubscriptionService } from '../subscription.service';
 import { Store } from '@ngrx/store';
-import * as fromRaceReducer from '../../race/common/race.reducer';
+import * as fromRaceReducer from '../../race/race.reducer';
 import * as fromAppReducer from '../../app.reducer';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';

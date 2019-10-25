@@ -4,7 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { SubscriptionService } from '../subscription.service';
 import { Store } from '@ngrx/store';
-import * as fromRaceReducer from '../../race/common/race.reducer';
+import * as fromRaceReducer from '../../race/race.reducer';
 import { FeatureDescriptor } from '../feature-descriptor';
 import { routerGo } from '../router/router.actions';
 import { tabIsActive, tabIsInActive } from '../ui/ui.actions';
@@ -41,9 +41,7 @@ export abstract class BaseEntityCollectionComponent<T extends BaseEntityInterfac
   }
 
   // protected, private helper methods
-  protected abstract detailsRoute( entityId: string ): string;
   protected abstract dispatchAllEntitiesRequestedAction();
-  protected abstract dispatchDeleteEntityAction( entity: T );
   protected abstract dispatchSelectedEntitiesAction( entities: T[] );
 
   private subscribeToLoading() {
@@ -51,8 +49,10 @@ export abstract class BaseEntityCollectionComponent<T extends BaseEntityInterfac
   }
 
   protected subscribeToSourceData(): Subscription {
-    return this.store.select( this.featureDescriptor.allEntitiesSelector ).subscribe( ( data: Observable<T[]> ) => {
-      this.dataSource = data;
-    });
+    if ( this.featureDescriptor.allEntitiesSelector ) {
+      return this.store.select( this.featureDescriptor.allEntitiesSelector.call() ).subscribe( ( data: Observable<T[]> ) => {
+        this.dataSource = data;
+      });
+    }
   }
 }

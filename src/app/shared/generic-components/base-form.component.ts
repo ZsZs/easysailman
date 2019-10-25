@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import * as fromAppReducer from '../../app.reducer';
 import { SubscriptionService } from '../subscription.service';
 import { select, Store } from '@ngrx/store';
-import * as fromRaceReducer from '../../race/common/race.reducer';
+import * as fromRaceReducer from '../../race/race.reducer';
 import { tabIsActive, tabIsInActive } from '../ui/ui.actions';
 import { FormGroupState, NgrxValueConverter, NgrxValueConverters } from 'ngrx-forms';
 import { Race } from '../../race/domain/race';

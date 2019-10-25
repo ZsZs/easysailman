@@ -4,8 +4,8 @@ import { Race } from '../domain/race';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../../app.reducer';
 import { Observable } from 'rxjs';
-import { editRace, newRace, raceRequested } from './race.actions';
-import { getRaceById } from './race.reducer';
+import { editRace, newRace, raceRequested } from '../race.actions';
+import { getRaceById } from '../race.reducer';
 import { filter, first, tap } from 'rxjs/operators';
 
 @Injectable()

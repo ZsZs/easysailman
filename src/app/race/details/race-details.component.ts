@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 
-import * as fromRaceReducer from '../common/race.reducer';
+import * as fromRaceReducer from '../race.reducer';
 import { Race } from '../domain/race';
 import { map, take, tap } from 'rxjs/operators';
-import { addRace, setSelectedRaces, updateRace } from '../common/race.actions';
+import { addRace, setSelectedRaces, updateRace } from '../race.actions';
 import { SubscriptionService } from '../../shared/subscription.service';
 import { routerGo } from '../../shared/router/router.actions';
 import { BaseFormComponent } from '../../shared/generic-components/base-form.component';

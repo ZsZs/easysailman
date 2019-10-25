@@ -2,8 +2,8 @@ import { createFormGroupState, disable, FormGroupState, onNgrxForms, onNgrxForms
 import { INITIAL_REGISTRATION_VALUE, Registration } from '../../domain/registration';
 import { required } from 'ngrx-forms/validation';
 import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
-import { RaceManagementState } from '../../common/race.reducer';
-import { editRegistration } from '../../common/registration.actions';
+import { RaceManagementState } from '../../race.reducer';
+import { editRegistration } from '../registration.actions';
 
 const REGISTRATION_DETAILS_FORM_ID = 'Registration-Details-Form';
 export const INITIAL_REGISTRATION_DETAILS_FORM_VALUE = createFormGroupState<Registration>( REGISTRATION_DETAILS_FORM_ID, INITIAL_REGISTRATION_VALUE );
