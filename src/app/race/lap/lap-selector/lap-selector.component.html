@@ -1,9 +1,9 @@
 <mat-toolbar *ngIf="(selectedRace | async) !== undefined">
     <div fxShow="true" fxFlex fxLayout="row" fxLayoutAlign="start center">
-        <button mat-button (click)="previousLap()"><mat-icon>arrow_back_ios</mat-icon></button>
-        <span *ngIf="(numberOfLaps > 0)">{{selectedLapKey}}</span>
+        <button mat-button [disabled]="!canPrevious()" (click)="previousLap()"><mat-icon>arrow_back_ios</mat-icon></button>
+        <span *ngIf="(numberOfLaps > 0)">Lap: {{selectedLap.index}}</span>
         <span *ngIf="numberOfLaps === 0">Please add a lap</span>
-        <button mat-button (click)="nextLap()"><mat-icon>arrow_forward_ios</mat-icon></button>
+        <button mat-button [disabled]="!canNext()" (click)="nextLap()"><mat-icon>arrow_forward_ios</mat-icon></button>
     </div>
     <span class="toolbar-spacer"></span>
     <div fxShow="true" fxHide.lt-md="true" fxLayout="row" fxFlex fxLayoutAlign="flex-end" fxLayoutGap="10px">

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { getSelectedRaces } from '../../race.reducer';
 import { Lap } from '../../domain/lap';
+import { LapFacade } from '../../lap/lap.facade';
 
 @Component({
   selector: 'srm-race-execution-tabs',
@@ -20,7 +21,7 @@ export class RaceExecutionTabsComponent implements OnDestroy, OnInit {
   selectedRaceId: string;
   private readonly onDestroy = new Subject<void>();
 
-  constructor( private store: Store<fromAppReducer.AppState>, private router: Router ) {}
+  constructor( private store: Store<fromAppReducer.AppState>, private router: Router, private lapFacade: LapFacade) {}
 
   ngOnDestroy(): void {
     this.onDestroy.next();
@@ -28,6 +29,7 @@ export class RaceExecutionTabsComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     this.retrieveSelectedRacesFromStore();
+    this.retrieveSelectedLapFromStore();
     this.determineSelectedRaceId();
   }
 
@@ -52,7 +54,7 @@ export class RaceExecutionTabsComponent implements OnDestroy, OnInit {
   }
 
   // protected, private helper methods
-  determineSelectedRaceId() {
+  private determineSelectedRaceId() {
     this.selectedRaces.pipe( takeUntil( this.onDestroy )).subscribe( races => {
       if ( races.length > 0 ) {
         this.selectedRaceId = races[0].id;
@@ -62,7 +64,11 @@ export class RaceExecutionTabsComponent implements OnDestroy, OnInit {
     });
   }
 
-  retrieveSelectedRacesFromStore() {
+  private retrieveSelectedLapFromStore() {
+    this.selectedLap = this.lapFacade.retrieveSelectedLapFromStore();
+  }
+
+  private retrieveSelectedRacesFromStore() {
     this.selectedRaces = this.store.select( getSelectedRaces );
   }
 }

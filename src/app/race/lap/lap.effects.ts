@@ -16,4 +16,9 @@ export class LapEffects {
     ofEntityType( Lap, EntityActionTypes.LoadAllSuccess ),
     tap( () => this.lapFacade.updateNumberOfLaps() )
   ), {dispatch: false} );
+
+  selected$ = createEffect( () => this.actions$.pipe(
+    ofEntityType( Lap, EntityActionTypes.Selected ),
+    tap( () => this.lapFacade.updateSelectedLap() )
+  ), {dispatch: false });
 }

@@ -13,10 +13,13 @@ export class LapFacade extends LapFacadeBase {
   private numberOfLapsEmitter;
   private numberOfLaps: Observable<number>;
   private race: Race;
+  private selectedLap: Observable<Lap>;
+  private selectedLapEmitter;
 
   constructor( protected store: Store<AppState> ) {
     super( Lap, store);
     this.numberOfLaps = new Observable<number>( ( emitter ) => this.numberOfLapsEmitter = emitter );
+    this.selectedLap = new Observable<Lap>( ( emitter ) => this.selectedLapEmitter = emitter );
   }
 
   getNumberOfLaps(): Observable<number> {
@@ -25,6 +28,9 @@ export class LapFacade extends LapFacadeBase {
 
   getRaceId() {
     return this.race.id;
+  }
+
+  initializeStore() {
   }
 
   loadLapsForSelectedRace() {
@@ -37,6 +43,10 @@ export class LapFacade extends LapFacadeBase {
     );
   }
 
+  retrieveSelectedLapFromStore(): Observable<Lap> {
+    return this.selectedLap;
+  }
+
   retrieveFirstSelectedRaceFromStore(): Observable<Race> {
     return this.store.select( getFirstSelectedRace );
   }
@@ -44,6 +54,14 @@ export class LapFacade extends LapFacadeBase {
   updateNumberOfLaps() {
     this.total$.pipe( take( 1) ).subscribe( count => {
       this.numberOfLapsEmitter.next( count );
+    });
+  }
+
+  updateSelectedLap() {
+    this.current$.pipe( take( 1 ) ).subscribe( lap => {
+      if ( lap ) {
+        this.selectedLapEmitter.next( lap );
+      }
     });
   }
 }

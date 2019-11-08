@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '
 import { Observable, Subscription } from 'rxjs';
 import { Lap } from '../../domain/lap';
 import { LapFacade } from '../lap.facade';
-import { filter, map, takeLast, tap } from 'rxjs/operators';
+import { filter, map, take, takeLast, tap } from 'rxjs/operators';
 import { Race } from '../../domain/race';
 import { getSelectedRaces } from '../../race.reducer';
 
@@ -14,7 +14,8 @@ import { getSelectedRaces } from '../../race.reducer';
 export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
   numberOfLaps = 0;
   numberOfLapsSubscription: Subscription;
-  selectedLapKey = 1;
+  selectedLap: Lap;
+  selectedLapSubscription: Subscription;
   selectedRace: Observable<Race>;
 
   constructor( private lapFacade: LapFacade ) { }
@@ -24,14 +25,14 @@ export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.numberOfLapsSubscription.unsubscribe();
+    this.selectedLapSubscription.unsubscribe();
   }
 
   ngOnInit() {
     this.selectedRace = this.lapFacade.retrieveFirstSelectedRaceFromStore();
     this.lapFacade.loadLapsForSelectedRace();
-    this.numberOfLapsSubscription = this.lapFacade.getNumberOfLaps().subscribe( count => {
-      this.numberOfLaps = count;
-    });
+    this.subscribeToNumberOfLaps();
+    this.subscribeToSelectedLap();
   }
 
   // event handling methods
@@ -39,25 +40,32 @@ export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
     const newLap = new Lap();
     newLap.raceId = this.lapFacade.getRaceId();
     this.lapFacade.total$.pipe(
-      takeLast(1),
+      take(1),
       map( count => count ? count : 0 )
     ).subscribe( countOfLaps => {
       newLap.index = countOfLaps + 1;
       this.lapFacade.create( newLap );
+      this.changeSelectedLap( newLap.index );
     });
   }
 
+  canNext() {
+    return this.selectedLap ? this.selectedLap.index < this.numberOfLaps : false;
+  }
+
+  canPrevious() {
+    return this.selectedLap ? this.selectedLap.index > 1 : false;
+  }
+
   nextLap() {
-    if ( this.selectedLapKey < this.numberOfLaps - 1) {
-      this.selectedLapKey = this.selectedLapKey + 1;
-      this.changeSelectedLap( this.selectedLapKey );
+    if ( this.canNext() ) {
+      this.changeSelectedLap( this.selectedLap.index + 1 );
     }
   }
 
   previousLap() {
-    if ( this.selectedLapKey > 0 ) {
-      this.selectedLapKey = this.selectedLapKey - 1;
-      this.changeSelectedLap( this.selectedLapKey );
+    if ( this.canPrevious() ) {
+      this.changeSelectedLap( this.selectedLap.index - 1 );
     }
   }
 
@@ -66,5 +74,18 @@ export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
   // protected, private helper methods
   private changeSelectedLap( index: number ) {
     this.lapFacade.selectByKey( index );
+  }
+
+  private subscribeToNumberOfLaps() {
+    this.numberOfLapsSubscription = this.lapFacade.getNumberOfLaps().subscribe( count => {
+      this.numberOfLaps = count;
+      this.changeSelectedLap( 1 );
+    });
+  }
+
+  private subscribeToSelectedLap() {
+    this.selectedLapSubscription = this.lapFacade.retrieveSelectedLapFromStore().subscribe( lap => {
+      this.selectedLap = lap;
+    });
   }
 }

@@ -12,7 +12,9 @@ import { Subscription } from 'rxjs';
 export class RaceExecutionComponent implements OnDestroy, OnInit {
   private dialogSubscription: Subscription;
 
-  constructor( public dialog: MatDialog ) {}
+  constructor( public dialog: MatDialog, private lapFacade: LapFacade ) {
+//    this.lapFacade.loadLapsForSelectedRace();
+  }
 
   // Component lifecycle events
   ngOnDestroy(): void {
