@@ -48,7 +48,7 @@ export class RaceSelectComponent extends BaseListComponent<Race> {
   // protected, private helper methods
   protected detailsRoute( entityId: string ): string {
     this.dialogRef.close();
-    return 'race-execution';
+    return 'race-execution/' + entityId;
   }
 
   protected dispatchAllEntitiesRequestedAction() {

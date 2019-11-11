@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Race } from '../../domain/race';
 import { Store } from '@ngrx/store';
 import * as fromAppReducer from '../../../app.reducer';

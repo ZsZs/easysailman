@@ -6,20 +6,18 @@ import { Lap } from '../domain/lap';
 import { getFirstSelectedRace, getSelectedRaces } from '../race.reducer';
 import { filter, take, takeLast } from 'rxjs/operators';
 import { Race } from '../domain/race';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LapFacade extends LapFacadeBase {
-  private numberOfLapsEmitter;
-  private numberOfLaps: Observable<number>;
+  private numberOfLaps: Subject<number>;
   private race: Race;
-  private selectedLap: Observable<Lap>;
-  private selectedLapEmitter;
+  private selectedLap: Subject<Lap>;
 
   constructor( protected store: Store<AppState> ) {
     super( Lap, store);
-    this.numberOfLaps = new Observable<number>( ( emitter ) => this.numberOfLapsEmitter = emitter );
-    this.selectedLap = new Observable<Lap>( ( emitter ) => this.selectedLapEmitter = emitter );
+    this.numberOfLaps = new Subject<number>();
+    this.selectedLap = new Subject<Lap>();
   }
 
   getNumberOfLaps(): Observable<number> {
@@ -53,14 +51,14 @@ export class LapFacade extends LapFacadeBase {
 
   updateNumberOfLaps() {
     this.total$.pipe( take( 1) ).subscribe( count => {
-      this.numberOfLapsEmitter.next( count );
+      this.numberOfLaps.next( count );
     });
   }
 
   updateSelectedLap() {
     this.current$.pipe( take( 1 ) ).subscribe( lap => {
       if ( lap ) {
-        this.selectedLapEmitter.next( lap );
+        this.selectedLap.next( lap );
       }
     });
   }

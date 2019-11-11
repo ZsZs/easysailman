@@ -12,6 +12,7 @@ import { RaceResolver } from '../race.resolver';
 const routes: Routes = [
    { path: '', component: RaceExecutionComponent, children: [
        { path: '', redirectTo: '', pathMatch: 'full' },
+       { path: ':raceId', resolve: { race: RaceResolver } },
        { path: ':raceId/lap/:lapId/field', component: RaceFieldComponent, resolve: { race: LapIdResolver } },
        { path: ':raceId/lap/:lapId/finish', component: RaceFinishComponent, resolve: { race: LapIdResolver } },
        { path: ':raceId/lap/:lapId/participants', component: RaceParticipantListComponent, resolve: { race: LapIdResolver } },

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RaceSelectComponent } from '../race-select/race-select.component';
 import { LapFacade } from '../lap/lap.facade';
 import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'srm-race-execution',
@@ -13,7 +14,6 @@ export class RaceExecutionComponent implements OnDestroy, OnInit {
   private dialogSubscription: Subscription;
 
   constructor( public dialog: MatDialog, private lapFacade: LapFacade ) {
-//    this.lapFacade.loadLapsForSelectedRace();
   }
 
   // Component lifecycle events
