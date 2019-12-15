@@ -80,7 +80,7 @@ export class RegistrationEffects {
     tap( () => this.store.dispatch( stopLoading() )),
     map( action => action.redirectTo ),
     filter( redirectTo => redirectTo !== undefined ),
-    map( redirectTo => this.store.dispatch( routerGo( redirectTo )))),
+    tap( redirectTo => this.store.dispatch( routerGo( redirectTo )))),
     {dispatch: false}
   );
 

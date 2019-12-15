@@ -39,14 +39,9 @@ export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
   addLap() {
     const newLap = new Lap();
     newLap.raceId = this.lapFacade.getRaceId();
-    this.lapFacade.total$.pipe(
-      take(1),
-      map( count => count ? count : 0 )
-    ).subscribe( countOfLaps => {
-      newLap.index = countOfLaps + 1;
-      this.lapFacade.create( newLap );
-      this.changeSelectedLap( newLap.index );
-    });
+    newLap.index = this.numberOfLaps + 1;
+    this.lapFacade.create( newLap );
+    this.changeSelectedLap( newLap.index );
   }
 
   canNext() {
@@ -59,13 +54,17 @@ export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
 
   nextLap() {
     if ( this.canNext() ) {
-      this.changeSelectedLap( this.selectedLap.index + 1 );
+      const newLapIndex = this.selectedLap.index + 1;
+      this.changeSelectedLap( newLapIndex );
+      this.updateLapIndexInRoute( newLapIndex );
     }
   }
 
   previousLap() {
     if ( this.canPrevious() ) {
-      this.changeSelectedLap( this.selectedLap.index - 1 );
+      const newLapIndex = this.selectedLap.index - 1;
+      this.changeSelectedLap( newLapIndex );
+      this.updateLapIndexInRoute( newLapIndex );
     }
   }
 
@@ -87,5 +86,9 @@ export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
     this.selectedLapSubscription = this.lapFacade.retrieveSelectedLapFromStore().subscribe( lap => {
       this.selectedLap = lap;
     });
+  }
+
+  private updateLapIndexInRoute( index: number ) {
+
   }
 }

@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { SubscriptionService } from '../../shared/subscription.service';
 import { Store } from '@ngrx/store';
 import * as fromRaceReducer from '../race.reducer';
-import { Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { allRacesRequested, setSelectedRaces } from '../race.actions';
 import { Race } from '../domain/race';
 import { BaseListComponent } from '../../shared/generic-components/base-list.component';
@@ -19,7 +19,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class RaceSelectComponent extends BaseListComponent<Race> {
   private static readonly featureDescriptor = {
     name: 'race',
-    allEntitiesSelector: getRaces
+    allEntitiesSelector: getRaces,
+    tabName: 'select-race'
   };
   displayedColumns = ['select', 'title', 'date', 'country', 'place'];
   selection = new SelectionModel<Race>(false, []);
@@ -28,7 +29,7 @@ export class RaceSelectComponent extends BaseListComponent<Race> {
     public dialogRef: MatDialogRef<RaceSelectComponent>,
     protected subscriptionService: SubscriptionService,
     protected store: Store<fromRaceReducer.RaceManagementState>,
-    protected router: Router
+    protected router: Router,
   ) {
     super( router, subscriptionService, store, RaceSelectComponent.featureDescriptor  );
   }
@@ -41,6 +42,7 @@ export class RaceSelectComponent extends BaseListComponent<Race> {
 
   onOk(): void {
     this.dialogRef.close();
+    this.router.navigateByUrl( 'race-execution/' + this.selection.selected[0].id + '/lap/unknown/participants' );
   }
 
   // action methods

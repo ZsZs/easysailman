@@ -15,7 +15,7 @@ import { MediaObserver, MediaChange } from '@angular/flex-layout';
 export class RaceExecutionToolbarComponent implements OnDestroy, OnInit {
   watcher: Subscription;
   activeMediaQuery = '';
-  selectedRaces: Observable<Race[]>;
+//  selectedRaces: Observable<Race[]>;
   private readonly onDestroy = new Subject<void>();
 
   constructor( public mediaObserver: MediaObserver, private store: Store<fromAppReducer.AppState> ) {
@@ -23,7 +23,6 @@ export class RaceExecutionToolbarComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.onDestroy.next();
-//    this.watcher.unsubscribe();
   }
 
   ngOnInit() {
@@ -32,6 +31,6 @@ export class RaceExecutionToolbarComponent implements OnDestroy, OnInit {
 
   // protected, private helper methods
   retrieveSelectedRacesFromStore() {
-    this.selectedRaces = this.store.select( getSelectedRaces );
+//    this.selectedRaces = this.store.select( getSelectedRaces );
   }
 }

@@ -1,20 +1,22 @@
 language: node_js
 node_js:
-  - "12"
+- '12'
 dist: trusty
 sudo: required
 branches:
   only:
   - master
 before_script:
-  - npm install -g @angular/cli
+- npm install -g @angular/cli
 script:
 - npm install
 - ng lint
 - ng build --prod --base-href https://sailrc.de/
-
 deploy:
   skip_cleanup: true
   provider: firebase
   token:
     secure: "$FIREBASE_TOKEN"
+env:
+  global:
+    secure: PxfdZXECrC0dGNwWQQ5qi93xTDMRoLTSiZtrCXcSirD/uBBFCMReg+7rcdjNDvq39xceD/2aNIkxzO1iB5J6gz/KbmmymLa+DBysGlmDEIGl2m9FIuTEZ2z17UQ8gW4PS1nbFvYnHS1ATNQ9AMnDk/TmPwH15CNctnIr/MjofStKBmkgE852WY8WeWsJmG3zBTpCJtKXGF4Gy92b9ixRpJYVvLeercLkxois5JJfLd+wQ3RxMK4k3dzGWVycHW8taE0p5qJHa/mTs0DkpQMDhbuF3KL2Ccg7Gv2mSPQWoTB3lfpoP2yEcYKFJ08JZfFFrHSgUm8OeSQDlsNeVAwgFf8A0Bfp7wpw3jWLrSvCNMbwvIlaAnXeYgaha8Z1ouHCuAgOn1aM2ZA8rtseHAkZftToMprbKSE45F/qyTDkuifKS+S2Yu8cDhtjj/RyiPlQ0X+78VFulwFN7yCcT3qvhzdeg3GEX13zVON8pm/H6HSImQfBXWLDyQHpfBxfqa77PHkK2sPaEkUisBTKSzB22xxyu1N3Yb3Li1Ewl7mSNTsc2PCWCa3X80I9j7B3klcoPqwsSCGX97mLKAWsOFsTiGQ6zMrqeaAU0FJY8uKSlcxA607DHj0++G6cgcLHxOrY8vOzMcHkkYakAgSNje7jcHiPgT4zgWiuOMJXSX1n75U=

@@ -8,16 +8,17 @@ import { RaceResultsComponent } from './results/race-results.component';
 import { RaceStartComponent } from './race-start/race-start.component';
 import { LapIdResolver } from '../lap/lap-id.resolver';
 import { RaceResolver } from '../race.resolver';
+import { PathVariables } from '../path-variables';
 
 const routes: Routes = [
    { path: '', component: RaceExecutionComponent, children: [
        { path: '', redirectTo: '', pathMatch: 'full' },
-       { path: ':raceId', resolve: { race: RaceResolver } },
-       { path: ':raceId/lap/:lapId/field', component: RaceFieldComponent, resolve: { race: LapIdResolver } },
-       { path: ':raceId/lap/:lapId/finish', component: RaceFinishComponent, resolve: { race: LapIdResolver } },
-       { path: ':raceId/lap/:lapId/participants', component: RaceParticipantListComponent, resolve: { race: LapIdResolver } },
-       { path: ':raceId/results', component: RaceResultsComponent, resolve: { race: LapIdResolver } },
-       { path: ':raceId/lap/:lapId/start', component: RaceStartComponent, resolve: { race: LapIdResolver } },
+//       { path: ':raceId' },
+       { path: ':' + PathVariables.raceID + '/lap/:' + PathVariables.lapID + '/field', component: RaceFieldComponent, resolve: { race: LapIdResolver } },
+       { path: ':' + PathVariables.raceID + '/lap/:' + PathVariables.lapID + '/finish', component: RaceFinishComponent, resolve: { race: LapIdResolver } },
+       { path: ':' + PathVariables.raceID + '/lap/:' + PathVariables.lapID + '/participants', component: RaceParticipantListComponent, resolve: { race: LapIdResolver } },
+       { path: ':' + PathVariables.raceID + '/results', component: RaceResultsComponent, resolve: { race: LapIdResolver } },
+       { path: ':' + PathVariables.raceID + '/lap/:' + PathVariables.lapID + '/start', component: RaceStartComponent, resolve: { race: LapIdResolver } },
        { path: '**', redirectTo: '', pathMatch: 'full' },
    ]}
 ];
