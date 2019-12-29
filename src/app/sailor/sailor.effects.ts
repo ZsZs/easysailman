@@ -9,13 +9,13 @@ import { AppState } from '../app.reducer';
 import { SailorService } from './sailor.service';
 import { addSailor, allSailorsLoaded, allSailorsRequested, deleteSailor, sailorAPIError, sailorDeleted, sailorLoaded, sailorRequested, sailorSaved, updateSailor } from './sailor.actions';
 import { getAllSailorsLoaded } from './sailor.reducer';
-import { SubscriptionService } from '../shared/subscription.service';
+import { ComponentDestroyService } from '../shared/component-destroy.service';
 import { routerGo } from '../shared/router/router.actions';
 
 @Injectable()
 export class SailorEffects {
 
-  constructor( private actions$: Actions, private sailorService: SailorService, private subscriptionService: SubscriptionService, private store: Store<AppState> ) {}
+  constructor( private actions$: Actions, private sailorService: SailorService, private subscriptionService: ComponentDestroyService, private store: Store<AppState> ) {}
 
   addSailor$ = createEffect( () => this.actions$.pipe(
     ofType( addSailor ),

@@ -5,6 +5,7 @@ import { RouterUri } from '../shared/router/router-uri';
 export const allRacesRequested = createAction('[RACE] All races requested' );
 export const allRacesLoaded = createAction('[RACE] All races loaded', props<{ races: Race[], redirectTo?: RouterUri }>() );
 export const raceRequested = createAction('[RACE] Race requested', props<{ raceId: string }>() );
+export const raceRequestedAndSelect = createAction('[RACE] Race requested and select', props<{ raceId: string }>() );
 export const raceLoaded = createAction('[RACE] Race loaded', props<{ race: Race, redirectTo?: RouterUri }>() );
 export const editRace = createAction('[RACE] Edit Race', props<{ race: Race }>() );
 export const newRace = createAction('[RACE] New Race', props<{ race: Race }>() );

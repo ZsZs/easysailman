@@ -1,7 +1,7 @@
 import { BaseEntityInterface } from '../firestore/base-entity.interface';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
-import { SubscriptionService } from '../subscription.service';
+import { ComponentDestroyService } from '../component-destroy.service';
 import { Action, createAction, createFeatureSelector, createSelector, props, select, Store } from '@ngrx/store';
 import { AppState } from '../../app.reducer';
 import { Router } from '@angular/router';
@@ -35,7 +35,7 @@ export abstract class BaseEffects<T extends BaseEntityInterface, S extends Fires
   protected constructor(
     protected actions$: Actions,
     protected entityService: S,
-    protected subscriptionService: SubscriptionService,
+    protected subscriptionService: ComponentDestroyService,
     protected store: Store<AppState>,
     protected router: Router,
     protected featureName: string ) {}

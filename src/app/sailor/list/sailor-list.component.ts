@@ -8,7 +8,7 @@ import { Sailor } from '../sailor';
 import { SailorService } from '../sailor.service';
 import { allSailorsRequested, deleteSailor, setSelectedSailors } from '../sailor.actions';
 import { Observable } from 'rxjs';
-import { SubscriptionService } from '../../shared/subscription.service';
+import { ComponentDestroyService } from '../../shared/component-destroy.service';
 import * as fromBoatClassReducer from '../../boat-class/boat-class.reducer';
 import { BoatClass } from '../../boat-class/boat-class';
 import * as fromAppReducer from '../../app.reducer';
@@ -28,7 +28,7 @@ export class SailorListComponent implements AfterViewInit, OnDestroy, OnInit {
   selection = new SelectionModel<Sailor>(true, []);
   isLoading: Observable<boolean>;
 
-  constructor( private subscriptionService: SubscriptionService, private store: Store<fromSailorReducer.SailorManagementState> ) {}
+  constructor( private subscriptionService: ComponentDestroyService, private store: Store<fromSailorReducer.SailorManagementState> ) {}
 
   // event handling methods
   ngAfterViewInit(): void {

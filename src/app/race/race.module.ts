@@ -10,8 +10,6 @@ import { RaceTabsComponent } from './tabs/race-tabs.component';
 import { RaceStatusbarComponent } from './statusbar/race-statusbar.component';
 import { RegistrationDetailsComponent } from './registration/details/registration-details.component';
 import { LapSelectorComponent } from './lap/lap-selector/lap-selector.component';
-import { Lap } from './domain/lap';
-import { EntityService } from '../shared/firestore/entity.service';
 import { LapFacade } from './lap/lap.facade';
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
 import { AppState } from '../app.reducer';

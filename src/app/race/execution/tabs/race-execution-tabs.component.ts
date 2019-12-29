@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { Race } from '../../domain/race';
 import { Store } from '@ngrx/store';
 import * as fromAppReducer from '../../../app.reducer';
@@ -8,13 +8,15 @@ import { takeUntil } from 'rxjs/operators';
 import { getSelectedRaces } from '../../race.reducer';
 import { Lap } from '../../domain/lap';
 import { LapFacade } from '../../lap/lap.facade';
+import { getActiveTabs } from '../../../shared/ui/ui.reducer';
 
 @Component({
   selector: 'srm-race-execution-tabs',
   templateUrl: './race-execution-tabs.component.html',
   styleUrls: ['./race-execution-tabs.component.css']
 })
-export class RaceExecutionTabsComponent implements OnDestroy, OnInit {
+export class RaceExecutionTabsComponent implements AfterViewInit, OnDestroy, OnInit {
+  activeTabs: Observable<string[]>;
   selectedRaces: Observable<Race[]>;
   selectedLap: Observable<Lap>;
   selectedLapId = 1;
@@ -22,6 +24,9 @@ export class RaceExecutionTabsComponent implements OnDestroy, OnInit {
   private readonly onDestroy = new Subject<void>();
 
   constructor( private store: Store<fromAppReducer.AppState>, private router: Router, private lapFacade: LapFacade) {}
+
+  ngAfterViewInit(): void {
+  }
 
   ngOnDestroy(): void {
     this.onDestroy.next();
@@ -31,6 +36,7 @@ export class RaceExecutionTabsComponent implements OnDestroy, OnInit {
     this.retrieveSelectedRacesFromStore();
     this.retrieveSelectedLapFromStore();
     this.determineSelectedRaceId();
+    this.retrieveActiveTabsFromStore();
   }
 
   showField() {
@@ -62,6 +68,10 @@ export class RaceExecutionTabsComponent implements OnDestroy, OnInit {
         this.selectedRaceId = undefined;
       }
     });
+  }
+
+  retrieveActiveTabsFromStore() {
+    this.activeTabs = this.store.select( getActiveTabs );
   }
 
   private retrieveSelectedLapFromStore() {

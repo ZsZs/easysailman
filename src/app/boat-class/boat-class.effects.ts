@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, filter, flatMap, map, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { startLoading, stopLoading } from '../shared/ui/ui.actions';
-import { SubscriptionService } from '../shared/subscription.service';
+import { ComponentDestroyService } from '../shared/component-destroy.service';
 import { AppState } from '../app.reducer';
 import { Router } from '@angular/router';
 import {
@@ -27,7 +27,7 @@ import { of } from 'rxjs';
 @Injectable()
 export class BoatClassEffects {
 
-  constructor( private actions$: Actions, private boatClassService: BoatClassService, private subscriptionService: SubscriptionService, private store: Store<AppState>, private router: Router ) {}
+  constructor( private actions$: Actions, private boatClassService: BoatClassService, private subscriptionService: ComponentDestroyService, private store: Store<AppState>, private router: Router ) {}
 
   @Effect() addOrUpdateBoatClass = this.actions$.pipe(
     ofType( addOrUpdateBoatClass ),

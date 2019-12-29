@@ -4,62 +4,48 @@ import { AppState } from '../../app.reducer';
 import { LapFacadeBase, numberOfLaps } from './lap.state';
 import { Lap } from '../domain/lap';
 import { getFirstSelectedRace, getSelectedRaces } from '../race.reducer';
-import { filter, take, takeLast } from 'rxjs/operators';
+import { filter, finalize, map, mergeMap, switchMap, take, takeLast, tap } from 'rxjs/operators';
 import { Race } from '../domain/race';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LapFacade extends LapFacadeBase {
-  private numberOfLaps: Subject<number>;
-  private race: Race;
-  private selectedLap: Subject<Lap>;
 
   constructor( protected store: Store<AppState> ) {
     super( Lap, store);
-    this.numberOfLaps = new Subject<number>();
-    this.selectedLap = new Subject<Lap>();
   }
 
   getNumberOfLaps(): Observable<number> {
-    return this.numberOfLaps;
+    return this.total$;
   }
 
-  getRaceId() {
-    return this.race.id;
+  isLoaded( raceId: string ): Observable<boolean> {
+    return this.all$.pipe(
+      map( laps => laps.filter( lap => {
+        return lap.raceId === raceId;
+      })),
+      map( (laps: Lap[]) => {
+        return laps.length > 0;
+      })
+    );
   }
 
-  initializeStore() {
+  loadLapsForRace( raceId: string ) {
+    this.loadAll( raceId );
   }
 
   loadLapsForSelectedRace() {
     this.store.select( getFirstSelectedRace ).pipe(
-      filter( selectedRace => selectedRace !== undefined )
-    ).subscribe( race => {
-        this.race = race;
-        this.loadAll( race.id );
-      }
+      filter( selectedRace => selectedRace !== undefined ),
+      tap( race => this.loadAll( race.id ))
     );
   }
 
   retrieveSelectedLapFromStore(): Observable<Lap> {
-    return this.selectedLap;
+    return this.current$;
   }
 
   retrieveFirstSelectedRaceFromStore(): Observable<Race> {
     return this.store.select( getFirstSelectedRace );
-  }
-
-  updateNumberOfLaps() {
-    this.total$.pipe( take( 1) ).subscribe( count => {
-      this.numberOfLaps.next( count );
-    });
-  }
-
-  updateSelectedLap() {
-    this.current$.pipe( take( 1 ) ).subscribe( lap => {
-      if ( lap ) {
-        this.selectedLap.next( lap );
-      }
-    });
   }
 }

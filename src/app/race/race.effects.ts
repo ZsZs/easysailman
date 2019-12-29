@@ -5,10 +5,24 @@ import { select, Store } from '@ngrx/store';
 
 import { AppState } from '../app.reducer';
 import { RaceService } from './race.service';
-import { getAllRacesLoaded, getFirstSelectedRace } from './race.reducer';
-import { allRacesLoaded, allRacesRequested, deleteRace, raceDeleted, raceLoaded, raceRequested, raceSaved, addRace, updateRace, raceAPIError, editRace, setSelectedRaces } from './race.actions';
+import { getAllRacesLoaded, getFirstSelectedRace, getRaceById } from './race.reducer';
+import {
+  allRacesLoaded,
+  allRacesRequested,
+  deleteRace,
+  raceDeleted,
+  raceLoaded,
+  raceRequested,
+  raceSaved,
+  addRace,
+  updateRace,
+  raceAPIError,
+  editRace,
+  setSelectedRaces,
+  raceRequestedAndSelect
+} from './race.actions';
 import { startLoading, stopLoading } from '../shared/ui/ui.actions';
-import { SubscriptionService } from '../shared/subscription.service';
+import { ComponentDestroyService } from '../shared/component-destroy.service';
 import { of } from 'rxjs';
 import { routerGo } from '../shared/router/router.actions';
 import { allRegistrationsRequested, allRegistrationsUnLoaded } from './registration/registration.actions';
@@ -16,7 +30,7 @@ import { allRegistrationsRequested, allRegistrationsUnLoaded } from './registrat
 @Injectable()
 export class RaceEffects {
 
-  constructor( protected actions$: Actions, protected raceService: RaceService, protected subscriptionService: SubscriptionService, protected store: Store<AppState> ) {}
+  constructor( protected actions$: Actions, protected raceService: RaceService, protected subscriptionService: ComponentDestroyService, protected store: Store<AppState> ) {}
 
   addRace$ = createEffect( () => this.actions$.pipe(
     ofType( addRace ),
@@ -51,6 +65,14 @@ export class RaceEffects {
       map( race => raceLoaded({ race })),
       catchError( error => of( raceAPIError({ error })))
     ))
+  ));
+
+  loadAndSelectRace$ = createEffect( () => this.actions$.pipe(
+    ofType( raceRequestedAndSelect ),
+    tap( ( action ) => this.store.dispatch( raceRequested({ raceId: action.raceId }) )),
+    switchMap( action => this.store.select( getRaceById( action.raceId ))),
+    filter( race => !!race ),
+    map( race => setSelectedRaces({ races: [race] }))
   ));
 
   loadAllRaces$ = createEffect( () => this.actions$.pipe(

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { SubscriptionService } from '../../shared/subscription.service';
+import { ComponentDestroyService } from '../../shared/component-destroy.service';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../../app.reducer';
 import {
@@ -25,7 +25,7 @@ import { getAllRegistrationsLoaded } from './registration.reducer';
 
 @Injectable()
 export class RegistrationEffects {
-  constructor( protected actions$: Actions, protected registrationService: RegistrationService, protected subscriptionService: SubscriptionService, protected store: Store<AppState> ) {}
+  constructor( protected actions$: Actions, protected registrationService: RegistrationService, protected subscriptionService: ComponentDestroyService, protected store: Store<AppState> ) {}
 
   addRegistration$ = createEffect(() => this.actions$.pipe(
     ofType( addRegistration ),
@@ -59,7 +59,7 @@ export class RegistrationEffects {
     filter(([action, allRegistrationsLoaded]) => !allRegistrationsLoaded ),
     tap( () => this.store.dispatch( startLoading() )),
     switchMap( ([action]) => this.registrationService.findAllRegistrations( action.raceId ).pipe(
-      takeUntil( this.subscriptionService.unsubscribe$ ),
+//      takeUntil( this.subscriptionService.unsubscribe$ ),
       map( registrations => allRegistrationsLoaded({ registrations })),
       catchError( error => of( raceAPIError({ error })))
     ))
@@ -69,7 +69,7 @@ export class RegistrationEffects {
     ofType( registrationRequested ),
     tap( () => this.store.dispatch( startLoading() )),
     switchMap( action => this.registrationService.findRegisrationById( action.raceId, action.registrationId ).pipe(
-      takeUntil( this.subscriptionService.unsubscribe$ ),
+//      takeUntil( this.subscriptionService.unsubscribe$ ),
       map( registration => registrationLoaded({ registration })),
       catchError( error => of( raceAPIError({ error })))
     ))

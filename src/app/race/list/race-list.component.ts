@@ -9,7 +9,7 @@ import { allRacesRequested, deleteRace, setSelectedRaces } from '../race.actions
 import { SelectionModel } from '@angular/cdk/collections';
 import * as fromAppReducer from '../../app.reducer';
 import { Observable } from 'rxjs';
-import { SubscriptionService } from '../../shared/subscription.service';
+import { ComponentDestroyService } from '../../shared/component-destroy.service';
 import { routerGo } from '../../shared/router/router.actions';
 
 @Component({
@@ -26,7 +26,7 @@ export class RaceListComponent implements AfterViewInit, OnDestroy, OnInit {
   isLoading: Observable<boolean>;
 
   constructor(
-    private subscriptionService: SubscriptionService,
+    private subscriptionService: ComponentDestroyService,
     private store: Store<fromRaceReducer.RaceManagementState>,
     private router: Router ) {}
 

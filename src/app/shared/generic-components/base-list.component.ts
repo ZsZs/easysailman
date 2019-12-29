@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { SubscriptionService } from '../subscription.service';
+import { ComponentDestroyService } from '../component-destroy.service';
 import { Store } from '@ngrx/store';
 import * as fromRaceReducer from '../../race/race.reducer';
 import * as fromAppReducer from '../../app.reducer';
@@ -24,7 +24,7 @@ export abstract class BaseListComponent<T extends BaseEntityInterface> implement
 
   constructor(
     protected router: Router,
-    protected subscriptionService: SubscriptionService,
+    protected subscriptionService: ComponentDestroyService,
     protected store: Store<fromRaceReducer.RaceManagementState>,
     protected featureDescriptor: FeatureDescriptor ) {}
 

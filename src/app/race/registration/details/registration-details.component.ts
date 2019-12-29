@@ -4,7 +4,7 @@ import * as fromRaceReducer from '../../race.reducer';
 import { BaseFormComponent } from '../../../shared/generic-components/base-form.component';
 import { Registration } from '../../domain/registration';
 import { Router } from '@angular/router';
-import { SubscriptionService } from '../../../shared/subscription.service';
+import { ComponentDestroyService } from '../../../shared/component-destroy.service';
 import { getFirstSelectedRace } from '../../race.reducer';
 import { routerGo } from '../../../shared/router/router.actions';
 import { map, mergeMap, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
@@ -22,7 +22,7 @@ import { addRegistration, setSelectedRegistrations, updateRegistration } from '.
 export class RegistrationDetailsComponent extends BaseFormComponent<Registration> implements OnInit {
   private race$: Observable<Race>;
 
-  constructor( protected router: Router, protected subscriptionService: SubscriptionService, protected store: Store<fromRaceReducer.State> ) {
+  constructor( protected router: Router, protected subscriptionService: ComponentDestroyService, protected store: Store<fromRaceReducer.State> ) {
     super( router, subscriptionService, store, 'registration-details', getRegistrationDetailsForm );
   }
 

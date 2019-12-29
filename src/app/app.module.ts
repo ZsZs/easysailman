@@ -23,7 +23,7 @@ import { HomeComponent } from './home/home.component';
 import { UiService } from './shared/ui/ui.service';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { AppRoutingModule } from './app-routing.module';
-import { SubscriptionService } from './shared/subscription.service';
+import { ComponentDestroyService } from './shared/component-destroy.service';
 import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'ngx-logger';
 import { SharedModule } from './shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
@@ -31,6 +31,7 @@ import { RouterEffects } from './shared/router/router.effects';
 import { NgrxAutoEntityModule } from '@briebug/ngrx-auto-entity';
 import { Lap } from './race/domain/lap';
 import { LapService } from './race/lap/lap.service';
+import { RouteStateService } from './shared/router/route-state.service';
 
 export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('root reducer');
 
@@ -65,7 +66,8 @@ export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>(
     { provide: FirestoreSettingsToken, useValue: {} },
     { provide: Lap, useClass: LapService },
     NGXLogger,
-    SubscriptionService,
+    ComponentDestroyService,
+    RouteStateService,
     UiService
   ],
   bootstrap: [AppComponent]

@@ -9,7 +9,7 @@ import { Sailor } from '../sailor';
 import { SailorResolver } from '../sailor.resolver';
 import { addSailor, setSelectedSailors, updateSailor } from '../sailor.actions';
 import { routerGo } from '../../shared/router/router.actions';
-import { SubscriptionService } from '../../shared/subscription.service';
+import { ComponentDestroyService } from '../../shared/component-destroy.service';
 
 @Component({
   selector: 'srm-sailor-details',
@@ -21,7 +21,7 @@ export class SailorDetailsComponent implements OnDestroy, OnInit {
   submittedValue$: Observable<Sailor | undefined>;
   isLoading: Observable<boolean>;
 
-  constructor( private subscriptionService: SubscriptionService, private store: Store<fromSailorReducer.State>, @Inject( SailorResolver ) private sailor: Observable<Sailor> ) {
+  constructor( private subscriptionService: ComponentDestroyService, private store: Store<fromSailorReducer.State>, @Inject( SailorResolver ) private sailor: Observable<Sailor> ) {
     this.formState$ = this.store.pipe( select(state => state.sailorManagement.sailorDetailsForm ));
     this.submittedValue$ = sailor;
   }

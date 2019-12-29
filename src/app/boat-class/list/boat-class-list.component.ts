@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
-import { SubscriptionService } from '../../shared/subscription.service';
+import { ComponentDestroyService } from '../../shared/component-destroy.service';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 
@@ -26,7 +26,7 @@ export class BoatClassListComponent implements AfterViewInit, OnDestroy, OnInit 
   selection = new SelectionModel<BoatClass>(true, []);
   isLoading: Observable<boolean>;
 
-  constructor( private subscriptionService: SubscriptionService, private store: Store<fromBoatClassReducer.BoatClassManagementState>, private router: Router ) {}
+  constructor( private subscriptionService: ComponentDestroyService, private store: Store<fromBoatClassReducer.BoatClassManagementState>, private router: Router ) {}
 
   // event handling methods
   ngAfterViewInit(): void {

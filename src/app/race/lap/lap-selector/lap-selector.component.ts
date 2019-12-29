@@ -5,6 +5,7 @@ import { LapFacade } from '../lap.facade';
 import { filter, map, take, takeLast, tap } from 'rxjs/operators';
 import { Race } from '../../domain/race';
 import { getSelectedRaces } from '../../race.reducer';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 
 @Component({
   selector: 'srm-lap-selector',
@@ -14,23 +15,25 @@ import { getSelectedRaces } from '../../race.reducer';
 export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
   numberOfLaps = 0;
   numberOfLapsSubscription: Subscription;
+  routeChangeSubscription: Subscription;
   selectedLap: Lap;
   selectedLapSubscription: Subscription;
   selectedRace: Observable<Race>;
 
-  constructor( private lapFacade: LapFacade ) { }
+  constructor( private lapFacade: LapFacade, private router: Router, private route: ActivatedRoute ) { }
 
   // component lifecyle handling methods
   ngAfterViewInit() {}
 
   ngOnDestroy(): void {
+    this.routeChangeSubscription.unsubscribe();
     this.numberOfLapsSubscription.unsubscribe();
     this.selectedLapSubscription.unsubscribe();
   }
 
   ngOnInit() {
     this.selectedRace = this.lapFacade.retrieveFirstSelectedRaceFromStore();
-    this.lapFacade.loadLapsForSelectedRace();
+    this.subscribeToRouteChange();
     this.subscribeToNumberOfLaps();
     this.subscribeToSelectedLap();
   }
@@ -38,10 +41,14 @@ export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
   // event handling methods
   addLap() {
     const newLap = new Lap();
-    newLap.raceId = this.lapFacade.getRaceId();
-    newLap.index = this.numberOfLaps + 1;
-    this.lapFacade.create( newLap );
-    this.changeSelectedLap( newLap.index );
+    this.lapFacade.retrieveFirstSelectedRaceFromStore().pipe(
+      map( race => {
+        newLap.raceId = race.id;
+        newLap.index = this.numberOfLaps + 1;
+        this.lapFacade.create( newLap );
+        this.changeSelectedLap( newLap.index );
+      })
+    );
   }
 
   canNext() {
@@ -56,7 +63,6 @@ export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
     if ( this.canNext() ) {
       const newLapIndex = this.selectedLap.index + 1;
       this.changeSelectedLap( newLapIndex );
-      this.updateLapIndexInRoute( newLapIndex );
     }
   }
 
@@ -64,7 +70,6 @@ export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
     if ( this.canPrevious() ) {
       const newLapIndex = this.selectedLap.index - 1;
       this.changeSelectedLap( newLapIndex );
-      this.updateLapIndexInRoute( newLapIndex );
     }
   }
 
@@ -76,19 +81,36 @@ export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   private subscribeToNumberOfLaps() {
-    this.numberOfLapsSubscription = this.lapFacade.getNumberOfLaps().subscribe( count => {
+    this.numberOfLapsSubscription = this.lapFacade.total$.subscribe( count => {
       this.numberOfLaps = count;
-      this.changeSelectedLap( 1 );
+      if ( this.numberOfLaps > 0 ) {
+        this.changeSelectedLap( 1 );
+      }
     });
   }
 
+  private subscribeToRouteChange() {
+    this.routeChangeSubscription = this.route.paramMap.subscribe( parameters => {
+      this.lapFacade.loadLapsForSelectedRace();
+    });
+  }
   private subscribeToSelectedLap() {
-    this.selectedLapSubscription = this.lapFacade.retrieveSelectedLapFromStore().subscribe( lap => {
-      this.selectedLap = lap;
+    this.selectedLapSubscription = this.lapFacade.current$.subscribe( lap => {
+      if ( lap ) {
+        this.selectedLap = lap;
+        this.updateLapIndexInRoute();
+      }
     });
   }
 
-  private updateLapIndexInRoute( index: number ) {
+  private updateLapIndexInRoute() {
+    const urlFragment = this.determineLastUrlFragment();
+    if ( this.selectedLap ) {
+      this.router.navigateByUrl( 'race-execution/' + this.selectedLap.raceId + '/lap/' + this.selectedLap.index + '/' + urlFragment );
+    }
+  }
 
+  private determineLastUrlFragment() {
+    return 'participants';
   }
 }

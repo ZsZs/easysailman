@@ -3,19 +3,20 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { Race } from '../domain/race';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../../app.reducer';
-import { Observable } from 'rxjs';
-import { editRace, newRace, raceRequested, setSelectedRaces } from '../race.actions';
+import { empty, Observable } from 'rxjs';
+import { raceRequested, setSelectedRaces } from '../race.actions';
 import { getRaceById } from '../race.reducer';
-import { filter, first, switchMap, tap } from 'rxjs/operators';
+import { filter, first, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { PathVariables } from '../path-variables';
-import { allRegistrationsRequested } from '../registration/registration.actions';
 import { LapFacade } from './lap.facade';
 import { Lap } from '../domain/lap';
-import { Registration } from '../domain/registration';
+import { getIsLoaded, allLaps, currentLap } from './lap.state';
 
 @Injectable()
 export class LapIdResolver implements Resolve<Lap> {
   private route: ActivatedRouteSnapshot;
+  private raceId: string;
+  private lapId: string;
 
   constructor( private store: Store<AppState>, private lapFacade: LapFacade ) {}
 
@@ -27,21 +28,40 @@ export class LapIdResolver implements Resolve<Lap> {
   }
 
   // private helper methods
-  private resolveExistingLap( lapId: number ): Observable<Lap> {
-    this.lapFacade.selectByKey( lapId );
-    return this.lapFacade.retrieveSelectedLapFromStore();
+  private resolveLap( race: Race ): Observable<Lap> {
+    return this.checkAndWaitForLapsLoaded( race.id ).pipe(
+      switchMap( (laps: Lap[]) => this.setCurrentLap( laps ))
+    );
   }
 
-  private resolveLap( race: Race ): Observable<Lap> {
-    this.lapFacade.loadLapsForSelectedRace();
+  private setCurrentLap( laps: Lap[] ): Observable<Lap> {
     const lapId = this.retrievePathParameterValue( this.route, PathVariables.lapID );
-    let lap: Observable<Lap>;
-    if ( lapId === 'unknown' ) {
-      lap = this.resolveUnknownLap( race );
-    } else {
-      lap = this.resolveExistingLap( lapId );
-    }
-    return lap;
+    return this.store.pipe(
+      select( currentLap ),
+      filter( lap => !( lap && lap.index !== Number( lapId ))),
+      tap( () => {
+        if ( laps.length > 0 ) {
+          if ( lapId === 'unknown' ) {
+            this.lapFacade.selectByKey( 1 );
+          } else {
+            this.lapFacade.selectByKey( Number( lapId ));
+          }
+        }
+      })
+    );
+  }
+
+  private checkAndWaitForLapsLoaded( raceId: string ): Observable<Lap[]> {
+    return this.store.pipe(
+      select( getIsLoaded( raceId )),
+      tap( (isLoaded) => {
+        if ( !isLoaded ) {
+          this.lapFacade.loadAll( raceId );
+        }
+      }),
+      select( allLaps ),
+      filter( laps => !!laps )
+    );
   }
 
   private resolveRace(): Observable<Race> {
@@ -55,14 +75,8 @@ export class LapIdResolver implements Resolve<Lap> {
       }),
       filter( race => !!race ),
       first(),
-      tap( race => this.store.dispatch( setSelectedRaces({ races: [race]} ))),
-      tap( race => this.lapFacade.loadAll( race.id ))
+      tap( race => this.store.dispatch( setSelectedRaces({ races: [race]} )))
     );
-  }
-
-  private resolveUnknownLap( race: Race ): Observable<Lap> {
-    this.lapFacade.selectByKey( 1 );
-    return this.lapFacade.retrieveSelectedLapFromStore();
   }
 
   private retrievePathParameterValue( route: ActivatedRouteSnapshot, parameterName: string ) {

@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { YachtClub } from '../yacht-club';
 import { getYachtClubs, YachtClubManagementState } from '../yacht-club.reducer';
 import { allYachtClubsRequested, deleteYachtClub, setSelectedYachtClubs } from '../yacht-club.actions';
-import { SubscriptionService } from '../../shared/subscription.service';
+import { ComponentDestroyService } from '../../shared/component-destroy.service';
 import * as fromAppReducer from '../../app.reducer';
 import { Observable } from 'rxjs';
 
@@ -26,7 +26,7 @@ export class YachtClubListComponent implements AfterViewInit, OnDestroy, OnInit 
   isLoading: Observable<boolean>;
 
   constructor(
-    private subscriptionService: SubscriptionService,
+    private subscriptionService: ComponentDestroyService,
     private store: Store<YachtClubManagementState>,
     private router: Router ) {}
 

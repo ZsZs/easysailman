@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
 import { Observable } from 'rxjs';
 import * as fromAppReducer from '../../app.reducer';
-import { SubscriptionService } from '../subscription.service';
+import { ComponentDestroyService } from '../component-destroy.service';
 import { select, Store } from '@ngrx/store';
 import * as fromRaceReducer from '../../race/race.reducer';
 import { tabIsActive, tabIsInActive } from '../ui/ui.actions';
@@ -29,7 +29,7 @@ export abstract class BaseFormComponent<T> implements AfterViewInit, OnDestroy, 
 
   constructor(
     protected router: Router,
-    protected subscriptionService: SubscriptionService,
+    protected subscriptionService: ComponentDestroyService,
     protected store: Store<AppState>,
     protected tabName: string,
     protected formStateSelector: any ) {

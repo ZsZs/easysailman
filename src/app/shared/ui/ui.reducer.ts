@@ -4,12 +4,12 @@ import { RaceManagementState } from '../../race/race.reducer';
 
 export interface UiState {
    isLoading: boolean;
-   activeTabs: Array<string>;
+   activeTabs: string[];
 }
 
 const initialState: UiState = {
   isLoading: false,
-  activeTabs: []
+  activeTabs: ['']
 };
 
 export const uiReducer = createReducer(

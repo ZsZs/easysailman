@@ -1,7 +1,7 @@
 <nav mat-tab-nav-bar>
-    <a mat-tab-link [disabled]="(selectedLap | async) == undefined" (click)="showParticipants()" routerLinkActive #participants="routerLinkActive" [active]="participants.isActive">Participants</a>
-    <a mat-tab-link [disabled]="(selectedLap | async) == undefined" (click)="showField()" routerLinkActive #field="routerLinkActive" [active]="field.isActive">Field</a>
-    <a mat-tab-link [disabled]="(selectedLap | async) == undefined" (click)="showStart()" routerLinkActive #start="routerLinkActive" [active]="start.isActive">Start</a>
-    <a mat-tab-link [disabled]="(selectedLap | async) == undefined" (click)="showFinish()" routerLinkActive #finish="routerLinkActive" [active]="finish.isActive">Finish</a>
-    <a mat-tab-link [disabled]="(selectedLap | async) == undefined" (click)="showResults()" routerLinkActive #results="routerLinkActive" [active]="results.isActive">Results</a>
+    <a mat-tab-link [disabled]="(selectedLap | async) == undefined" (click)="showParticipants()" routerLinkActive [active]="(activeTabs | async).includes('race-execution-participants')">Participants</a>
+    <a mat-tab-link [disabled]="(selectedLap | async) == undefined" (click)="showField()" routerLinkActive [active]="(activeTabs | async).includes('race-execution-field')">Field</a>
+    <a mat-tab-link [disabled]="(selectedLap | async) == undefined" (click)="showStart()" routerLinkActive [active]="(activeTabs | async).includes('race-execution-start')">Start</a>
+    <a mat-tab-link [disabled]="(selectedLap | async) == undefined" (click)="showFinish()" routerLinkActive [active]="(activeTabs | async).includes('race-execution-finish')">Finish</a>
+    <a mat-tab-link [disabled]="(selectedLap | async) == undefined" (click)="showResults()" routerLinkActive [active]="(activeTabs | async).includes('race-execution-results')">Results</a>
 </nav>

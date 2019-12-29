@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { SubscriptionService } from '../../../shared/subscription.service';
+import { ComponentDestroyService } from '../../../shared/component-destroy.service';
 import { select, Store } from '@ngrx/store';
 import * as fromRaceReducer from '../../race.reducer';
 import { getFirstSelectedRace } from '../../race.reducer';
@@ -28,7 +28,7 @@ export class RegistrationListComponent extends BaseListComponent<Registration> i
   private race: Race;
   private dispatchSubscription: Subscription;
 
-  constructor( protected router: Router, protected subscriptionService: SubscriptionService, protected store: Store<fromRaceReducer.RaceManagementState> ) {
+  constructor( protected router: Router, protected subscriptionService: ComponentDestroyService, protected store: Store<fromRaceReducer.RaceManagementState> ) {
     super( router, subscriptionService, store, RegistrationListComponent.featureDescriptor  );
   }
 

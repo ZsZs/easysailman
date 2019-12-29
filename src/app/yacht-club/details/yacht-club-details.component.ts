@@ -10,7 +10,7 @@ import { State } from '../yacht-club.reducer';
 import { YachtClubResolver } from '../yacht-club.resolver';
 import { addYachtClub, setSelectedYachtClubs, updateYachtClub } from '../yacht-club.actions';
 import { routerGo } from '../../shared/router/router.actions';
-import { SubscriptionService } from '../../shared/subscription.service';
+import { ComponentDestroyService } from '../../shared/component-destroy.service';
 
 @Component({
   selector: 'srm-yacht-club-details',
@@ -22,7 +22,7 @@ export class YachtClubDetailsComponent implements OnDestroy, OnInit {
   submittedValue$: Observable<YachtClub | undefined>;
   isLoading: Observable<boolean>;
 
-  constructor( private subscriptionService: SubscriptionService, private store: Store<State>, @Inject(YachtClubResolver) private yachtClub: Observable<YachtClub> ) {
+  constructor( private subscriptionService: ComponentDestroyService, private store: Store<State>, @Inject(YachtClubResolver) private yachtClub: Observable<YachtClub> ) {
     this.formState$ = this.store.pipe( select(state => state.yachtClubManagement.yachtClubDetailsForm ));
     this.submittedValue$ = yachtClub;
   }

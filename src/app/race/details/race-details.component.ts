@@ -6,7 +6,7 @@ import * as fromRaceReducer from '../race.reducer';
 import { Race } from '../domain/race';
 import { map, take, tap } from 'rxjs/operators';
 import { addRace, setSelectedRaces, updateRace } from '../race.actions';
-import { SubscriptionService } from '../../shared/subscription.service';
+import { ComponentDestroyService } from '../../shared/component-destroy.service';
 import { routerGo } from '../../shared/router/router.actions';
 import { BaseFormComponent } from '../../shared/generic-components/base-form.component';
 import { getDetailsForm } from './race-details.reducer';
@@ -20,7 +20,7 @@ import { getDetailsForm } from './race-details.reducer';
 export class RaceDetailsComponent extends BaseFormComponent<Race> {
   countries = ['England', 'Germany', 'Hungary', 'United States'];
 
-  constructor( protected router: Router, protected subscriptionService: SubscriptionService, protected store: Store<fromRaceReducer.State> ) {
+  constructor( protected router: Router, protected subscriptionService: ComponentDestroyService, protected store: Store<fromRaceReducer.State> ) {
     super( router, subscriptionService, store, 'race-details', getDetailsForm );
   }
 

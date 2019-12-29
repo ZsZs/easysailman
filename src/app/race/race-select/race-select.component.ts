@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { SubscriptionService } from '../../shared/subscription.service';
+import { ComponentDestroyService } from '../../shared/component-destroy.service';
 import { Store } from '@ngrx/store';
 import * as fromRaceReducer from '../race.reducer';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { Race } from '../domain/race';
 import { BaseListComponent } from '../../shared/generic-components/base-list.component';
 import { getRaces } from '../race.reducer';
 import { SelectionModel } from '@angular/cdk/collections';
+import { race } from 'rxjs';
 
 @Component({
   selector: 'srm-race-select',
@@ -27,7 +28,7 @@ export class RaceSelectComponent extends BaseListComponent<Race> {
 
   constructor(
     public dialogRef: MatDialogRef<RaceSelectComponent>,
-    protected subscriptionService: SubscriptionService,
+    protected subscriptionService: ComponentDestroyService,
     protected store: Store<fromRaceReducer.RaceManagementState>,
     protected router: Router,
   ) {
@@ -42,7 +43,7 @@ export class RaceSelectComponent extends BaseListComponent<Race> {
 
   onOk(): void {
     this.dialogRef.close();
-    this.router.navigateByUrl( 'race-execution/' + this.selection.selected[0].id + '/lap/unknown/participants' );
+    this.navigateToExecutionTab( this.selection.selected[0].id );
   }
 
   // action methods
@@ -50,7 +51,11 @@ export class RaceSelectComponent extends BaseListComponent<Race> {
   // protected, private helper methods
   protected detailsRoute( entityId: string ): string {
     this.dialogRef.close();
-    return 'race-execution/' + entityId;
+    return this.determineExecutionTabUri( entityId );
+  }
+
+  private determineExecutionTabUri( raceId: string ): string {
+    return 'race-execution/' + raceId + '/lap/unknown/participants';
   }
 
   protected dispatchAllEntitiesRequestedAction() {
@@ -63,5 +68,9 @@ export class RaceSelectComponent extends BaseListComponent<Race> {
 
   protected dispatchSelectedEntitiesAction( entities: Race[] ) {
     this.store.dispatch( setSelectedRaces({ races: entities } ));
+  }
+
+  private navigateToExecutionTab( raceId: string ) {
+    this.router.navigateByUrl( this.determineExecutionTabUri( raceId ));
   }
 }

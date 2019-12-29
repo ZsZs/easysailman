@@ -21,13 +21,13 @@ import {
 import { getAllYachtClubsLoaded } from './yacht-club.reducer';
 import { YachtClubService } from './yacht-club.service';
 import { routerGo } from '../shared/router/router.actions';
-import { SubscriptionService } from '../shared/subscription.service';
+import { ComponentDestroyService } from '../shared/component-destroy.service';
 import { of } from 'rxjs';
 
 @Injectable()
 export class YachtClubEffects {
 
-  constructor( private actions$: Actions, private yachtClubService: YachtClubService, private subscriptionService: SubscriptionService, private store: Store<AppState>) {}
+  constructor( private actions$: Actions, private yachtClubService: YachtClubService, private subscriptionService: ComponentDestroyService, private store: Store<AppState>) {}
 
   @Effect() addYachtClub = this.actions$.pipe(
     ofType( addYachtClub ),
