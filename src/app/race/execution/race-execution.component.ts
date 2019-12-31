@@ -7,11 +7,11 @@ import { delay, filter, map, switchMap, take, tap, withLatestFrom } from 'rxjs/o
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../../app.reducer';
 import { getFirstSelectedRace } from '../race.reducer';
-import { ActivatedRoute } from '@angular/router';
 import { PathVariables } from '../path-variables';
 import { raceRequested, raceRequestedAndSelect } from '../race.actions';
 import { RouteStateService } from '../../shared/router/route-state.service';
 import { Race } from '../domain/race';
+import { Lap } from '../domain/lap';
 
 @Component({
   selector: 'srm-race-execution',
@@ -20,13 +20,16 @@ import { Race } from '../domain/race';
 })
 export class RaceExecutionComponent implements AfterViewInit, OnDestroy, OnInit {
   private dialogSubscription: Subscription;
-  private lapId: Observable<string> = of( null );
-  private raceId: Observable<string> = of( null );
+  private lapId$: Observable<string> = of( null );
+  private lastUrlSegment$: Observable<string>;
+  private lastUrlSegmentSubscription: Subscription;
+  private raceId$: Observable<string> = of( null );
   private lapIdSubscription: Subscription;
   private lapParametersSubsciption: Subscription;
   private raceIdSubscription: Subscription;
   private raceParametersSubsciption: Subscription;
-  private selectedRaceSubscription: Subscription;
+  private selectedLap$: Observable<Lap>;
+  private selectedRace$: Observable<Race>;
 
   constructor( public dialog: MatDialog, private routeState: RouteStateService, private store: Store<AppState>, private lapFacade: LapFacade ) {}
 
@@ -42,17 +45,38 @@ export class RaceExecutionComponent implements AfterViewInit, OnDestroy, OnInit 
     this.lapParametersSubsciption.unsubscribe();
     this.raceIdSubscription.unsubscribe();
     this.raceParametersSubsciption.unsubscribe();
-    if ( this.selectedRaceSubscription ) { this.selectedRaceSubscription.unsubscribe(); }
+    this.lastUrlSegmentSubscription.unsubscribe();
   }
 
   ngOnInit() {
     this.subscribeToRaceIdParameter();
     this.subscribeToLapIdParameter();
+    this.subscribeToLastUrlSegment();
+    this.retrieveSelectedRace();
+    this.retrieveSelectedLap();
   }
 
   // protected, private helper methods
+  private openRaceSelectDialog(): void {
+    const dialogRef = this.dialog.open( RaceSelectComponent, {
+      width: '600px',
+    });
+
+    this.dialogSubscription = dialogRef.afterClosed().subscribe(result => {
+      console.log('The select race dialog was closed');
+    });
+  }
+
+  private retrieveSelectedLap() {
+    this.selectedLap$ = this.lapFacade.current$;
+  }
+
+  private retrieveSelectedRace() {
+    this.selectedRace$ = this.store.select( getFirstSelectedRace );
+  }
+
   private subscribeToLapId() {
-    this.lapIdSubscription = this.lapId.pipe(
+    this.lapIdSubscription = this.lapId$.pipe(
       switchMap( lapId => this.store.select( getFirstSelectedRace )),
       filter( (race: Race) => !!race ),
       tap( (race: Race) => this.lapFacade.loadLapsForRace( race.id ))
@@ -63,12 +87,19 @@ export class RaceExecutionComponent implements AfterViewInit, OnDestroy, OnInit 
     this.lapParametersSubsciption = this.routeState.pathParameter.pipe(
       filter( parameter => parameter.paramName === PathVariables.lapID ),
       map( parameter => parameter.paramValue ),
-      tap( lapId => this.lapId = of( lapId )),
+      tap( lapId => this.lapId$ = of( lapId )),
     ).subscribe();
   }
 
+  private subscribeToLastUrlSegment() {
+    this.lastUrlSegmentSubscription = this.routeState.urlSegment.pipe(
+      filter( urlSegment => !!urlSegment )
+    ).subscribe(
+      urlSegment => this.lastUrlSegment$ = of( urlSegment )
+    );
+  }
   private subscribeToRaceId() {
-    this.raceIdSubscription = this.raceId.pipe(
+    this.raceIdSubscription = this.raceId$.pipe(
       map( raceId => {
         if ( raceId === 'undefined' ) {
           this.openRaceSelectDialog();
@@ -83,17 +114,7 @@ export class RaceExecutionComponent implements AfterViewInit, OnDestroy, OnInit 
     this.raceParametersSubsciption = this.routeState.pathParameter.pipe(
       filter( parameter => parameter.paramName === PathVariables.raceID ),
       map( parameter => parameter.paramValue ),
-      tap( raceId => this.raceId = of( raceId )),
+      tap( raceId => this.raceId$ = of( raceId )),
     ).subscribe();
-  }
-
-  private openRaceSelectDialog(): void {
-    const dialogRef = this.dialog.open( RaceSelectComponent, {
-      width: '600px',
-    });
-
-    this.dialogSubscription = dialogRef.afterClosed().subscribe(result => {
-      console.log('The select race dialog was closed');
-    });
   }
 }

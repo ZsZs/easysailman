@@ -33,6 +33,6 @@ export const uiReducer = createReducer(
 
 export const getUIState = createFeatureSelector<UiState>('ui');
 
-// export const getIsLoading = createSelector( getUIState, ( state: UiState ) => state.isLoading );
+// export const getIsLoading = createSelector( getUIState, ( state: UiState ) => state.isLoading$ );
 export const getIsLoading = ( state: UiState ) => state.isLoading;
 export const getActiveTabs = createSelector( getUIState, ( state: UiState ) => state.activeTabs );

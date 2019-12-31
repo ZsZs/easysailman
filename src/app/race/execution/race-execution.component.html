@@ -1,3 +1,5 @@
-<srm-race-execution-tabs></srm-race-execution-tabs>
-<srm-race-execution-toolbar></srm-race-execution-toolbar>
+<div *ngIf="{selectedRace: selectedRace$ | async, selectedLap: selectedLap$ | async} as executionData">
+    <srm-race-execution-tabs *ngIf="executionData.selectedRace " [selectedRace]="executionData.selectedRace" [selectedLap]="executionData.selectedLap"></srm-race-execution-tabs>
+    <srm-race-execution-toolbar *ngIf="executionData.selectedRace" [lastUrlSegment]="lastUrlSegment$ | async"></srm-race-execution-toolbar>
+</div>
 <router-outlet></router-outlet>

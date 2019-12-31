@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Lap } from '../../domain/lap';
 import { LapFacade } from '../lap.facade';
@@ -13,6 +13,7 @@ import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router'
   styleUrls: ['./lap-selector.component.css']
 })
 export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
+  @Input() lastUrlSegment: string;
   numberOfLaps = 0;
   numberOfLapsSubscription: Subscription;
   routeChangeSubscription: Subscription;
@@ -104,13 +105,9 @@ export class LapSelectorComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   private updateLapIndexInRoute() {
-    const urlFragment = this.determineLastUrlFragment();
+    const urlFragment = this.lastUrlSegment ? '/' + this.lastUrlSegment : '';
     if ( this.selectedLap ) {
-      this.router.navigateByUrl( 'race-execution/' + this.selectedLap.raceId + '/lap/' + this.selectedLap.index + '/' + urlFragment );
+      this.router.navigateByUrl( 'race-execution/' + this.selectedLap.raceId + '/lap/' + this.selectedLap.index + urlFragment );
     }
-  }
-
-  private determineLastUrlFragment() {
-    return 'participants';
   }
 }

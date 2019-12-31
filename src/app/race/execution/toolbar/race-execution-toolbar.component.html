@@ -1,10 +1,10 @@
-<div *ngIf="mediaObserver.isActive( 'gt-sm' )" fxShow="true" fxHide.lt-md="true" fxFlex fxLayout fxLayoutAlign="flex-left" fxLayoutGap="20px">
+<div *ngIf="mediaObserver.isActive( 'gt-sm' )" fxShow="true" fxHide.lt-md="true" fxFlex fxLayout fxLayoutAlign="flex-left" fxLayoutGap="0px">
     <srm-race-statusbar></srm-race-statusbar>
-    <srm-lap-selector></srm-lap-selector>
+    <srm-lap-selector [lastUrlSegment]="lastUrlSegment"></srm-lap-selector>
 </div>
 <div *ngIf="mediaObserver.isActive( 'lt-md' )" fxShow="true" fxHide.gt-sm="true" fxLayout="column" fxLayoutAlign="end start">
     <srm-race-statusbar></srm-race-statusbar>
-    <srm-lap-selector></srm-lap-selector>
+    <srm-lap-selector [lastUrlSegment]="lastUrlSegment"></srm-lap-selector>
 </div>
 <!--
 -->

@@ -32,16 +32,18 @@ import { NgrxAutoEntityModule } from '@briebug/ngrx-auto-entity';
 import { Lap } from './race/domain/lap';
 import { LapService } from './race/lap/lap.service';
 import { RouteStateService } from './shared/router/route-state.service';
+import { VarDirective } from './shared/directive/var.directive';
 
 export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>('root reducer');
 
-@NgModule({
+@NgModule( {
   declarations: [
     AppComponent,
     HeaderComponent,
     SidenavListComponent,
     HomeComponent,
-    FooterComponent
+    FooterComponent,
+    VarDirective
   ],
   imports: [
     AngularFireModule.initializeApp( environment.firebaseConfig ),
@@ -51,18 +53,18 @@ export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>(
     AuthModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
-    EffectsModule.forRoot([RouterEffects]),
+    EffectsModule.forRoot( [ RouterEffects ] ),
     FlexLayoutModule,
-    LoggerModule.forRoot({level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR}),
+    LoggerModule.forRoot( { level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR } ),
     NgrxAutoEntityModule.forRoot(),
     SharedModule,
     StoreModule.forRoot( APP_REDUCER_TOKEN, { metaReducers } ),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    StoreRouterConnectingModule.forRoot({ stateKey: 'router',  serializer: CustomSerializer })
+    StoreRouterConnectingModule.forRoot( { stateKey: 'router', serializer: CustomSerializer } )
   ],
   providers: [
     { provide: APP_REDUCER_TOKEN, useValue: appReducers },
-    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false }},
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     { provide: FirestoreSettingsToken, useValue: {} },
     { provide: Lap, useClass: LapService },
     NGXLogger,
@@ -70,6 +72,9 @@ export const APP_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>(
     RouteStateService,
     UiService
   ],
-  bootstrap: [AppComponent]
+  exports: [
+    VarDirective
+  ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

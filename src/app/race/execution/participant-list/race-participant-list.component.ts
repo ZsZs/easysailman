@@ -7,12 +7,10 @@ import { Registration } from '../../domain/registration';
 import { BaseEntityCollectionComponent } from '../../../shared/generic-components/base-entity-collection.component';
 import { getFirstSelectedRace } from '../../race.reducer';
 import { allRegistrationsRequested } from '../../registration/registration.actions';
-import { delay, filter, map, take, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, takeUntil, tap } from 'rxjs/operators';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 import { getRegistrations } from '../../registration/registration.reducer';
-import { AppState } from '../../../app.reducer';
 import { RouteStateService } from '../../../shared/router/route-state.service';
-import { raceRequested } from '../../race.actions';
 import { PathVariables } from '../../path-variables';
 
 @Component({
@@ -30,6 +28,7 @@ export class RaceParticipantListComponent extends BaseEntityCollectionComponent<
   };
   private componentDestroy = new Subject<void>();
   private routeParametersSubsciption: Subscription;
+  private routeSegmentsSubsciption: Subscription;
 
   constructor(
     protected router: Router,
@@ -45,11 +44,13 @@ export class RaceParticipantListComponent extends BaseEntityCollectionComponent<
     super.ngOnDestroy();
     this.componentDestroy.next();
     this.routeParametersSubsciption.unsubscribe();
+    this.routeSegmentsSubsciption.unsubscribe();
   }
 
   ngOnInit(): void {
     super.ngOnInit();
     this.subscribeToRouteParameters();
+    this.subscribeToRouteSegments();
   }
 
   // protected, private helper methods
@@ -86,5 +87,15 @@ export class RaceParticipantListComponent extends BaseEntityCollectionComponent<
         this.routeState.updatePathParameterState( PathVariables.lapID, parameters.get( PathVariables.lapID ));
       }
     });
+  }
+
+  private subscribeToRouteSegments() {
+    this.routeSegmentsSubsciption = this.route.url.pipe(
+      map( url => {
+        const lastSegment: string = url[ url.length - 1 ].path;
+        this.routeState.updateUrlSegmentState( lastSegment );
+        return of( lastSegment );
+      } )
+    ).subscribe();
   }
 }

@@ -59,7 +59,7 @@ export class RegistrationEffects {
     filter(([action, allRegistrationsLoaded]) => !allRegistrationsLoaded ),
     tap( () => this.store.dispatch( startLoading() )),
     switchMap( ([action]) => this.registrationService.findAllRegistrations( action.raceId ).pipe(
-//      takeUntil( this.subscriptionService.unsubscribe$ ),
+//      takeUntil( this.componentDestroyService.unsubscribe$ ),
       map( registrations => allRegistrationsLoaded({ registrations })),
       catchError( error => of( raceAPIError({ error })))
     ))
@@ -69,7 +69,7 @@ export class RegistrationEffects {
     ofType( registrationRequested ),
     tap( () => this.store.dispatch( startLoading() )),
     switchMap( action => this.registrationService.findRegisrationById( action.raceId, action.registrationId ).pipe(
-//      takeUntil( this.subscriptionService.unsubscribe$ ),
+//      takeUntil( this.componentDestroyService.unsubscribe$ ),
       map( registration => registrationLoaded({ registration })),
       catchError( error => of( raceAPIError({ error })))
     ))

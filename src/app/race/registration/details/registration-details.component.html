@@ -25,9 +25,9 @@
                 </div>
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px" >
-                <button *ngIf="!( isLoading | async )" mat-raised-button color="secondary" (click)="onCancel()">Cancel</button>
-                <button *ngIf="!( isLoading | async )" type="submit" mat-raised-button color="primary" [disabled]="!(formState$ | async).isValid">Save</button>
-                <mat-spinner *ngIf="( isLoading | async )"></mat-spinner>
+                <button *ngIf="!( isLoading$ | async )" mat-raised-button color="secondary" (click)="onCancel()">Cancel</button>
+                <button *ngIf="!( isLoading$ | async )" type="submit" mat-raised-button color="primary" [disabled]="!(formState$ | async).isValid">Save</button>
+                <mat-spinner *ngIf="( isLoading$ | async )"></mat-spinner>
             </mat-card-actions>
         </form>
     </mat-card>

@@ -1,9 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { Race } from '../../domain/race';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromAppReducer from '../../../app.reducer';
-import { getSelectedRaces } from '../../race.reducer';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 
 @Component({
@@ -13,24 +10,15 @@ import { MediaObserver, MediaChange } from '@angular/flex-layout';
 })
 
 export class RaceExecutionToolbarComponent implements OnDestroy, OnInit {
-  watcher: Subscription;
-  activeMediaQuery = '';
-//  selectedRaces: Observable<Race[]>;
-  private readonly onDestroy = new Subject<void>();
+  @Input() lastUrlSegment: string;
 
-  constructor( public mediaObserver: MediaObserver, private store: Store<fromAppReducer.AppState> ) {
-  }
+  constructor( public mediaObserver: MediaObserver, private store: Store<fromAppReducer.AppState> ) {}
 
   ngOnDestroy() {
-    this.onDestroy.next();
   }
 
   ngOnInit() {
-    this.retrieveSelectedRacesFromStore();
   }
 
   // protected, private helper methods
-  retrieveSelectedRacesFromStore() {
-//    this.selectedRaces = this.store.select( getSelectedRaces );
-  }
 }

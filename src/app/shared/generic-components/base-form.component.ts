@@ -4,21 +4,16 @@ import { Observable } from 'rxjs';
 import * as fromAppReducer from '../../app.reducer';
 import { ComponentDestroyService } from '../component-destroy.service';
 import { select, Store } from '@ngrx/store';
-import * as fromRaceReducer from '../../race/race.reducer';
 import { tabIsActive, tabIsInActive } from '../ui/ui.actions';
 import { FormGroupState, NgrxValueConverter, NgrxValueConverters } from 'ngrx-forms';
-import { Race } from '../../race/domain/race';
 import { AppState } from '../../app.reducer';
 
 export abstract class BaseFormComponent<T> implements AfterViewInit, OnDestroy, OnInit {
-  isLoading: Observable<boolean>;
+  isLoading$: Observable<boolean>;
   formState$: Observable<FormGroupState<T>>;
-  submittedValue$: Observable<T | undefined>;
   dateValueConverter: NgrxValueConverter<Date | null, string | null> = {
     convertViewToStateValue(value) {
-      if (value === null) {
-        return null;
-      }
+      if (value === null) { return null; }
 
       // the value provided by the date picker is in local time but we want UTC so we recreate the date as UTC
       value = new Date(Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()));
@@ -29,7 +24,7 @@ export abstract class BaseFormComponent<T> implements AfterViewInit, OnDestroy, 
 
   constructor(
     protected router: Router,
-    protected subscriptionService: ComponentDestroyService,
+    protected componentDestroyService: ComponentDestroyService,
     protected store: Store<AppState>,
     protected tabName: string,
     protected formStateSelector: any ) {
@@ -43,7 +38,7 @@ export abstract class BaseFormComponent<T> implements AfterViewInit, OnDestroy, 
   }
 
   ngOnDestroy(): void {
-    this.subscriptionService.unsubscribeComponent$.next();
+    this.componentDestroyService.unsubscribeComponent$.next();
     this.store.dispatch( tabIsInActive( { tabName: this.tabName }));
   }
 
@@ -61,6 +56,6 @@ export abstract class BaseFormComponent<T> implements AfterViewInit, OnDestroy, 
   }
 
   private subscribeToLoading() {
-    this.isLoading = this.store.select( fromAppReducer.getIsLoading );
+    this.isLoading$ = this.store.select( fromAppReducer.getIsLoading );
   }
 }

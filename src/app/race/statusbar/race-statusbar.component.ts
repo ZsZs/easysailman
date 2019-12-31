@@ -12,13 +12,10 @@ import { getSelectedRaces } from '../race.reducer';
 })
 export class RaceStatusbarComponent implements OnDestroy, OnInit {
   selectedRaces: Observable<Race[]>;
-  private readonly onDestroy = new Subject<void>();
 
   constructor( private store: Store<fromAppReducer.AppState> ) { }
 
-  ngOnDestroy(): void {
-    this.onDestroy.next();
-  }
+  ngOnDestroy(): void {}
 
   ngOnInit() {
     this.retrieveSelectedRacesFromStore();

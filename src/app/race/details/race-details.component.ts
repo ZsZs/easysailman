@@ -20,8 +20,8 @@ import { getDetailsForm } from './race-details.reducer';
 export class RaceDetailsComponent extends BaseFormComponent<Race> {
   countries = ['England', 'Germany', 'Hungary', 'United States'];
 
-  constructor( protected router: Router, protected subscriptionService: ComponentDestroyService, protected store: Store<fromRaceReducer.State> ) {
-    super( router, subscriptionService, store, 'race-details', getDetailsForm );
+  constructor( protected router: Router, protected componentDestroyService: ComponentDestroyService, protected store: Store<fromRaceReducer.State> ) {
+    super( router, componentDestroyService, store, 'race-details', getDetailsForm );
   }
 
   // event handling methods

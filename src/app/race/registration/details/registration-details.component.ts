@@ -22,8 +22,8 @@ import { addRegistration, setSelectedRegistrations, updateRegistration } from '.
 export class RegistrationDetailsComponent extends BaseFormComponent<Registration> implements OnInit {
   private race$: Observable<Race>;
 
-  constructor( protected router: Router, protected subscriptionService: ComponentDestroyService, protected store: Store<fromRaceReducer.State> ) {
-    super( router, subscriptionService, store, 'registration-details', getRegistrationDetailsForm );
+  constructor( protected router: Router, protected componentDestroyService: ComponentDestroyService, protected store: Store<fromRaceReducer.State> ) {
+    super( router, componentDestroyService, store, 'registration-details', getRegistrationDetailsForm );
   }
 
   ngOnInit() {

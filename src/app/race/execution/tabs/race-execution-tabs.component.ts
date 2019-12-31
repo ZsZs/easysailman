@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Race } from '../../domain/race';
 import { Store } from '@ngrx/store';
@@ -16,12 +16,9 @@ import { getActiveTabs } from '../../../shared/ui/ui.reducer';
   styleUrls: ['./race-execution-tabs.component.css']
 })
 export class RaceExecutionTabsComponent implements AfterViewInit, OnDestroy, OnInit {
+  @Input() selectedLap: Lap;
+  @Input() selectedRace: Race;
   activeTabs: Observable<string[]>;
-  selectedRaces: Observable<Race[]>;
-  selectedLap: Observable<Lap>;
-  selectedLapId = 1;
-  selectedRaceId: string;
-  private readonly onDestroy = new Subject<void>();
 
   constructor( private store: Store<fromAppReducer.AppState>, private router: Router, private lapFacade: LapFacade) {}
 
@@ -29,56 +26,34 @@ export class RaceExecutionTabsComponent implements AfterViewInit, OnDestroy, OnI
   }
 
   ngOnDestroy(): void {
-    this.onDestroy.next();
   }
 
   ngOnInit() {
-    this.retrieveSelectedRacesFromStore();
-    this.retrieveSelectedLapFromStore();
-    this.determineSelectedRaceId();
     this.retrieveActiveTabsFromStore();
   }
 
   showField() {
-    this.router.navigateByUrl( '/race-execution/' + this.selectedRaceId + '/lap/' + this.selectedLapId + '/field' );
+    this.router.navigateByUrl( '/race-execution/' + this.selectedRace.id + '/lap/' + this.selectedLap.index + '/field' );
   }
 
   showFinish() {
-    this.router.navigateByUrl( '/race-execution/' + this.selectedRaceId + '/lap/' + this.selectedLapId + '/finish' );
+    this.router.navigateByUrl( '/race-execution/' + this.selectedRace.id + '/lap/' + this.selectedLap.index + '/finish' );
   }
 
   showParticipants() {
-    this.router.navigateByUrl( '/race-execution/' + this.selectedRaceId + '/lap/' + this.selectedLapId + '/participants' );
+    this.router.navigateByUrl( '/race-execution/' + this.selectedRace.id + '/lap/' + this.selectedLap.index + '/participants' );
   }
 
   showResults() {
-    this.router.navigateByUrl( '/race-execution/' + this.selectedRaceId + '/results' );
+    this.router.navigateByUrl( '/race-execution/' + this.selectedRace.id + '/results' );
   }
 
   showStart() {
-    this.router.navigateByUrl( '/race-execution/' + this.selectedRaceId + '/lap/' + this.selectedLapId + '/start' );
+    this.router.navigateByUrl( '/race-execution/' + this.selectedRace.id + '/lap/' + this.selectedLap.index + '/start' );
   }
 
   // protected, private helper methods
-  private determineSelectedRaceId() {
-    this.selectedRaces.pipe( takeUntil( this.onDestroy )).subscribe( races => {
-      if ( races.length > 0 ) {
-        this.selectedRaceId = races[0].id;
-      } else {
-        this.selectedRaceId = undefined;
-      }
-    });
-  }
-
   retrieveActiveTabsFromStore() {
     this.activeTabs = this.store.select( getActiveTabs );
-  }
-
-  private retrieveSelectedLapFromStore() {
-    this.selectedLap = this.lapFacade.retrieveSelectedLapFromStore();
-  }
-
-  private retrieveSelectedRacesFromStore() {
-    this.selectedRaces = this.store.select( getSelectedRaces );
   }
 }
