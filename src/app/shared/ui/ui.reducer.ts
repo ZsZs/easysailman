@@ -9,7 +9,7 @@ export interface UiState {
 
 const initialState: UiState = {
   isLoading: false,
-  activeTabs: ['']
+  activeTabs: []
 };
 
 export const uiReducer = createReducer(

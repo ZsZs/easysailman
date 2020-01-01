@@ -26,9 +26,11 @@ export class RaceExecutionTabsComponent implements AfterViewInit, OnDestroy, OnI
   }
 
   ngOnDestroy(): void {
+    console.log( 'Tabs: OnDestroy' );
   }
 
   ngOnInit() {
+    console.log( 'Tabs: OnInit' );
     this.retrieveActiveTabsFromStore();
   }
 

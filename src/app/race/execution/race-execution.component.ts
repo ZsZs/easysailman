@@ -28,8 +28,8 @@ export class RaceExecutionComponent implements AfterViewInit, OnDestroy, OnInit 
   private lapParametersSubsciption: Subscription;
   private raceIdSubscription: Subscription;
   private raceParametersSubsciption: Subscription;
-  private selectedLap$: Observable<Lap>;
-  private selectedRace$: Observable<Race>;
+  public selectedLap$: Observable<Lap>;
+  public selectedRace$: Observable<Race>;
 
   constructor( public dialog: MatDialog, private routeState: RouteStateService, private store: Store<AppState>, private lapFacade: LapFacade ) {}
 
