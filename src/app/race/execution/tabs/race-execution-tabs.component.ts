@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Race } from '../../domain/race';
 import { Store } from '@ngrx/store';
@@ -18,6 +18,7 @@ import { getActiveTabs } from '../../../shared/ui/ui.reducer';
 export class RaceExecutionTabsComponent implements AfterViewInit, OnDestroy, OnInit {
   @Input() selectedLap: Lap;
   @Input() selectedRace: Race;
+  @Output() sidenavToggle = new EventEmitter<void>();
   activeTabs: Observable<string[]>;
 
   constructor( private store: Store<fromAppReducer.AppState>, private router: Router, private lapFacade: LapFacade) {}
@@ -26,11 +27,9 @@ export class RaceExecutionTabsComponent implements AfterViewInit, OnDestroy, OnI
   }
 
   ngOnDestroy(): void {
-    console.log( 'Tabs: OnDestroy' );
   }
 
   ngOnInit() {
-    console.log( 'Tabs: OnInit' );
     this.retrieveActiveTabsFromStore();
   }
 
@@ -48,6 +47,10 @@ export class RaceExecutionTabsComponent implements AfterViewInit, OnDestroy, OnI
 
   showResults() {
     this.router.navigateByUrl( '/race-execution/' + this.selectedRace.id + '/results' );
+  }
+
+  showRaceSelect() {
+    this.sidenavToggle.emit();
   }
 
   showStart() {

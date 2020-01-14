@@ -1,5 +1,17 @@
-<div *ngIf="{selectedRace: selectedRace$ | async, selectedLap: selectedLap$ | async} as executionData">
-    <srm-race-execution-tabs *ngIf="executionData.selectedRace" [selectedRace]="executionData.selectedRace" [selectedLap]="executionData.selectedLap"></srm-race-execution-tabs>
-    <srm-race-execution-toolbar *ngIf="executionData.selectedRace" [lastUrlSegment]="lastUrlSegment$ | async"></srm-race-execution-toolbar>
-</div>
-<router-outlet></router-outlet>
+<mat-sidenav-container class="race-select-container">
+    <mat-sidenav #raceSelect mode="side">
+        <srm-race-select (closeRaceSelect)="raceSelect.close()"></srm-race-select>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div *ngIf="{selectedRace: selectedRace$ | async, selectedLap: selectedLap$ | async} as executionData">
+            <button *ngIf="!executionData.selectedRace" mat-raised-button color="primary" (click)="raceSelect.open()" class="race-select-button">Please select a race!</button>
+            <srm-race-execution-tabs
+                    *ngIf="executionData.selectedRace"
+                    [selectedRace]="executionData.selectedRace"
+                    [selectedLap]="executionData.selectedLap"
+                    (sidenavToggle)="raceSelect.toggle()"></srm-race-execution-tabs>
+            <srm-race-execution-toolbar *ngIf="executionData.selectedRace" [lastUrlSegment]="lastUrlSegment$ | async"></srm-race-execution-toolbar>
+        </div>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

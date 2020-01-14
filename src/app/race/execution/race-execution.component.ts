@@ -102,7 +102,7 @@ export class RaceExecutionComponent implements AfterViewInit, OnDestroy, OnInit 
     this.raceIdSubscription = this.raceId$.pipe(
       map( raceId => {
         if ( raceId === 'undefined' ) {
-          this.openRaceSelectDialog();
+//          this.openRaceSelectDialog();
         } else {
           this.store.dispatch( raceRequestedAndSelect({ raceId }));
         }

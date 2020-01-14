@@ -1,0 +1,12 @@
+.race-select-container {
+    position: absolute;
+    top:40px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #eee;
+}
+
+.race-select-button {
+    margin: 10px;
+}

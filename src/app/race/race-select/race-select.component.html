@@ -1,4 +1,4 @@
-<div mat-dialog-content>
+<div>
     <div fxLayoutAlign="left center">
         <mat-form-field fxFlex="50%">
             <input matInput type="text" (keyup)="doFilter( $event.target.value )" placeholder="Filter">
@@ -8,6 +8,7 @@
     <div class="race-list-container mat-elevation-z8">
         <mat-table #table [dataSource]="dataSource" matSort>
             <!-- Checkbox Column -->
+            <!--
             <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef>
                     <mat-checkbox (change)="($event ? masterToggle() : null); onChangeSelection()" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()"></mat-checkbox>
@@ -16,7 +17,7 @@
                     <mat-checkbox (click)="$event.stopPropagation()" (change)="($event ? selection.toggle(row) : null); onChangeSelection(row)" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)"></mat-checkbox>
                 </td>
             </ng-container>
-
+            -->
             <ng-container matColumnDef="title">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Title</mat-header-cell>
                 <mat-cell *matCellDef="let element">

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ComponentDestroyService } from '../../shared/component-destroy.service';
 import { Store } from '@ngrx/store';
@@ -23,11 +23,11 @@ export class RaceSelectComponent extends BaseListComponent<Race> {
     allEntitiesSelector: getRaces,
     tabName: 'select-race'
   };
-  displayedColumns = ['select', 'title', 'date', 'country', 'place'];
+  @Output() closeRaceSelect = new EventEmitter<void>();
+  displayedColumns = ['title', 'date', 'country', 'place'];
   selection = new SelectionModel<Race>(false, []);
 
   constructor(
-    public dialogRef: MatDialogRef<RaceSelectComponent>,
     protected subscriptionService: ComponentDestroyService,
     protected store: Store<fromRaceReducer.RaceManagementState>,
     protected router: Router,
@@ -37,12 +37,15 @@ export class RaceSelectComponent extends BaseListComponent<Race> {
 
   // event handling methods
   onCancel(): void {
-    this.dialogRef.close();
     this.router.navigateByUrl( '/' );
   }
 
+  onCloseRaceSelect() {
+    this.closeRaceSelect.emit();
+  }
+
   onOk(): void {
-    this.dialogRef.close();
+    this.onCloseRaceSelect();
     this.navigateToExecutionTab( this.selection.selected[0].id );
   }
 
@@ -50,7 +53,7 @@ export class RaceSelectComponent extends BaseListComponent<Race> {
 
   // protected, private helper methods
   protected detailsRoute( entityId: string ): string {
-    this.dialogRef.close();
+    this.onCloseRaceSelect();
     return this.determineExecutionTabUri( entityId );
   }
 

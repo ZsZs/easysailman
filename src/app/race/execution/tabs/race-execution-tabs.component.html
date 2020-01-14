@@ -1,4 +1,9 @@
 <nav mat-tab-nav-bar>
+    <div fxShow="true">
+        <button mat-icon-button (click)="showRaceSelect()">
+            <mat-icon>list_alt</mat-icon>
+        </button>
+    </div>
     <a mat-tab-link [disabled]="selectedLap == undefined" (click)="showParticipants()" routerLinkActive [active]="(activeTabs | async).includes('race-execution-participants')">Participants</a>
     <a mat-tab-link [disabled]="selectedLap == undefined" (click)="showField()" routerLinkActive [active]="(activeTabs | async).includes('race-execution-field')">Field</a>
     <a mat-tab-link [disabled]="selectedLap == undefined" (click)="showStart()" routerLinkActive [active]="(activeTabs | async).includes('race-execution-start')">Start</a>

@@ -1,10 +1,14 @@
-<mat-selection-list #participants>
-    <mat-list-option *ngFor="let registration of ( dataSource | async )">
-        {{registration.sailNumber}}
-    </mat-list-option>
-</mat-selection-list>
-
-<p>
-    Participants: {{participants.selectedOptions.selected.length}} from {{ ( dataSource | async ).length }}
-</p>
+<mat-card fxFlex="500px" fxFlex.lt-sm="100%">
+    <mat-card-content>
+        <mat-selection-list #participants>
+            <mat-list-option *ngFor="let registration of ( dataSource | async )">
+                {{registration.sailNumber}}
+            </mat-list-option>
+        </mat-selection-list>
+    </mat-card-content>
+    <mat-card-footer>
+        <mat-spinner *ngIf="( isLoading | async )" style="margin:0 auto;"></mat-spinner>
+        <div>Participants: {{participants.selectedOptions.selected.length}} from {{ ( dataSource | async ).length }}</div>
+    </mat-card-footer>
+</mat-card>
 

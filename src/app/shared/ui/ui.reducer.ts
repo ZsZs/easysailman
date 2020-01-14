@@ -36,3 +36,4 @@ export const getUIState = createFeatureSelector<UiState>('ui');
 // export const getIsLoading = createSelector( getUIState, ( state: UiState ) => state.isLoading$ );
 export const getIsLoading = ( state: UiState ) => state.isLoading;
 export const getActiveTabs = createSelector( getUIState, ( state: UiState ) => state.activeTabs );
+export const getIsActiveTab = ( tabName: string ) => createSelector( getUIState, ( state: UiState ) => state.activeTabs.includes( tabName ));
